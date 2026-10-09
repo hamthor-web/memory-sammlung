@@ -1,5 +1,5 @@
 // Change VERSION whenever published application files change.
-const VERSION='v6';
+const VERSION='v7';
 const PREFIX='fuehlmemory:'+self.registration.scope+':';
 const CACHE=PREFIX+VERSION;
 const files=['./','index.html','style.css','cards.js','engine.js','app.js','profile-store.js','profiles.js','CARD_MATRIX.csv','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','assets/backs/memory-boy.png','assets/backs/question-mark.png'];
