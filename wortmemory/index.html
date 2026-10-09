@@ -152,6 +152,32 @@ button.primary { background:#ffe293; }
 button:focus-visible, .card:focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
 .card { padding:0; background:transparent; box-shadow:none; font-weight:normal; }
 .wrap { padding-bottom:max(14px,env(safe-area-inset-bottom)); }
+
+/* Center the complete introduction only while choosing the number of pairs. */
+body.choosing-pairs .wrap {
+  min-height: calc(100vh - 66px);
+  min-height: calc(100svh - 66px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+body.choosing-pairs .top {
+  width: 100%;
+}
+body.choosing-pairs .title-row {
+  justify-content: center;
+}
+body.choosing-pairs #selection {
+  margin-top: 24px;
+  text-align: center;
+}
+body.choosing-pairs #selection .controls {
+  justify-content: center;
+  gap: 12px;
+}
+body.choosing-pairs #selection .count {
+  min-height: 48px;
+}
 </style>
 </head>
 <body><nav style="padding:16px;text-align:center"><a href="../index.html?menu=1" style="font:700 20px system-ui;color:#173c2a">← Zurück zum Spielmenü</a></nav>
@@ -225,11 +251,13 @@ function resetRound() {
   if(tray) { tray.innerHTML=''; tray.classList.remove('show'); }
 }
 function showSelection() {
+  document.body.classList.add('choosing-pairs');
   resetRound();currentPairs=[];
   document.getElementById('grid').innerHTML='';
   document.getElementById('selection').hidden=false;
   ['grid','status','game-controls'].forEach(id=>document.getElementById(id).hidden=true);
-  document.querySelector('.count').focus();
+  window.scrollTo(0,0);
+  document.querySelector('.count').focus({preventScroll:true});
 }
 
 function shuffle(a) {
@@ -333,6 +361,7 @@ function closeCard(el,c) {
 }
 
 function build() {
+  document.body.classList.remove('choosing-pairs');
   const grid=document.getElementById('grid');
   grid.innerHTML='';
   resetRound();
