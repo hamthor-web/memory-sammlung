@@ -153,7 +153,17 @@ button:focus-visible, .card:focus-visible { outline:3px solid var(--accent); out
 .card { padding:0; background:transparent; box-shadow:none; font-weight:normal; }
 .wrap { padding-bottom:max(14px,env(safe-area-inset-bottom)); }
 
-/* Center the complete introduction only while choosing the number of pairs. */
+/* Only the initial pair-selection screen is large and centered.
+   When the game starts, the header returns to the existing compact layout. */
+.logo {
+  transition: width .38s ease, height .38s ease;
+}
+.title-row h1, .title-row .sub {
+  transition: font-size .38s ease;
+}
+.top {
+  transition: padding .38s ease;
+}
 body.choosing-pairs .wrap {
   min-height: calc(100vh - 66px);
   min-height: calc(100svh - 66px);
@@ -163,20 +173,78 @@ body.choosing-pairs .wrap {
 }
 body.choosing-pairs .top {
   width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+  padding: clamp(18px, 3.4vw, 30px);
 }
 body.choosing-pairs .title-row {
   justify-content: center;
+  gap: clamp(14px, 3vw, 24px);
+}
+body.choosing-pairs .logo {
+  width: clamp(112px, 13vw, 148px);
+  height: clamp(112px, 13vw, 148px);
+  border-radius: 22px;
+}
+body.choosing-pairs .title-row h1 {
+  font-size: clamp(2.05rem, 5.2vw, 3.15rem);
+  line-height: 1.12;
+}
+body.choosing-pairs .title-row .sub {
+  font-size: clamp(1.12rem, 2.5vw, 1.35rem);
+  line-height: 1.4;
+  opacity: .85;
+  margin-top: 12px;
 }
 body.choosing-pairs #selection {
-  margin-top: 24px;
+  margin-top: clamp(24px, 4vw, 36px);
   text-align: center;
 }
+body.choosing-pairs #selection h2 {
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  line-height: 1.3;
+  margin: 0 0 20px;
+}
 body.choosing-pairs #selection .controls {
-  justify-content: center;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  gap: 14px;
 }
 body.choosing-pairs #selection .count {
-  min-height: 48px;
+  width: 100%;
+  min-height: 78px;
+  padding: 16px 12px;
+  font-size: clamp(1.25rem, 4.7vw, 1.6rem);
+  line-height: 1.2;
+  border-radius: 18px;
+}
+@media (max-width: 420px) {
+  body.choosing-pairs .logo {
+    width: 112px;
+    height: 112px;
+  }
+  body.choosing-pairs .title-row h1 {
+    font-size: 2rem;
+  }
+  body.choosing-pairs #selection .count {
+    min-height: 76px;
+  }
+}
+@media (max-height: 690px) and (max-width: 760px) {
+  body.choosing-pairs .top { padding: 16px; }
+  body.choosing-pairs .logo { width: 92px; height: 92px; }
+  body.choosing-pairs .title-row h1 { font-size: 1.8rem; }
+  body.choosing-pairs #selection { margin-top: 18px; }
+  body.choosing-pairs #selection h2 { margin-bottom: 12px; }
+  body.choosing-pairs #selection .count { min-height: 66px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo, .title-row h1, .title-row .sub, .top {
+    transition: none;
+  }
 }
 </style>
 </head>
