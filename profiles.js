@@ -13,4 +13,4 @@ document.getElementById('profileForm').onsubmit=e=>{e.preventDefault();try{choos
 document.getElementById('profileClose').onclick=()=>profileDialog.close();profileDialog.addEventListener('cancel',e=>{if(!profileStore.active())e.preventDefault();});
 document.getElementById('profileSwitch').onclick=showProfiles;
 for(const id of ['level','count'])document.getElementById(id).addEventListener('change',()=>{profileStore.settings(+document.getElementById('level').value,+document.getElementById('count').value);});
-const existingProfile=profileStore.active();if(existingProfile)applyProfile(existingProfile);showProfiles();
+const existingProfile=profileStore.active();if(existingProfile)applyProfile(existingProfile);else showProfiles();
