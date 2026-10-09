@@ -227,44 +227,48 @@ input:focus-visible {
     padding: 13px 18px;
   }
 
+  /* Bigger, touch-friendly profile chooser in portrait mode. */
   dialog {
-    width: min(94vw, 760px);
-    padding: clamp(22px, 3.6vw, 38px);
+    width: min(96vw, 840px);
+    max-width: min(96vw, 840px);
+    max-height: calc(100dvh - 16px);
+    min-height: min(58dvh, 540px);
+    padding: clamp(26px, 4vw, 42px);
   }
 
   dialog h2 {
-    font-size: clamp(30px, 4vw, 39px);
+    font-size: clamp(34px, 4.5vw, 43px);
     line-height: 1.2;
-    margin: 8px 0 20px;
+    margin: 12px 0 24px;
   }
 
   dialog p {
-    font-size: clamp(19px, 2.6vw, 24px);
-    line-height: 1.45;
+    font-size: clamp(21px, 2.9vw, 27px);
+    line-height: 1.5;
   }
 
   dialog label {
-    font-size: clamp(20px, 2.6vw, 24px);
+    font-size: clamp(22px, 2.9vw, 27px);
   }
 
   dialog input {
-    font-size: clamp(21px, 2.7vw, 26px);
-    padding: 16px;
-    min-height: 60px;
+    font-size: clamp(23px, 3vw, 28px);
+    padding: 18px;
+    min-height: 68px;
   }
 
   dialog button {
-    font-size: clamp(20px, 2.6vw, 25px);
-    min-height: 62px;
-    padding: 14px 22px;
+    font-size: clamp(22px, 2.9vw, 28px);
+    min-height: 70px;
+    padding: 16px 24px;
   }
 
   dialog .profiles {
-    gap: 12px;
-    margin: 24px 0;
+    gap: 14px;
+    margin: 26px 0;
   }
 
   #newProfile {
-    gap: 14px;
+    gap: 16px;
   }
 }
