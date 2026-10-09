@@ -1,0 +1,7 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
+const listeners={};const context={self:{registration:{scope:'https://example.org/Fuehlmemory/'},addEventListener:(name,fn)=>listeners[name]=fn},URL,Response,importScripts:()=>{},MEMORY_CARDS:require('./cards.js')||globalThis.MEMORY_CARDS};
+context.MEMORY_CARDS=globalThis.MEMORY_CARDS;
+vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'sw.js'),'utf8'),context);
+const files=vm.runInContext('files',context);for(const file of files)assert(fs.existsSync(path.join(__dirname,file)),'Missing '+file);
+const manifest=JSON.parse(fs.readFileSync(path.join(__dirname,'manifest.webmanifest'),'utf8'));assert.equal(manifest.scope,'./');assert.equal(manifest.display,'standalone');for(const icon of manifest.icons)assert(fs.existsSync(path.join(__dirname,icon.src)));
+(async()=>{for(const [range,status,text] of [['bytes=1-3',206,'bcd'],['bytes=-2',206,'ef'],['bytes=4-',206,'ef'],['bytes=9-',416,''],['bytes=-0',416,''],['bytes=-',416,'']]){context.testResponse=new Response('abcdef');context.testRange=range;const response=await vm.runInContext('rangeResponse(testResponse,testRange)',context);assert.equal(response.status,status);assert.equal(await response.text(),text);}assert(listeners.install&&listeners.activate&&listeners.fetch);console.log('PWA: '+files.length+' Offline-Dateien, Manifest und Video-Teilabrufe geprüft.');})().catch(error=>{console.error(error);process.exitCode=1;});
