@@ -2,6 +2,10 @@
 
 Der gemeinsame Einstieg liegt in `index.html`: Profilwahl, dann Eigenschaften-Memory (`eigenschaften.html`) oder Ein Wort – zwei Bedeutungen (`wortmemory/index.html`). Beide Spiele sind im gemeinsamen Offline-Paket enthalten. Das Wortmemory stammt aus hamthor-web/Memory; dessen Originalrepository bleibt erhalten. Bestehende lokale Fühlmemory-Profile werden weiterverwendet. Das Wortmemory erhält keine zusätzliche Profilstatistik.
 
+## Wortmemory: Arbeitsmaterial
+
+Historische Ergänzungsdaten mit fünf bereits eingebauten Wortpaaren und zusätzlichen Bedeutungserklärungen liegen unter [docs/wortmemory](docs/wortmemory/README.md). Dort sind Herkunft und Abgrenzung zur separaten Spielesammlung dokumentiert. Die Dateien sind Arbeitsmaterial und werden nicht vom Spiel geladen.
+
 # Fühlmemory
 
 Eigenschaften-Memory mit 30 Bildkarten, drei Schwierigkeitsstufen und Kinderprofilen auf dem jeweiligen Gerät.
