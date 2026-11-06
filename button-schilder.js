@@ -27,7 +27,7 @@
 
   }
   if(word){
-   document.querySelectorAll('#again,#back,#galleryBack,.mode-picker .mode,.collection-actions button').forEach(el=>skin(el,'paper'));
+   document.querySelectorAll('#again,#back,#galleryBack,.mode-picker .mode,#selection button.count,.collection-actions button').forEach(el=>skin(el,'paper'));
   }
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
