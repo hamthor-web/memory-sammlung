@@ -100,3 +100,49 @@ footer {font-size:clamp(1rem,2.6vw,1.2rem)}
 .duo-turn{background:#f5eacf;font-weight:800;display:grid;place-items:center}
 #duoFinish{font-size:clamp(1.3rem,3.4vw,1.7rem);font-weight:700;line-height:1.5}
 @media(max-width:520px){.duo-score{grid-template-columns:1fr 1fr}.duo-turn{grid-column:1/-1;grid-row:1}.duo-player{grid-row:2}.duo-names{grid-template-columns:1fr}}
+
+/* Grundschrift für Kinder der zweiten Klasse; Zoom beeinflusst nun
+   alle Hinweise, Auswahltexte und Buttons statt nur Buttons. */
+:root {--read-scale:var(--button-zoom,1)}
+header > a,header > span,.button-zoom strong,
+#start > p,#message,#levelHint,.hint,.status,.settings label,#fanLabel,
+#duoFinish,#duoTurn,.duo-player,.duo-names label,
+#profileStorageNote,#offlineStatus,#videoStatus,
+footer,.profile-panel p,.profile-panel label,.profile-panel .hint {
+ font-size:calc(clamp(1.28rem,3.3vw,1.6rem) * var(--read-scale))!important;
+ line-height:1.45!important;
+}
+#message,.status,#levelHint {font-weight:700}
+#question {font-size:calc(clamp(1.55rem,4.4vw,2.05rem) * var(--read-scale))!important;line-height:1.4}
+#start .settings {row-gap:14px}
+#start .settings label {justify-content:center}
+#start .settings select {font-size:calc(1.25rem * var(--read-scale))!important}
+header > span {letter-spacing:.02em}
+h1 {font-size:clamp(2rem,5.7vw,3.2rem)}
+button:not(.card):not(.question-card),select,header a {
+ font-size:calc(1.25rem * var(--read-scale))!important;
+ padding:calc(.7rem * var(--read-scale)) calc(1rem * var(--read-scale))!important;
+ min-height:calc(3.25rem * var(--read-scale))!important;
+}
+button.primary {font-size:calc(1.35rem * var(--read-scale))!important}
+.button-zoom {gap:8px;max-width:min(100%,760px)}
+.button-zoom strong {font-size:calc(1.18rem * var(--read-scale))!important}
+#buttonZoomValue {min-width:calc(5.5rem * var(--read-scale))}
+#buttonZoomOut,#buttonZoomIn {min-width:calc(3.15rem * var(--read-scale))}
+#progress,#phase {flex:1 1 220px}
+.status {align-items:center;flex-wrap:wrap;gap:8px 20px}
+#start > p {max-width:50ch;margin:12px auto}
+#fanLabel {text-align:center}
+.card-preview {width:min(96vw,760px);max-height:90dvh;overflow:auto;padding:clamp(14px,4vw,28px);border:3px solid #24776b;border-radius:22px;background:#fffdf0;color:#173c2a}
+.card-preview::backdrop{background:#102821bd}
+.card-preview h2 {font-size:clamp(1.7rem,5vw,2.5rem);text-align:center}
+.card-preview img {display:block;max-width:100%;width:min(100%,620px);height:auto;margin:12px auto;object-fit:contain}
+.card-preview p {font-size:calc(1.4rem * var(--read-scale));line-height:1.5;text-align:center;font-weight:700}
+.card-preview #previewClose{display:block;margin-left:auto}
+@media(max-width:650px){
+ .status {font-size:calc(1.22rem * var(--read-scale))!important}
+ #game,#start {min-width:0}
+ #cards {gap:10px}
+ .settings {align-items:stretch}
+ .settings label {max-width:100%}
+}
