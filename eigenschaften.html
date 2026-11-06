@@ -37,7 +37,14 @@
 <div id="duoTurn" class="duo-turn">Spieler 1 ist dran</div>
 <div id="duoCard1" class="duo-player"><strong id="duoLabel1">Spieler 2</strong><span id="duoPoints1">0 Karten</span></div>
 </div>
-<div class="status"><span id="progress"></span><span id="phase"></span></div><p id="message" role="status" aria-live="polite"></p><div id="cards" aria-label="Bildkarten"></div><div class="ready-row"><button id="ready" class="primary">Ich bin bereit!</button></div><section id="questionZone" hidden aria-label="Fragekarten"><div id="question" hidden aria-live="polite"></div><p id="fanLabel" class="hint">Wähle eine Fragekarte.</p><div id="fan" aria-label="Fragekartenfächer"></div></section></section>
+<div class="status"><span id="progress"></span><span id="phase"></span></div><p id="message" role="status" aria-live="polite"></p>
+<section id="questionZone" hidden aria-label="Fragekarten">
+  <p id="fanLabel" class="hint question-instruction">Wähle hier deine Fragekarte.</p>
+  <div id="question" hidden aria-live="polite"></div>
+  <div id="fan" aria-label="Fragekartenfächer"></div>
+</section>
+<div id="cards" aria-label="Bildkarten"></div>
+<div class="ready-row"><button id="ready" class="primary">Ich bin bereit!</button></div></section>
 <section id="finish" hidden><div class="stars" aria-hidden="true">✦ · ✧ · ✦</div><h2>Schön, ihr habt alles gefunden!</h2><div id="duoFinish" hidden></div><button id="again" class="primary">Noch einmal spielen</button></section>
 <footer><span id="offlineStatus" hidden></span><span id="profileStorageNote" role="status"></span></footer></main>
 <dialog id="cardPreview" class="card-preview" aria-labelledby="previewTitle">
