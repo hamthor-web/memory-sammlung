@@ -244,3 +244,36 @@ body.start-layout #game[hidden]{display:none!important}
 #start .count-buttons button{width:100%!important;min-width:0!important;white-space:normal!important;word-break:normal!important;overflow-wrap:normal!important;hyphens:none!important;}
 /* Der 'Ich bin bereit'-Button ist nur in der Anschauphase sichtbar. */
 #ready[hidden],#game .ready-row:has(#ready[hidden]){display:none!important;}
+
+/* Große Leseaufforderung direkt oberhalb der gefundenen Bildkarte,
+   ohne das Bild oder seinen Text zu überdecken. */
+.read-prompt[hidden]{display:none!important}
+.read-prompt{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  margin:18px auto 20px;padding:clamp(14px,3vw,24px);
+  max-width:850px;border:4px solid #155a95;border-radius:24px;
+  background:#e7f5ff;color:#123f68;
+  box-shadow:0 7px 22px #153d5a32;
+  animation:read-prompt-in .35s ease-out both;
+  scroll-margin-top:15vh;
+}
+.read-prompt p{
+  margin:0;text-align:center;font-weight:900;line-height:1.32;
+  font-size:calc(clamp(1.45rem,4.3vw,2rem) * var(--read-scale));
+}
+#readContinue{
+  width:min(100%,650px);min-height:calc(4rem * var(--read-scale));
+  padding:calc(.7rem * var(--read-scale)) calc(1rem * var(--read-scale));
+  border-radius:18px;border:3px solid #08486e;background:#175c94;
+  color:#fff;font-weight:900;line-height:1.3;
+  font-size:calc(clamp(1.3rem,4vw,1.75rem) * var(--read-scale));
+  box-shadow:0 4px 0 #0c3553;
+  white-space:normal;overflow-wrap:anywhere;
+}
+#readContinue:focus-visible{outline:4px solid #f5c45e;outline-offset:4px}
+.read-arrow{font-size:calc(2rem * var(--read-scale));line-height:1;color:#155a95}
+@keyframes read-prompt-in{
+ from{opacity:0;transform:translateY(15px) scale(.98)}
+ to{opacity:1;transform:translateY(0) scale(1)}
+}
+@media(prefers-reduced-motion:reduce){.read-prompt{animation:none!important}}
