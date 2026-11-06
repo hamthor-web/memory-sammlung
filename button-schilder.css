@@ -119,3 +119,12 @@ body.choosing-pairs #selection .banner-button .banner-label {
   overflow-wrap:normal!important;
   hyphens:none!important;
 }
+
+/* Gleiches blaues Schild im Lesedialog, auch bei Schriftzoom. */
+#successReadNext.banner-button{
+ width:min(100%,620px)!important;
+ height:calc(124px * var(--banner-scale))!important;
+ min-height:calc(124px * var(--banner-scale))!important;
+ padding-block:calc(9px * var(--banner-scale))!important;
+ margin:0 auto!important;
+}
