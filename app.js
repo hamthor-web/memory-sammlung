@@ -86,7 +86,7 @@ function render(){
  showDuo();
  const available=Array.from({length:totalQuestions},(_,i)=>i).filter(i=>!used.has(i));const width=Math.min(700,Math.max(250,$('fan').clientWidth||window.innerWidth-28));const cardWidth=window.innerWidth<=650?104:120;const spacing=Math.min(55,(width-cardWidth)/Math.max(1,available.length-1));
  $('fan').replaceChildren(...available.map((i,position)=>{const b=document.createElement('button');b.className='question-card';b.dataset.question=i;b.style.setProperty('--angle',`${(position-(available.length-1)/2)*Math.min(6,45/Math.max(1,available.length-1))}deg`);b.style.setProperty('--x',`${(position-(available.length-1)/2)*spacing}px`);b.style.zIndex=String(position+1);const backImage=document.createElement('img');backImage.src='assets/backs/question-mark.png';backImage.alt='';backImage.draggable=false;b.append(backImage);b.setAttribute('aria-label',`Fragekarte ${i+1}`);b.disabled=stage!=='choose';b.onclick=()=>choose(i);return b;}));
- $('fanLabel').textContent=stage==='choose'?'Wähle hier deine Fragekarte.':stage==='wrong'?'Tippe unten die offene Bildkarte noch einmal an.':'Lies die Frage und suche unten das passende Bild.';
+ $('fanLabel').textContent=stage==='choose'?'Wähle hier zuerst deine Fragekarte.':stage==='wrong'?'Tippe unten die offene Bildkarte noch einmal an.':'Lies die Frage und suche unten das passende Bild.';
  $('fan').hidden=stage!=='choose';
 }
 function choose(i){
