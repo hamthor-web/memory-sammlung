@@ -286,3 +286,37 @@ footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
 .testmode-link {grid-column:1/-1;display:block;text-align:center;background:#e1f3ec;border:3px solid #24776b;border-radius:18px;padding:18px;color:#173c2a;font-weight:800;font-size:clamp(1.23rem,3vw,1.5rem);text-decoration:none;min-height:62px}
 .games a:focus-visible{outline:4px solid #a36a18;outline-offset:4px}
 @media(max-width:620px){.games{gap:20px}.game img{height:clamp(170px,26dvh,255px)}}
+
+
+/* Originale Memory-Schilder als Neun-Scheiben-Rahmen:
+   Die linke und rechte Illustration haben feste Breiten;
+   nur die leere Mitte wird horizontal gedehnt. */
+.games .play,.games .testmode-link{
+  display:grid;place-items:center;isolation:isolate;
+  width:100%;min-width:0;min-height:clamp(88px,12vw,112px);
+  padding:20px clamp(73px,15%,100px) !important;
+  box-shadow:none !important;background:transparent !important;
+  border:1px solid transparent;border-radius:0;
+  line-height:1.25;white-space:normal;overflow-wrap:anywhere;
+  font-size:clamp(1.2rem,2.7vw,1.65rem);font-weight:900;
+  text-align:center;cursor:pointer;
+  border-image-slice:0 90 0 78 fill;
+  border-image-width:0 90px 0 78px;
+  border-image-repeat:stretch;
+}
+.games .game:first-child .play{
+  border-image-source:url("assets/buttons/memory-blue.svg");
+  color:#fff;text-shadow:0 2px 3px #082b44,0 0 3px #082b44;
+}
+.games .game:nth-child(2) .play,.games .testmode-link{
+  border-image-source:url("assets/buttons/memory-paper.svg");
+  color:#101820;text-shadow:0 1px 1px #fff9ea;
+}
+.games .game {display:flex;flex-direction:column;align-items:stretch;gap:5px}
+.games .game .play {margin-top:auto}
+.games .testmode-link {align-self:stretch;text-decoration:none;max-width:780px;margin-inline:auto}
+@media(max-width:510px){
+  .games .play,.games .testmode-link{min-height:88px;padding-inline:69px!important;font-size:clamp(1.12rem,4.8vw,1.4rem)}
+  .games .play {width:100%}
+  .games .game {padding:clamp(12px,3vw,22px)}
+}
