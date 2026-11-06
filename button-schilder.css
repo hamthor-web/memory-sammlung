@@ -121,6 +121,16 @@ body.choosing-pairs #selection .banner-button .banner-label {
 }
 
 /* Gleiches blaues Schild im Lesedialog, auch bei Schriftzoom. */
+/* Die Weiter-Beschriftung fuellt das grosse Schild besser aus.
+   Schriftzoom bleibt unabhaengig von der Spielfeldgroesse. */
+#successReadNext.banner-button .banner-label{
+ font-size:calc(clamp(32px,7vw,46px) * var(--read-scale,1))!important;
+ font-weight:900!important;
+ line-height:1.1!important;
+ white-space:nowrap!important;
+ overflow-wrap:normal!important;
+}
+
 #successReadNext.banner-button{
  width:min(100%,620px)!important;
  height:calc(124px * var(--banner-scale))!important;
