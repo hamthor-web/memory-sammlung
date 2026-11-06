@@ -1,0 +1,80 @@
+/* Lesespiele: Original-Schilder als skalierbare Aktionsschaltflächen.
+   Die Hintergrund-Mitte dehnt sich; die Verzierungen links/rechts bleiben proportional. */
+.banner-button{
+  --banner-scale:var(--read-scale,var(--control-zoom,1));
+  --decor-height:clamp(64px,8.8vw,106px);
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  position:relative!important;
+  isolation:isolate;
+  overflow:hidden!important;
+  width:min(100%,680px);
+  min-width:0;
+  min-height:calc(86px * var(--banner-scale))!important;
+  box-sizing:border-box;
+  border:0!important;
+  border-radius:999px!important;
+  margin:8px auto!important;
+  padding:calc(12px * var(--banner-scale)) clamp(85px,25%,165px)!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:200% 100%!important;
+  text-decoration:none!important;
+  cursor:pointer;
+  white-space:normal!important;
+  line-height:1.2!important;
+  font-size:calc(clamp(22px,3vw,30px) * var(--banner-scale))!important;
+  font-weight:900!important;
+  text-align:center!important;
+  letter-spacing:.01em!important;
+  text-overflow:clip!important;
+  box-shadow:0 3px 5px #142c3028!important;
+  transition:filter .15s ease,transform .15s ease;
+}
+.banner-button::before,.banner-button::after{
+  content:"";
+  position:absolute;
+  top:0;bottom:0;
+  width:clamp(85px,25%,170px);
+  pointer-events:none;
+  background-repeat:no-repeat;
+  background-size:auto var(--decor-height);
+  z-index:1;
+}
+.banner-button::before{left:0;background-position:left center;mask-image:linear-gradient(to right,#000 75%,transparent)}
+.banner-button::after{right:0;background-position:right center;mask-image:linear-gradient(to left,#000 75%,transparent)}
+.banner-button .banner-label{display:block;position:relative;z-index:2;min-width:0;overflow-wrap:anywhere}
+.banner-button.banner-paper{
+ background-color:#f5e9d2!important;
+ background-image:url("assets/buttons/btn-memory.png")!important;
+ color:#111!important;
+ text-shadow:0 1px 0 #fff9!important;
+}
+.banner-button.banner-paper::before,.banner-button.banner-paper::after{background-image:url("assets/buttons/btn-memory.png")}
+.banner-button.banner-blue{
+ background-color:#286d9e!important;
+ background-image:url("assets/buttons/btn-eigenschaften.png")!important;
+ color:white!important;
+ text-shadow:0 2px 3px #002d53,0 0 2px #002d53!important;
+}
+.banner-button.banner-blue::before,.banner-button.banner-blue::after{background-image:url("assets/buttons/btn-eigenschaften.png")}
+.banner-button:hover{filter:brightness(1.06)}
+.banner-button:active{transform:scale(.985)}
+.banner-button:focus-visible{outline:4px solid #d18c20!important;outline-offset:4px}
+.banner-button:disabled{filter:grayscale(.8);opacity:.58;cursor:default}
+.banner-button[aria-pressed="true"],.banner-button.mode-selected{outline:4px solid #1b846c!important;outline-offset:2px}
+#modeSolo.banner-button,#modeTwo.banner-button{width:100%!important}
+.mode-picker:has(.banner-button){grid-template-columns:1fr!important;max-width:620px!important}
+.games .game .play.banner-button{
+  max-width:100%;
+  width:100%;
+  min-height:84px!important;
+  padding-inline:clamp(70px,24%,136px)!important;
+}
+.games .game .play.banner-button .banner-label{font-size:inherit!important}
+@media(max-width:520px){
+ .banner-button{--decor-height:64px;min-height:calc(82px * var(--banner-scale))!important;font-size:calc(22px * var(--banner-scale))!important;padding-inline:clamp(72px,24%,105px)!important}
+ .games .game .play.banner-button{padding-inline:clamp(70px,23%,108px)!important}
+}
+@media(prefers-reduced-motion:reduce){.banner-button{transition:none!important}}
