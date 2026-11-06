@@ -95,3 +95,27 @@ body.choosing-pairs #selection .count.banner-button{
  overflow-wrap:normal!important;hyphens:none!important;
 }
 body.choosing-pairs #selection .controls{grid-template-columns:minmax(0,1fr)!important;max-width:680px!important;gap:12px!important;}
+
+/* Einheitliche Schilderhöhen innerhalb der Einstellungsansichten.
+   Alle Auswahlbuttons bleiben gleich hoch, selbst bei zweizeiligem Text.
+   Die gemeinsame Höhe wächst mit dem unabhängigen Schriftzoom. */
+#start .mode-picker .banner-button,
+#start #levelButtons .banner-button,
+#start #countButtons .banner-button,
+#start #startGame.banner-button,
+body.choosing-pairs #selection .mode-picker .banner-button,
+body.choosing-pairs #selection .controls .count.banner-button {
+  box-sizing:border-box!important;
+  height:calc(124px * var(--banner-scale))!important;
+  min-height:calc(124px * var(--banner-scale))!important;
+  padding-block:calc(9px * var(--banner-scale))!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+#start #levelButtons .banner-button .banner-label,
+#start #countButtons .banner-button .banner-label,
+body.choosing-pairs #selection .banner-button .banner-label {
+  word-break:normal!important;
+  overflow-wrap:normal!important;
+  hyphens:none!important;
+}
