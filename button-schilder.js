@@ -23,6 +23,8 @@
   }
   if(properties){
    ['startGame','ready','again','modeSolo','modeTwo'].forEach(id=>skin(document.getElementById(id),'blue'));
+   document.querySelectorAll('#levelButtons button,#countButtons button').forEach(el=>skin(el,'blue'));
+
   }
   if(word){
    document.querySelectorAll('#again,#back,#galleryBack,.mode-picker .mode,.collection-actions button').forEach(el=>skin(el,'paper'));
