@@ -49,7 +49,7 @@ function reset(){
  names=[$('duoName0').value.trim()||'Spieler 1',$('duoName1').value.trim()||'Spieler 2'];
  $('duoFinish').hidden=true;
  if($('cardPreview').open)$('cardPreview').close();
- epoch++;clearTimeout(rewardTimer);clearTimeout(successTimer);const video=$('rewardVideo');video.pause();video.onended=null;video.onerror=null;video.removeAttribute('src');video.load();const image=$('rewardImage');image.onload=null;image.onerror=null;image.removeAttribute('src');image.hidden=true;$('reward').hidden=true;$('finish').hidden=true;$('start').hidden=false;$('game').hidden=false;
+ epoch++;clearTimeout(rewardTimer);clearTimeout(successTimer);const video=$('rewardVideo');video.pause();video.onended=null;video.onerror=null;video.removeAttribute('src');video.load();const image=$('rewardImage');image.onload=null;image.onerror=null;image.removeAttribute('src');image.hidden=true;$('reward').hidden=true;$('finish').hidden=true;$('start').hidden=false;$('game').hidden=true;
  level=+$('level').value;const eligible=pool.filter(c=>E.questions([c],level,pool).length);let wanted=+$('count').value;
  for(const option of $('count').options)option.disabled=+option.value>eligible.length;
  if(wanted>eligible.length){wanted=eligible.length>=12?12:6;$('count').value=String(wanted);}
@@ -112,6 +112,16 @@ function playReward(token){
  video.onended=done;video.onerror=()=>{if(token!==epoch)return;$('videoStatus').textContent='Die Animation konnte nicht geladen werden.';$('videoStatus').hidden=false;rewardTimer=setTimeout(done,1200);};
  function play(){video.play().then(()=>{if(token!==epoch)return;$('playVideo').hidden=true;rewardTimer=setTimeout(done,3200);}).catch(()=>{if(token!==epoch)return;$('playVideo').hidden=false;$('playVideo').onclick=play;});}play();
 }
+$('startGame').onclick=()=>{
+ if(!$('game').hidden)return;
+ names=[$('duoName0').value.trim()||'Spieler 1',$('duoName1').value.trim()||'Spieler 2'];
+ document.body.classList.remove('start-layout');
+ $('start').hidden=true;
+ $('game').hidden=false;
+ showDuo();
+ window.scrollTo({top:0,behavior:'instant'});
+ $('ready').focus({preventScroll:true});
+};
 $('modeSolo').onclick=()=>setMode(false);
 $('modeTwo').onclick=()=>setMode(true);
 $('ready').onclick=()=>{if(stage!=='study')return;document.body.classList.remove('start-layout');stage='choose';$('start').hidden=true;$('message').textContent='Wähle eine Fragekarte.';render();};$('reset').onclick=reset;$('again').onclick=reset;$('level').onchange=reset;$('count').onchange=reset;
