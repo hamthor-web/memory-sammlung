@@ -3,6 +3,7 @@ const $=id=>document.getElementById(id),E=MemoryEngine,pool=MEMORY_CARDS;
 const animations=['Drehende_Karte_12Bilder_3s_weiss.webp','02_drehen_weiss.mp4','03_zwinkern.mp4','04_ausrutschen.mp4'];
 let field=[],found=new Set(),used=new Set(),history=new Set(),question=null,stage='study',level=1,totalQuestions=8,wrongId=null,correctId=null,epoch=0,lastAnimation=-1,rewardTimer=null,successTimer=null,installPrompt=null;
 function reset(){
+ document.body.classList.add('start-layout');
  epoch++;clearTimeout(rewardTimer);clearTimeout(successTimer);const video=$('rewardVideo');video.pause();video.onended=null;video.onerror=null;video.removeAttribute('src');video.load();const image=$('rewardImage');image.onload=null;image.onerror=null;image.removeAttribute('src');image.hidden=true;$('reward').hidden=true;$('finish').hidden=true;$('start').hidden=false;$('game').hidden=false;
  level=+$('level').value;const eligible=pool.filter(c=>E.questions([c],level,pool).length);let wanted=+$('count').value;
  for(const option of $('count').options)option.disabled=+option.value>eligible.length;
@@ -48,7 +49,7 @@ function playReward(token){
  video.onended=done;video.onerror=()=>{if(token!==epoch)return;$('videoStatus').textContent='Die Animation konnte nicht geladen werden.';$('videoStatus').hidden=false;rewardTimer=setTimeout(done,1200);};
  function play(){video.play().then(()=>{if(token!==epoch)return;$('playVideo').hidden=true;rewardTimer=setTimeout(done,3200);}).catch(()=>{if(token!==epoch)return;$('playVideo').hidden=false;$('playVideo').onclick=play;});}play();
 }
-$('ready').onclick=()=>{if(stage!=='study')return;stage='choose';$('start').hidden=true;$('message').textContent='Wähle eine Fragekarte.';render();};$('reset').onclick=reset;$('again').onclick=reset;$('level').onchange=reset;$('count').onchange=reset;
+$('ready').onclick=()=>{if(stage!=='study')return;document.body.classList.remove('start-layout');stage='choose';$('start').hidden=true;$('message').textContent='Wähle eine Fragekarte.';render();};$('reset').onclick=reset;$('again').onclick=reset;$('level').onchange=reset;$('count').onchange=reset;
 let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(stage!=='wrong')render();},120);});
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('install').hidden=false;});$('install').onclick=async()=>{if(!installPrompt)return;await installPrompt.prompt();installPrompt=null;$('install').hidden=true;};
 reset();
