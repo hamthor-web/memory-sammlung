@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#24776b"><meta name="description" content="Ein Eigenschaften-Memory mit Bildkarten, drei Schwierigkeitsstufen und lokalen Kinderprofilen. Offline spielbar."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Fühlmemory"><link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><title>Fühlmemory · Eigenschaften-Memory</title></head>
-<body><main><header><a href="index.html?menu=1">← Spielmenü</a><span>FÜHLMEMORY</span><div class="header-actions"><button id="profileSwitch">Profil wählen</button><button id="install" hidden>App installieren</button> <button id="reset">Neue Runde</button></div></header><h1>Eigenschaften-Memory</h1>
+<body><main><header><a href="index.html?menu=1">← Spielmenü</a><span>FÜHLMEMORY</span><div class="header-actions"><button id="profileSwitch">Profil wählen</button><button id="install" hidden>App installieren</button> <button id="reset">Neue Runde wählen</button></div></header><h1>Eigenschaften-Memory</h1>
 <div class="button-zoom" role="group" aria-label="Größe der Schrift und Schaltflächen">
   <strong>Schrift &amp; Buttons</strong>
   <button type="button" id="buttonZoomOut" aria-label="Schrift und Schaltflächen verkleinern">−</button>
@@ -16,7 +16,7 @@
 <label>Spieler 1 <input id="duoName0" maxlength="20" value="Spieler 1"></label>
 <label>Spieler 2 <input id="duoName1" maxlength="20" value="Spieler 2"></label>
 </div>
-<p>Schau dir die Bilder in Ruhe an. Merke dir, wo sie liegen. Tippe ein Bild an, um es groß zu lesen.</p><div class="settings">
+<div class="settings">
   <fieldset class="big-setting"><legend>Schwierigkeit wählen</legend><div class="setting-buttons" id="levelButtons">
     <button type="button" data-value="1">1 · Eine Eigenschaft</button>
     <button type="button" data-value="2">2 · Zwei Eigenschaften</button>
@@ -27,8 +27,11 @@
     <button type="button" data-value="12">12 Karten</button>
     <button type="button" data-value="18">18 Karten</button>
   </div></fieldset>
-</div><div class="native-settings" hidden aria-hidden="true"><label>Schwierigkeit <select id="level" aria-label="Schwierigkeit"><option value="1">1 · Eine Eigenschaft</option><option value="2">2 · Zwei Eigenschaften</option><option value="3">3 · Kombination & Ausschluss</option></select></label><label>Bildkarten <select id="count" aria-label="Bildkarten"><option value="6">6 Karten</option><option value="12">12 Karten</option><option value="18">18 Karten</option></select></label></div><p id="levelHint" class="hint"></p></section>
-<section id="game">
+</div><div class="native-settings" hidden aria-hidden="true"><label>Schwierigkeit <select id="level" aria-label="Schwierigkeit"><option value="1">1 · Eine Eigenschaft</option><option value="2">2 · Zwei Eigenschaften</option><option value="3">3 · Kombination & Ausschluss</option></select></label><label>Bildkarten <select id="count" aria-label="Bildkarten"><option value="6">6 Karten</option><option value="12">12 Karten</option><option value="18">18 Karten</option></select></label></div><p id="levelHint" class="hint"></p>
+<div class="start-action"><button type="button" id="startGame" class="primary">Spiel starten</button></div>
+</section>
+<section id="game" hidden>
+<p class="study-help">Schau dir die Bilder in Ruhe an. Merke dir, wo sie liegen. Tippe ein Bild an, um es groß zu lesen.</p>
 <div id="duoScore" class="duo-score" hidden aria-live="polite">
 <div id="duoCard0" class="duo-player active"><strong id="duoLabel0">Spieler 1</strong><span id="duoPoints0">0 Karten</span></div>
 <div id="duoTurn" class="duo-turn">Spieler 1 ist dran</div>
