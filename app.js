@@ -23,6 +23,26 @@ function setMode(isTwo){
  reset();
 }
 let field=[],found=new Set(),used=new Set(),history=new Set(),question=null,stage='study',level=1,totalQuestions=8,wrongId=null,correctId=null,epoch=0,lastAnimation=-1,rewardTimer=null,successTimer=null,installPrompt=null;
+function syncBigSettings(){
+ for(const [control,group] of [['level','levelButtons'],['count','countButtons']]){
+  const select=$(control);
+  document.querySelectorAll('#'+group+' button').forEach(b=>{
+   const option=Array.from(select.options).find(o=>o.value===b.dataset.value);
+   const chosen=select.value===b.dataset.value;
+   b.classList.toggle('chosen',chosen);
+   b.setAttribute('aria-pressed',String(chosen));
+   b.disabled=!!option?.disabled;
+  });
+ }
+}
+for(const [control,group] of [['level','levelButtons'],['count','countButtons']]){
+ document.querySelectorAll('#'+group+' button').forEach(b=>b.onclick=()=>{
+  const select=$(control);
+  if(b.disabled||select.value===b.dataset.value)return;
+  select.value=b.dataset.value;
+  select.dispatchEvent(new Event('change',{bubbles:true}));
+ });
+}
 function reset(){
  document.body.classList.add('start-layout');
  turn=0;points=[0,0];
@@ -35,7 +55,7 @@ function reset(){
  if(wanted>eligible.length){wanted=eligible.length>=12?12:6;$('count').value=String(wanted);}
  field=E.selectRound(pool,wanted,level);found=new Set();used=new Set();history=new Set();question=null;wrongId=null;correctId=null;totalQuestions=field.length+2;stage='study';
  $('levelHint').textContent=level===1?'Eine Eigenschaft suchen. Alle 30 Karten sind im Pool.':level===2?`Zwei Eigenschaften verbinden. ${eligible.length} passende Karten aus dem Pool.`:`Kombinationen und Ausschlüsse. ${eligible.length} passende Karten aus dem Pool.`;
- $('message').textContent='Schau dir die Bilder an. Du hast so viel Zeit, wie du möchtest.';render();showDuo();
+ $('message').textContent='Schau dir die Bilder an. Du hast so viel Zeit, wie du möchtest.';syncBigSettings();render();showDuo();
 }
 function previewCard(c){
  if(stage!=='study')return;
