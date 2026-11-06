@@ -272,3 +272,17 @@ input:focus-visible {
     gap: 16px;
   }
 }
+
+/* Größere, kindgerechte Schrift auf allen Einstiegsseiten */
+header strong {font-size:clamp(1.35rem,3.4vw,1.8rem)}
+header button {font-size:clamp(1.18rem,2.7vw,1.45rem);min-height:54px}
+main {max-width:1180px}
+h1 {font-size:clamp(2.15rem,5.5vw,3.25rem);line-height:1.2}
+.intro {font-size:clamp(1.35rem,3.5vw,1.8rem);line-height:1.45}
+.game h2 {font-size:clamp(1.45rem,3.3vw,2rem)}
+.game p {font-size:clamp(1.2rem,2.8vw,1.55rem);line-height:1.45}
+.play {font-size:clamp(1.25rem,3vw,1.55rem)}
+footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
+.testmode-link {grid-column:1/-1;display:block;text-align:center;background:#e1f3ec;border:3px solid #24776b;border-radius:18px;padding:18px;color:#173c2a;font-weight:800;font-size:clamp(1.23rem,3vw,1.5rem);text-decoration:none;min-height:62px}
+.games a:focus-visible{outline:4px solid #a36a18;outline-offset:4px}
+@media(max-width:620px){.games{gap:20px}.game img{height:clamp(170px,26dvh,255px)}}
