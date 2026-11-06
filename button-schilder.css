@@ -45,19 +45,31 @@
 .banner-button:hover{filter:brightness(1.07)}
 .banner-button:focus-visible{outline:5px solid #db8b16!important;outline-offset:3px!important}
 .banner-button:active{filter:brightness(.93)}
-.banner-button[aria-pressed="true"],.banner-button.mode-selected,
-.banner-button.active{
- outline:5px solid #165942!important;
+/* Aktive Auswahl klar BLAU markieren, niemals grün oder gelb.
+   Ein Häkchen und ein kräftiger hellblauer Außenring ergänzen die Farbe. */
+#start .setting-buttons .banner-button.chosen,
+#start .mode-picker .banner-button.mode-selected,
+#start .mode-picker .banner-button[aria-pressed="true"],
+.mode-picker .banner-button[aria-pressed="true"],
+.banner-button.active {
+ outline:5px solid #1453a0!important;
  outline-offset:2px!important;
- filter:brightness(.86) saturate(1.22);
- box-shadow:0 0 0 9px #f5ca53!important;
+ box-shadow:0 0 0 9px #78cfff,0 5px 10px #183e683d!important;
+ filter:brightness(.76) saturate(1.32)!important;
 }
-.banner-button[aria-pressed="true"] .banner-label::after,
-.banner-button.mode-selected .banner-label::after,
-.banner-button.active .banner-label::after{
- content:" ✓";font-weight:1000;
+#start .setting-buttons .banner-button.chosen .banner-label::after,
+#start .mode-picker .banner-button.mode-selected .banner-label::after,
+#start .mode-picker .banner-button[aria-pressed="true"] .banner-label::after,
+.mode-picker .banner-button[aria-pressed="true"] .banner-label::after,
+.banner-button.active .banner-label::after {
+ content:" ✓";color:#fff;font-weight:1000;
+ text-shadow:0 2px 3px #0a386a;
 }
-.banner-button[aria-pressed="false"]{filter:none;outline:2px solid #b8c5bc!important;outline-offset:1px!important;}
+#start .setting-buttons .banner-button:not(.chosen),
+#start .mode-picker .banner-button[aria-pressed="false"]{
+ filter:none!important;outline:none!important;
+ box-shadow:none!important;
+}
 .banner-button:disabled{opacity:.55;cursor:default}
 .mode-picker:has(.banner-button){grid-template-columns:1fr!important;max-width:650px!important}
 #modeSolo.banner-button,#modeTwo.banner-button{width:100%!important}
