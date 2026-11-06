@@ -22,7 +22,7 @@
    });
   }
   if(properties){
-   ['startGame','ready','again','modeSolo','modeTwo'].forEach(id=>skin(document.getElementById(id),'blue'));
+   ['startGame','ready','again','modeSolo','modeTwo','successReadNext'].forEach(id=>skin(document.getElementById(id),'blue'));
    document.querySelectorAll('#levelButtons button,#countButtons button').forEach(el=>skin(el,'blue'));
 
   }
