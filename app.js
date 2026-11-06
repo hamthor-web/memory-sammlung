@@ -28,6 +28,7 @@ function reset(){
  turn=0;points=[0,0];
  names=[$('duoName0').value.trim()||'Spieler 1',$('duoName1').value.trim()||'Spieler 2'];
  $('duoFinish').hidden=true;
+ if($('cardPreview').open)$('cardPreview').close();
  epoch++;clearTimeout(rewardTimer);clearTimeout(successTimer);const video=$('rewardVideo');video.pause();video.onended=null;video.onerror=null;video.removeAttribute('src');video.load();const image=$('rewardImage');image.onload=null;image.onerror=null;image.removeAttribute('src');image.hidden=true;$('reward').hidden=true;$('finish').hidden=true;$('start').hidden=false;$('game').hidden=false;
  level=+$('level').value;const eligible=pool.filter(c=>E.questions([c],level,pool).length);let wanted=+$('count').value;
  for(const option of $('count').options)option.disabled=+option.value>eligible.length;
@@ -36,11 +37,20 @@ function reset(){
  $('levelHint').textContent=level===1?'Eine Eigenschaft suchen. Alle 30 Karten sind im Pool.':level===2?`Zwei Eigenschaften verbinden. ${eligible.length} passende Karten aus dem Pool.`:`Kombinationen und Ausschlüsse. ${eligible.length} passende Karten aus dem Pool.`;
  $('message').textContent='Schau dir die Bilder an. Du hast so viel Zeit, wie du möchtest.';render();showDuo();
 }
+function previewCard(c){
+ if(stage!=='study')return;
+ $('previewTitle').textContent=c.name;
+ $('previewImage').src=c.image;
+ $('previewImage').alt=c.name;
+ $('previewDescription').textContent='Eigenschaften: '+c.properties.join(', ')+'.';
+ $('cardPreview').showModal();
+}
+$('previewClose').onclick=()=>$('cardPreview').close();
 function cardElement(c,index){
  const b=document.createElement('button');b.className='card';b.dataset.id=c.id;const revealed=stage==='study'||found.has(c.id)||wrongId===c.id;
- if(!revealed)b.classList.add('covered');if(found.has(c.id)&&c.id!==correctId)b.classList.add('found');if(wrongId===c.id)b.classList.add('wrong');if(correctId===c.id)b.classList.add('correct');b.disabled=found.has(c.id)||(stage!=='answer'&&!(stage==='wrong'&&wrongId===c.id));
+ if(!revealed)b.classList.add('covered');if(found.has(c.id)&&c.id!==correctId)b.classList.add('found');if(wrongId===c.id)b.classList.add('wrong');if(correctId===c.id)b.classList.add('correct');b.disabled=found.has(c.id)||(stage!=='study'&&stage!=='answer'&&!(stage==='wrong'&&wrongId===c.id));
  b.setAttribute('aria-label',revealed?c.name+(found.has(c.id)?' · gefunden':''):`Verdeckte Bildkarte ${index+1}`);
- const inner=document.createElement('span');inner.className='card-inner';const front=document.createElement('span');front.className='face front';const img=document.createElement('img');img.src=c.image;img.alt='';img.draggable=false;front.append(img);const back=document.createElement('span');back.className='face back';const backImage=document.createElement('img');backImage.src='assets/backs/memory-boy.png';backImage.alt='';backImage.draggable=false;back.append(backImage);back.setAttribute('aria-hidden','true');inner.append(front,back);b.append(inner);b.onclick=()=>answer(c);return b;
+ const inner=document.createElement('span');inner.className='card-inner';const front=document.createElement('span');front.className='face front';const img=document.createElement('img');img.src=c.image;img.alt='';img.draggable=false;front.append(img);const back=document.createElement('span');back.className='face back';const backImage=document.createElement('img');backImage.src='assets/backs/memory-boy.png';backImage.alt='';backImage.draggable=false;back.append(backImage);back.setAttribute('aria-hidden','true');inner.append(front,back);b.append(inner);b.onclick=()=>stage==='study'?previewCard(c):answer(c);return b;
 }
 function renderQuestion(){
  const node=$('question');node.hidden=!question;node.classList.toggle('correct',stage==='success');if(!question)return;node.replaceChildren();node.append(question.yes.length===1&&question.yes[0]==='süß'?'Was schmeckt ':'Was ist ');
@@ -52,7 +62,7 @@ function render(){
  $('ready').hidden=stage!=='study';$('questionZone').hidden=stage==='study'||stage==='finish';$('cards').classList.toggle('large',field.length>6);
  const oldCards=[...$('cards').children];
  if(oldCards.length!==field.length||oldCards.some((b,i)=>b.dataset.id!==field[i].id))$('cards').replaceChildren(...field.map(cardElement));
- else field.forEach((c,i)=>{const b=oldCards[i],revealed=stage==='study'||found.has(c.id)||wrongId===c.id;b.classList.toggle('covered',!revealed);b.classList.toggle('found',found.has(c.id)&&c.id!==correctId);b.classList.toggle('wrong',wrongId===c.id);b.classList.toggle('correct',correctId===c.id);b.disabled=found.has(c.id)||(stage!=='answer'&&!(stage==='wrong'&&wrongId===c.id));b.setAttribute('aria-label',revealed?c.name+(found.has(c.id)?' · gefunden':''):`Verdeckte Bildkarte ${i+1}`);});renderQuestion();
+ else field.forEach((c,i)=>{const b=oldCards[i],revealed=stage==='study'||found.has(c.id)||wrongId===c.id;b.classList.toggle('covered',!revealed);b.classList.toggle('found',found.has(c.id)&&c.id!==correctId);b.classList.toggle('wrong',wrongId===c.id);b.classList.toggle('correct',correctId===c.id);b.disabled=found.has(c.id)||(stage!=='study'&&stage!=='answer'&&!(stage==='wrong'&&wrongId===c.id));b.setAttribute('aria-label',revealed?c.name+(found.has(c.id)?' · gefunden':''):`Verdeckte Bildkarte ${i+1}`);});renderQuestion();
  showDuo();
  const available=Array.from({length:totalQuestions},(_,i)=>i).filter(i=>!used.has(i));const width=Math.min(700,Math.max(250,$('fan').clientWidth||window.innerWidth-28));const cardWidth=window.innerWidth<=650?104:120;const spacing=Math.min(55,(width-cardWidth)/Math.max(1,available.length-1));
  $('fan').replaceChildren(...available.map((i,position)=>{const b=document.createElement('button');b.className='question-card';b.dataset.question=i;b.style.setProperty('--angle',`${(position-(available.length-1)/2)*Math.min(6,45/Math.max(1,available.length-1))}deg`);b.style.setProperty('--x',`${(position-(available.length-1)/2)*spacing}px`);b.style.zIndex=String(position+1);const backImage=document.createElement('img');backImage.src='assets/backs/question-mark.png';backImage.alt='';backImage.draggable=false;b.append(backImage);b.setAttribute('aria-label',`Fragekarte ${i+1}`);b.disabled=stage!=='choose';b.onclick=()=>choose(i);return b;}));
