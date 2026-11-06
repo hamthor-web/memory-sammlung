@@ -277,3 +277,55 @@ body.start-layout #game[hidden]{display:none!important}
  to{opacity:1;transform:translateY(0) scale(1)}
 }
 @media(prefers-reduced-motion:reduce){.read-prompt{animation:none!important}}
+
+/* Richtige Bildkarte: vergrößert und ohne Zeitlimit im Vordergrund.
+   Die ursprüngliche Bilddatei bleibt vollständig sichtbar (object-fit:contain). */
+.success-reading{
+ width:min(96vw,820px);
+ max-width:96vw;
+ max-height:95dvh;
+ margin:auto;
+ padding:0;
+ border:4px solid #2c7b9e;
+ border-radius:24px;
+ background:#fffdf2;
+ color:#173e48;
+ overflow-y:auto;
+ box-shadow:0 20px 60px #102c46a0;
+}
+.success-reading::backdrop{background:rgba(13,32,48,.8)}
+.success-reading-content{
+ display:flex;flex-direction:column;align-items:center;
+ gap:clamp(8px,2vw,16px);
+ padding:clamp(12px,3vw,25px);
+}
+.success-reading h2{
+ font-size:calc(clamp(1.5rem,4.5vw,2.25rem) * var(--read-scale));
+ margin:0;text-align:center;line-height:1.2;
+}
+.success-reading p{
+ font-size:calc(clamp(1.4rem,4vw,1.85rem) * var(--read-scale));
+ line-height:1.35;font-weight:800;text-align:center;margin:0;
+}
+#successReadImage{
+ display:block;
+ width:min(100%,650px);
+ max-height:min(63dvh,700px);
+ height:auto;
+ object-fit:contain;
+ border-radius:14px;
+}
+#successReadNext{
+ width:min(100%,620px);
+ min-height:calc(4rem * var(--read-scale));
+ padding:calc(.7rem * var(--read-scale)) calc(1.2rem * var(--read-scale));
+ border:3px solid #145784;border-radius:17px;
+ background:#1c6999;color:white;font-weight:900;
+ font-size:calc(clamp(1.45rem,4vw,2rem) * var(--read-scale));
+ line-height:1.25;
+}
+#successReadNext:focus-visible{outline:4px solid #e9aa32;outline-offset:3px}
+@media(max-width:600px){
+ .success-reading{width:96vw;max-height:96dvh;}
+ #successReadImage{max-height:60dvh;}
+}
