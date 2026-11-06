@@ -238,3 +238,9 @@ body.start-layout #game[hidden]{display:none!important}
 /* Die großen Spielaktionen und Auswahlfelder bekommen ihre einheitlichen
    Schilder und Auswahlzustände ausschließlich aus button-schilder.css.
    Alte SVG- und grün/gelbe Auswahlregeln entfernt, Spielmechanik unverändert. */
+
+/* Kartenzahl: in jeder Orientierung drei breite Zeilen, niemals Silbenstapel. */
+#start .settings .count-buttons{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:12px!important;}
+#start .count-buttons button{width:100%!important;min-width:0!important;white-space:normal!important;word-break:normal!important;overflow-wrap:normal!important;hyphens:none!important;}
+/* Der 'Ich bin bereit'-Button ist nur in der Anschauphase sichtbar. */
+#ready[hidden],#game .ready-row:has(#ready[hidden]){display:none!important;}
