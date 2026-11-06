@@ -273,6 +273,34 @@ body.choosing-pairs #selection .count {
 .collected-images img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}
 .collected-images figcaption{text-align:center;font-size:clamp(.95rem,2.6vw,1.12rem);font-weight:700;line-height:1.3;padding:6px 0;overflow-wrap:anywhere}
 @media(max-width:430px){.collection-actions{grid-template-columns:1fr}}
+/* Zweiter, unabhängig vom Spielfeldzoom arbeitender Größenregler */
+:root { --control-zoom: 1; }
+.interface-zoom {display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin-top:13px;padding:10px 12px;border-radius:15px;background:#e8f5f4}
+.interface-zoom strong{font-size:clamp(1.03rem,3vw,1.3rem)}
+#game-controls {align-items:center}
+#game-controls .zoom-controls {display:inline-flex;align-items:center;flex-wrap:wrap;gap:7px}
+button:not(.card):not(.compare-card):not(.choice) {
+ font-size:calc(1.08rem * var(--control-zoom)) !important;
+ padding:calc(.64rem * var(--control-zoom)) calc(.85rem * var(--control-zoom)) !important;
+ min-height:calc(3rem * var(--control-zoom)) !important;
+ line-height:1.24 !important;
+ height:auto !important;
+ max-width:100%;
+ white-space:normal;
+ overflow-wrap:anywhere;
+}
+body.choosing-pairs #selection .count {
+ font-size:calc(1.38rem * var(--control-zoom)) !important;
+ min-height:calc(4.55rem * var(--control-zoom)) !important;
+ padding:calc(.85rem * var(--control-zoom)) !important;
+}
+.mode-picker button {font-size:calc(1.17rem * var(--control-zoom)) !important}
+.collection-actions button{font-size:calc(1.13rem * var(--control-zoom)) !important}
+#interfaceZoom button{min-width:calc(2.85rem * var(--control-zoom));font-variant-numeric:tabular-nums}
+#uiZoomReset{min-width:calc(5.5rem * var(--control-zoom))!important}
+@media(max-width:420px) {.interface-zoom{gap:6px;padding:9px 5px}.interface-zoom strong{width:100%;text-align:center}
+  body.choosing-pairs #selection .controls {gap:9px}
+}
 </style>
 </head>
 <body><nav style="padding:16px;text-align:center"><a href="../index.html?menu=1" style="font:700 20px system-ui;color:#173c2a">← Zurück zum Spielmenü</a></nav>
@@ -286,6 +314,12 @@ body.choosing-pairs #selection .count {
       </div>
     </div>
 
+    <div id="interfaceZoom" class="interface-zoom" role="group" aria-label="Schrift und Schaltflächen vergrößern oder verkleinern">
+      <strong>Schrift &amp; Buttons:</strong>
+      <button type="button" id="uiZoomOut" aria-label="Schrift und Buttons verkleinern">−</button>
+      <button type="button" id="uiZoomReset" aria-label="Schrift und Buttons auf 100 Prozent zurücksetzen">100 %</button>
+      <button type="button" id="uiZoomIn" aria-label="Schrift und Buttons vergrößern">+</button>
+    </div>
     <section id="selection" aria-labelledby="selection-title">
       <h2 id="selection-title">Wie möchtest du spielen?</h2>
       <div class="mode-picker" role="group" aria-label="Spielmodus">
@@ -368,6 +402,12 @@ let pendingQuiz = null;
 let comparisonActive = false;
 let mismatchActive = false;
 let boardZoom = 1;
+let controlZoom = 1;
+function applyControlZoom(value){
+  controlZoom=Math.max(.8,Math.min(1.6,Math.round(value*100)/100));
+  document.documentElement.style.setProperty('--control-zoom',controlZoom);
+  document.getElementById('uiZoomReset').textContent=Math.round(controlZoom*100)+' %';
+}
 const lastQuestion = {};
 const timers = new Set();
 function later(fn, delay) {
@@ -693,6 +733,9 @@ document.getElementById('restart').onclick=build;
 document.getElementById('zoomOut').onclick=()=>applyBoardZoom(boardZoom-.10);
 document.getElementById('zoomIn').onclick=()=>applyBoardZoom(boardZoom+.10);
 document.getElementById('zoomReset').onclick=()=>applyBoardZoom(1);
+document.getElementById('uiZoomOut').onclick=()=>applyControlZoom(controlZoom-.1);
+document.getElementById('uiZoomIn').onclick=()=>applyControlZoom(controlZoom+.1);
+document.getElementById('uiZoomReset').onclick=()=>applyControlZoom(1);
 window.addEventListener('resize',()=>applyBoardZoom(boardZoom));
 
 document.querySelectorAll('.mode').forEach(btn=>btn.onclick=()=>{
