@@ -74,3 +74,29 @@ header {flex-wrap:wrap}
   .header-actions {width:100%;justify-content:center}
   header > a {flex:1;min-width:0}
 }
+
+/* Textlesbarkeit in der zweiten Klasse, mit dynamischem Umbruch */
+header > a {font-size:clamp(1.15rem,2.9vw,1.45rem);font-weight:750;color:#175e53}
+header > span {font-size:clamp(1rem,2.2vw,1.15rem);letter-spacing:.04em}
+h1 {font-size:clamp(2rem,5.5vw,3.15rem);line-height:1.2}
+#start > p,#message {font-size:clamp(1.22rem,3.3vw,1.55rem);line-height:1.4}
+.settings label,.status,.hint,#fanLabel {font-size:clamp(1.1rem,2.9vw,1.35rem);line-height:1.4}
+#levelHint {max-width:70ch;margin:8px auto}
+#question {font-size:clamp(1.5rem,4vw,2rem)}
+#finish h2 {font-size:clamp(1.8rem,4.5vw,2.6rem)}
+footer {font-size:clamp(1rem,2.6vw,1.2rem)}
+.profile-panel p,.profile-panel label {font-size:clamp(1.15rem,3vw,1.35rem)}
+.mode-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:560px;margin:14px auto}
+.mode-picker button{font-weight:800;min-height:62px}
+.mode-picker .mode-selected{background:#d5f0e4;border:3px solid #24776b}
+.duo-names{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:560px;margin:12px auto}
+.duo-names label{font-size:clamp(1.15rem,3vw,1.4rem);font-weight:700}
+.duo-names input{display:block;width:100%;margin-top:5px;padding:12px;border:2px solid #6b9c89;border-radius:12px;font-size:inherit;min-height:50px}
+.duo-score{display:grid;grid-template-columns:1fr minmax(110px,1.3fr) 1fr;gap:10px;margin:12px 0}
+.duo-player,.duo-turn{border-radius:15px;padding:12px;background:#fff;font-size:clamp(1.1rem,3vw,1.4rem);line-height:1.3;text-align:center;overflow-wrap:anywhere}
+.duo-player{display:flex;flex-direction:column;gap:5px;border:3px solid #d4ded6}
+.duo-player.active{background:#d2f0e5;border-color:#24776b}
+#duoCard1.active{background:#fff0c9;border-color:#b6882e}
+.duo-turn{background:#f5eacf;font-weight:800;display:grid;place-items:center}
+#duoFinish{font-size:clamp(1.3rem,3.4vw,1.7rem);font-weight:700;line-height:1.5}
+@media(max-width:520px){.duo-score{grid-template-columns:1fr 1fr}.duo-turn{grid-column:1/-1;grid-row:1}.duo-player{grid-row:2}.duo-names{grid-template-columns:1fr}}
