@@ -262,6 +262,17 @@ body.choosing-pairs #selection .count {
 #scorePlayer1.current {border-color:#a36414;background:#fff0c2;box-shadow:0 0 0 2px #f0d48c}
 .turn-notice {background:#fff5d6;border-radius:16px;display:grid;place-items:center;padding:10px;text-align:center;font-weight:900;font-size:clamp(1.04rem,3.4vw,1.4rem);line-height:1.3}
 @media(max-width:440px){.two-player-score{grid-template-columns:1fr 1fr}.turn-notice{grid-column:1/-1;grid-row:1;min-height:45px}.player-chip{grid-row:2}.player-names{grid-template-columns:1fr}.mode-picker button{min-height:62px}}
+.collection-actions {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+.collection-actions button{min-height:64px;border:3px solid #399b91;background:#e1f5ed;font-size:clamp(1rem,3vw,1.25rem)}
+.collection-actions button:nth-child(2){border-color:#dfa846;background:#fff1d1}
+.collection-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:14px;margin:16px 0}
+.collected-pair{border-radius:18px;border:2px solid #dbd6c7;background:#fff8e9;padding:12px}
+.collected-pair h3{text-align:center;font-size:clamp(1.2rem,3.5vw,1.65rem);margin:0 0 9px}
+.collected-images{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.collected-images figure{margin:0;min-width:0}
+.collected-images img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}
+.collected-images figcaption{text-align:center;font-size:clamp(.95rem,2.6vw,1.12rem);font-weight:700;line-height:1.3;padding:6px 0;overflow-wrap:anywhere}
+@media(max-width:430px){.collection-actions{grid-template-columns:1fr}}
 </style>
 </head>
 <body><nav style="padding:16px;text-align:center"><a href="../index.html?menu=1" style="font:700 20px system-ui;color:#173c2a">← Zurück zum Spielmenü</a></nav>
@@ -333,6 +344,7 @@ let desiredCount = 6;
 let playerMode = 1;
 let activePlayer = 0;
 let playerScores = [0,0];
+let collectedPairs = [[],[]];
 let playerNames = ['Spieler 1','Spieler 2'];
 function updatePlayers(){
   const el=document.getElementById('twoPlayerScore');
@@ -485,7 +497,7 @@ function build() {
   const grid=document.getElementById('grid');
   grid.innerHTML='';
   resetRound();
-  activePlayer=0;playerScores=[0,0];
+  activePlayer=0;playerScores=[0,0];collectedPairs=[[],[]];
   playerNames=[document.getElementById('player1Name').value.trim()||'Spieler 1',document.getElementById('player2Name').value.trim()||'Spieler 2'];
   document.getElementById('selection').hidden=true;
   ['grid','status','game-controls'].forEach(id=>document.getElementById(id).hidden=false);
@@ -547,7 +559,7 @@ function flip(el,c) {
     first.el.classList.add('matched');
     second.el.classList.add('matched');
     found++;
-    if(playerMode===2)playerScores[activePlayer]++;
+    if(playerMode===2){playerScores[activePlayer]++;collectedPairs[activePlayer].push(p);}
     updateProgress();
     updatePlayers();
     pendingQuiz={pair:p,entries,shown:true};
@@ -628,6 +640,27 @@ function showQuiz(pair) {
   panel.focus();
 }
 
+function showCollectedPairs(playerIndex) {
+  const panel=document.getElementById('panel');
+  const name=playerNames[playerIndex];
+  const pairs=collectedPairs[playerIndex];
+  const gallery=pairs.length
+    ? pairs.map(pair=>`<article class="collected-pair">
+         <h3>${pair.word}</h3>
+         <div class="collected-images">
+           <figure><img src="${pair.a.img}" alt="${pair.a.label}"><figcaption>${pair.a.label}</figcaption></figure>
+           <figure><img src="${pair.b.img}" alt="${pair.b.label}"><figcaption>${pair.b.label}</figcaption></figure>
+         </div>
+       </article>`).join('')
+    : '<p>Du hast diesmal kein Paar gesammelt.</p>';
+  panel.innerHTML=`<h2>${name}: Meine gefundenen Paare</h2>
+    <p class="quiztext">${pairs.length} von ${currentPairs.length} Paaren</p>
+    <div class="collection-grid">${gallery}</div>
+    <div class="finish-actions"><button class="primary" id="galleryBack">Zur Ergebnisübersicht</button></div>`;
+  document.getElementById('modal').classList.add('show');
+  panel.focus();
+  panel.querySelector('#galleryBack').onclick=showFinish;
+}
 function showFinish() {
   busy=true;
   const panel=document.getElementById('panel');
@@ -637,12 +670,17 @@ function showFinish() {
   panel.innerHTML=`
     <h2>Super! Alle Wortpaare sind gefunden.</h2>
     ${twoResult}
+    ${playerMode===2 ? `<div class="collection-actions"><button id="showCollection0" type="button">${playerNames[0]}: Paare ansehen</button><button id="showCollection1" type="button">${playerNames[1]}: Paare ansehen</button></div>` : ''}
     <div class="finish-actions">
       <button class="primary" id="again">Noch einmal spielen</button>
       <button id="back">Zur Spielauswahl</button>
     </div>`;
   document.getElementById('modal').classList.add('show');
   panel.focus();
+  if(playerMode===2){
+    panel.querySelector('#showCollection0').onclick=()=>showCollectedPairs(0);
+    panel.querySelector('#showCollection1').onclick=()=>showCollectedPairs(1);
+  }
   panel.querySelector('#again').onclick=()=>{ closeModal(); build(); };
   panel.querySelector('#back').onclick=showSelection;
 }
