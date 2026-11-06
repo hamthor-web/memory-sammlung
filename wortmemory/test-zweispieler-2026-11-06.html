@@ -448,7 +448,7 @@ function showSelection() {
   ['grid','status','game-controls'].forEach(id=>document.getElementById(id).hidden=true);
   document.getElementById('twoPlayerScore').hidden=true;
   window.scrollTo(0,0);
-  document.querySelector('.count').focus({preventScroll:true});
+  // Keine automatische Fokussierung oder optische Vormarkierung einer Paarzahl.
 }
 
 function shuffle(a) {
