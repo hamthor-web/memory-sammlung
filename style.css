@@ -280,3 +280,25 @@ body.start-layout #game[hidden]{display:none!important}
    padding-inline:72px!important;
  }
 }
+
+/* Eindeutig erkennbare Auswahlzustände für Kinder:
+   kräftige Fläche, kontrastreicher Rand und Häkchen. */
+#start .setting-buttons button.chosen,
+#start .mode-picker button.mode-selected {
+  background-color:#146d60!important;
+  color:white!important;
+  border:4px solid #093e36!important;
+  outline:4px solid #efbf45!important;
+  outline-offset:2px!important;
+  box-shadow:0 3px 0 #083b34!important;
+}
+#start .setting-buttons button.chosen::after,
+#start .mode-picker button.mode-selected::after {
+  content:" ✓";
+  font-weight:1000;
+  color:#fff5b7;
+}
+#start .setting-buttons button:not(.chosen),
+#start .mode-picker button:not(.mode-selected) {
+  box-shadow:none!important;
+}
