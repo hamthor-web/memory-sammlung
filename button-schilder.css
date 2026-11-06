@@ -84,3 +84,14 @@
  }
 }
 @media(prefers-reduced-motion:reduce){.banner-button{transition:none!important}}
+
+/* Versteckte Aktionsschaltflächen müssen auch mit display:flex!important verborgen bleiben. */
+.banner-button[hidden]{display:none!important;}
+/* Vollbreite für Kartenzahl und Paarzahlen – keine zerbrochenen Wörter. */
+#start .count-buttons .banner-button,
+body.choosing-pairs #selection .count.banner-button{
+ width:100%!important;min-width:0!important;max-width:100%!important;
+ white-space:normal!important;word-break:normal!important;
+ overflow-wrap:normal!important;hyphens:none!important;
+}
+body.choosing-pairs #selection .controls{grid-template-columns:minmax(0,1fr)!important;max-width:680px!important;gap:12px!important;}
