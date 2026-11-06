@@ -5,18 +5,38 @@
 .back{background:#fff;border:3px solid #fff}.back img{width:100%;height:100%;object-fit:contain;display:block}.question-card{width:120px;height:90px;padding:0;background:#f8f2e8;overflow:hidden}.question-card img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}@media(max-width:650px){.question-card{width:104px;height:78px}}
 .header-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}#profileSwitch{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.profile-panel{width:min(430px,calc(100vw - 32px));max-height:90dvh;overflow:auto;border:0;background:#fffdf0;color:#173c2a;padding:24px;border-radius:24px;box-shadow:0 14px 40px #0006}.profile-panel::backdrop{background:#173c2add}.profile-panel h2{margin:0;font-size:28px}.profile-panel p{margin:12px 0}.profile-panel .profile-list{display:grid;gap:9px;margin:16px 0}.profile-panel button{font:inherit;font-weight:800;border:2px solid #6f9f6b;border-radius:14px;background:#eaf6e7;padding:12px;cursor:pointer;min-height:48px}.profile-list button[aria-current=true]{background:#d4edc9;border-color:#3d754a}.profile-panel form{border-top:1px solid #9dbb98;padding-top:16px;display:grid;gap:10px}.profile-panel label{font-weight:650}.profile-panel input{font:inherit;padding:12px;border:2px solid #7e9f7a;border-radius:12px;width:100%;min-height:48px;background:white;color:#173c2a}.profile-panel input:focus-visible{outline:3px solid #b56f27;outline-offset:3px}.profile-error{color:#9d2828;min-height:24px}.profile-panel #profileClose{width:100%;background:white}@media(max-width:650px){header{align-items:flex-start}.header-actions{gap:6px}#profileSwitch{max-width:170px}.profile-panel{padding:22px}.profile-panel h2{font-size:25px}}
 
-/* Startbildschirm: Freiraum über und unter dem Spiel gleichmäßig verteilen.
-   Bei hohem Inhalt bleiben die Elemente im normalen Scrollfluss. */
-body.start-layout main {
-  display:flex;
-  flex-direction:column;
+/* Startansicht mit vollständig genutzter Höhe.
+   Auf hohen Bildschirmen stehen Titel, Auswahl, Karten und Startknopf
+   als zusammenhängende Gruppe vertikal mittig. Bei Platzmangel scrollt die Seite.
+   Header bleibt oben, Footer unten. */
+body.start-layout > main {
   min-height:100vh;
   min-height:100dvh;
+  display:flex;
+  flex-direction:column;
 }
-body.start-layout main::before,
-body.start-layout main::after {content:"";display:block;flex:1 0 0;}
-body.start-layout main > * {flex-shrink:0;}
-
+body.start-layout > main::before,
+body.start-layout > main::after {display:none}
+body.start-layout > main > h1 {margin-top:auto}
+body.start-layout > main > footer {margin-top:auto}
+body.start-layout #game {width:100%;flex:none}
+body.start-layout #start {width:100%;flex:none}
+body.start-layout #cards {width:100%;max-width:1060px;margin:16px auto}
+body.start-layout #ready {margin-top:12px}
+/* Sechs große Lesekarten füllen das Hochformat in zwei Spalten.
+   Größere Runden behalten ein dichteres Raster und sind scrollbar. */
+@media (orientation:portrait) {
+  body.start-layout #cards:not(.large) {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    max-width:min(100%,780px);
+    gap:clamp(10px,2vw,20px);
+  }
+}
+@media (orientation:landscape) and (min-width:650px) {
+  body.start-layout #cards:not(.large) {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
 /* Unabhängiger Schrift-/Buttonzoom – Kartenbrett und Bildkarten bleiben unverändert. */
 :root {--button-zoom:1}
 .button-zoom {
