@@ -187,3 +187,23 @@ button.primary {font-size:calc(1.35rem * var(--read-scale))!important}
  #start .count-buttons{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
  #start .count-buttons button{padding:calc(.65rem * var(--read-scale)) calc(.3rem * var(--read-scale))!important}
 }
+
+/* Auswahl und Spielablauf bewusst getrennt: Vor dem Start keine Bildkarten. */
+#start .start-action{display:flex;justify-content:center;margin:22px auto 10px}
+#startGame {
+ display:block;min-width:min(100%,300px);
+ background:#24776b;color:#fff;border:3px solid #135c52;
+ border-radius:20px;font-size:calc(clamp(1.65rem,4vw,2rem) * var(--read-scale))!important;
+ font-weight:850;min-height:calc(4.8rem * var(--read-scale))!important;
+ padding:calc(1rem * var(--read-scale)) calc(1.6rem * var(--read-scale))!important;
+}
+#game .study-help{
+ font-size:calc(clamp(1.35rem,3.6vw,1.7rem) * var(--read-scale))!important;
+ line-height:1.45;text-align:center;font-weight:650;max-width:50ch;margin:10px auto 18px;
+}
+body.start-layout #start {margin-bottom:auto}
+body.start-layout > main > h1 {margin-top:auto}
+body.start-layout #game[hidden]{display:none!important}
+@media(max-width:650px){
+ #startGame {width:min(100%,480px)}
+}
