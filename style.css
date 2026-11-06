@@ -315,15 +315,9 @@ body.start-layout #game[hidden]{display:none!important}
  object-fit:contain;
  border-radius:14px;
 }
-#successReadNext{
- width:min(100%,620px);
- min-height:calc(4rem * var(--read-scale));
- padding:calc(.7rem * var(--read-scale)) calc(1.2rem * var(--read-scale));
- border:3px solid #145784;border-radius:17px;
- background:#1c6999;color:white;font-weight:900;
- font-size:calc(clamp(1.45rem,4vw,2rem) * var(--read-scale));
- line-height:1.25;
-}
+/* Der Weiter-Button übernimmt dieselbe schlichte blaue Schildergestaltung
+   wie Spiel starten und Noch eine Runde spielen. */
+#successReadNext{width:min(100%,620px);align-self:center;}
 #successReadNext:focus-visible{outline:4px solid #e9aa32;outline-offset:3px}
 @media(max-width:600px){
  .success-reading{width:96vw;max-height:96dvh;}
