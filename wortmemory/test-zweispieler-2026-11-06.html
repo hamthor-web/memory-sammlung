@@ -311,6 +311,10 @@ body.choosing-pairs #selection .controls {
 }
 .mode-picker{grid-template-columns:minmax(0,1fr)!important;max-width:680px!important}
 .finish-actions,.collection-actions{display:grid!important;grid-template-columns:minmax(0,1fr)!important;max-width:720px;margin-inline:auto}
+/* Ein gesonderter Spielstart nach Modus- und Paarzahlauswahl. */
+#selection .start-action{display:flex;justify-content:center;max-width:680px;margin:20px auto 0}
+#startWordMemory.banner-button{width:100%!important;height:calc(124px * var(--control-zoom,1))!important;min-height:calc(124px * var(--control-zoom,1))!important}
+#startWordMemory[hidden]{display:none!important}
 </style>
 <link rel="stylesheet" href="../button-schilder.css"></head>
 <body><nav style="padding:16px;text-align:center"><a href="../index.html?menu=1" style="font:700 20px system-ui;color:#173c2a">← Zurück zum Spielmenü</a></nav>
@@ -346,6 +350,9 @@ body.choosing-pairs #selection .controls {
         <button class="count primary" data-count="8">8 Paare</button>
         <button class="count primary" data-count="10">10 Paare</button>
         <button class="count primary" data-count="12">12 Paare</button>
+      </div>
+      <div class="controls start-action">
+        <button id="startWordMemory" type="button" class="banner-button banner-paper" hidden><span class="banner-label">Spiel starten</span></button>
       </div>
     </section>
     <div class="controls" id="game-controls" hidden>
@@ -435,6 +442,8 @@ function showSelection() {
   resetRound();currentPairs=[];
   document.getElementById('grid').innerHTML='';
   document.getElementById('selection').hidden=false;
+  document.getElementById('startWordMemory').hidden=true;
+  document.querySelectorAll('#selection .count').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
   ['grid','status','game-controls'].forEach(id=>document.getElementById(id).hidden=true);
   document.getElementById('twoPlayerScore').hidden=true;
   window.scrollTo(0,0);
@@ -756,10 +765,12 @@ document.querySelectorAll('.mode').forEach(btn=>btn.onclick=()=>{
 document.querySelectorAll('.count').forEach(btn=>btn.onclick=()=>{
   document.querySelectorAll('.count').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  document.querySelectorAll('#selection .count').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));
   desiredCount=Number(btn.dataset.count);
-  build();
+  document.getElementById('startWordMemory').hidden=false;
 });
 
+document.getElementById('startWordMemory').onclick=build;
 document.getElementById('selectGame').onclick=showSelection;
 
 showSelection();
