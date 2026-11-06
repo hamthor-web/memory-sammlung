@@ -49,6 +49,7 @@ function reset(){
  names=[$('duoName0').value.trim()||'Spieler 1',$('duoName1').value.trim()||'Spieler 2'];
  $('duoFinish').hidden=true;
  if($('cardPreview').open)$('cardPreview').close();
+ if($('successReading').open)$('successReading').close();
  epoch++;clearTimeout(rewardTimer);clearTimeout(successTimer);const video=$('rewardVideo');video.pause();video.onended=null;video.onerror=null;video.removeAttribute('src');video.load();const image=$('rewardImage');image.onload=null;image.onerror=null;image.removeAttribute('src');image.hidden=true;$('reward').hidden=true;$('finish').hidden=true;$('start').hidden=false;$('game').hidden=true;
  level=+$('level').value;const eligible=pool.filter(c=>E.questions([c],level,pool).length);let wanted=+$('count').value;
  for(const option of $('count').options)option.disabled=+option.value>eligible.length;
@@ -94,9 +95,20 @@ function choose(i){
 }
 function finishReading(){
  if(stage!=='success'||!correctId)return;
+ if($('successReading').open)$('successReading').close();
  playReward(epoch);
 }
 $('readContinue').onclick=finishReading;
+$('successReadNext').onclick=finishReading;
+$('successReading').addEventListener('cancel',event=>event.preventDefault());
+function openSuccessReading(card){
+ const dialog=$('successReading');
+ const image=$('successReadImage');
+ image.src=card.image;
+ image.alt=card.name+' – '+card.properties.join(', ');
+ dialog.showModal();
+ $('successReadNext').focus({preventScroll:true});
+}
 function answer(c){
  if(stage==='success'){
   if(c.id!==correctId)return;
@@ -106,8 +118,8 @@ function answer(c){
  }
  if(stage==='wrong'){if(c.id!==wrongId)return;wrongId=null;stage='answer';switchTurn();$('message').textContent='Versuche eine andere Bildkarte.';render();return;}if(stage!=='answer'||found.has(c.id))return;
  if(!E.matches(c,question)){wrongId=c.id;stage='wrong';$('message').textContent='Das passt noch nicht. Tippe dieselbe Karte an, um sie wieder zu verdecken.';render();return;}
- found.add(c.id);if(duo)points[turn]++;correctId=c.id;stage='success';$('message').textContent='Richtig gefunden! Lies den Text in Ruhe.';render();
- $('readPrompt').scrollIntoView({block:'center',behavior:'smooth'});
+ found.add(c.id);if(duo)points[turn]++;correctId=c.id;stage='success';$('message').textContent='Lies den Text. Tippe dann auf Weiter.';render();
+ openSuccessReading(c);
 }
 function playReward(token){
  stage='reward';question=null;render();const choices=animations.map((_,i)=>i).filter(i=>i!==lastAnimation),index=choices[Math.floor(Math.random()*choices.length)];lastAnimation=index;const video=$('rewardVideo'),image=$('rewardImage'),isImage=animations[index].endsWith('.webp');$('reward').hidden=false;$('playVideo').hidden=true;$('videoStatus').hidden=true;video.hidden=isImage;image.hidden=!isImage;let complete=false;
