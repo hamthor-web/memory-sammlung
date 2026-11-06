@@ -118,6 +118,11 @@ $('startGame').onclick=()=>{
  document.body.classList.remove('start-layout');
  $('start').hidden=true;
  $('game').hidden=false;
+ // Die Karten erst im sichtbaren Spielfeld neu erzeugen.
+ // So sind sie in der Anschauphase aktiv und die Großansicht ist antippbar.
+ $('cards').replaceChildren();
+ stage='study';
+ render();
  showDuo();
  window.scrollTo({top:0,behavior:'instant'});
  $('ready').focus({preventScroll:true});
