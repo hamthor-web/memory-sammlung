@@ -1,7 +1,7 @@
 'use strict';
 let storage;try{storage=localStorage;}catch{storage={getItem(){throw Error();},setItem(){throw Error();}};}
 const store=MemoryProfiles.createStore(storage),dialog=document.getElementById('login');
-function choose(profile){document.getElementById('greeting').textContent='Hallo '+profile.name+'!';document.getElementById('changeProfile').textContent='Profil: '+profile.name;document.getElementById('storageNote').textContent=store.isPersistent()?'':'Dein Profil bleibt nur für diese Sitzung erhalten.';dialog.close();document.querySelector('.game').focus();}
+function choose(profile){document.getElementById('greeting').textContent='Hallo '+profile.name+'!';document.getElementById('changeProfile').textContent='Profil: '+profile.name;document.getElementById('storageNote').textContent=store.isPersistent()?'':'Dein Profil bleibt nur für diese Sitzung erhalten.';dialog.close();document.querySelector('.game .play').focus();}
 function show(){const list=document.getElementById('profiles');list.replaceChildren();for(const profile of store.list()){const button=document.createElement('button');button.textContent=profile.name;button.onclick=()=>choose(store.select(profile.id));list.append(button);}document.getElementById('error').textContent='';document.getElementById('closeLogin').hidden=!store.active();dialog.showModal();}
 document.getElementById('newProfile').onsubmit=event=>{event.preventDefault();try{choose(store.create(document.getElementById('name').value));}catch(error){document.getElementById('error').textContent=error.message;}};
 document.getElementById('changeProfile').onclick=show;document.getElementById('closeLogin').onclick=()=>dialog.close();dialog.addEventListener('cancel',event=>{if(!store.active())event.preventDefault();});
