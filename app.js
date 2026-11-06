@@ -130,7 +130,7 @@ $('startGame').onclick=()=>{
 };
 $('modeSolo').onclick=()=>setMode(false);
 $('modeTwo').onclick=()=>setMode(true);
-$('ready').onclick=()=>{if(stage!=='study')return;document.body.classList.remove('start-layout');stage='choose';$('start').hidden=true;$('message').textContent='Beginne oben bei den Fragekarten.';render();$('questionZone').scrollIntoView({block:'start',behavior:'smooth'});};$('reset').onclick=reset;$('again').onclick=reset;$('level').onchange=reset;$('count').onchange=reset;
+$('ready').onclick=()=>{if(stage!=='study')return;document.body.classList.remove('start-layout');stage='choose';$('start').hidden=true;$('message').textContent='Beginne oben bei den Fragekarten.';render();$('questionZone').scrollIntoView({block:'start',behavior:'smooth'});};$('reset').onclick=()=>{reset();window.scrollTo({top:0,behavior:'instant'});};$('again').onclick=()=>{reset();$('startGame').click();};$('level').onchange=reset;$('count').onchange=reset;
 let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(stage!=='wrong')render();},120);});
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('install').hidden=false;});$('install').onclick=async()=>{if(!installPrompt)return;await installPrompt.prompt();installPrompt=null;$('install').hidden=true;};
 reset();
