@@ -302,43 +302,15 @@ body.choosing-pairs #selection .count {
   body.choosing-pairs #selection .controls {gap:9px}
 }
 
-/* Papier-Memory: originale Bildvorlage, linke/rechte Motive fest,
-   nur der freie Mittelteil streckt sich über die verfügbare Breite. */
-body.choosing-pairs #selection .controls {grid-template-columns:minmax(0,1fr)!important;max-width:640px!important}
-.mode-picker {grid-template-columns:minmax(0,1fr)!important;max-width:640px!important}
-button.count,.mode-picker button,
-.finish-actions button,.collection-actions button,
-#galleryBack{
- display:grid!important;place-items:center!important;
- width:100%;min-width:0;max-width:100%;
- min-height:calc(6rem * var(--control-zoom,1))!important;
- padding:calc(.85rem * var(--control-zoom,1)) 80px!important;
- background:transparent!important;
- border:1px solid transparent!important;
- border-radius:0!important;
- border-image-source:url("../assets/buttons/memory-paper.svg")!important;
- border-image-slice:0 90 0 78 fill!important;
- border-image-width:0 90px 0 78px!important;
- border-image-repeat:stretch!important;
- color:#111!important;font-size:calc(1.35rem * var(--control-zoom,1))!important;
- text-shadow:0 1px 0 #fff6e5;font-weight:900!important;
- box-shadow:none!important;
- line-height:1.25!important;
- white-space:normal!important;overflow-wrap:anywhere;
+/* Statt verzierter Altbuttons gelten die einheitlichen Schilderregeln
+   aus ../button-schilder.css. Paarzahlen immer als volle Zeile. */
+body.choosing-pairs #selection .controls {
+ grid-template-columns:minmax(0,1fr)!important;
+ max-width:680px!important;
+ gap:14px!important;
 }
-button.count.active,.mode-picker button.active{
- filter:drop-shadow(0 0 5px #da9c24) drop-shadow(0 0 2px #c5810e);
-}
+.mode-picker{grid-template-columns:minmax(0,1fr)!important;max-width:680px!important}
 .finish-actions,.collection-actions{display:grid!important;grid-template-columns:minmax(0,1fr)!important;max-width:720px;margin-inline:auto}
-button.count:focus-visible,.mode-picker button:focus-visible,
-.finish-actions button:focus-visible,.collection-actions button:focus-visible,
-#galleryBack:focus-visible{outline:4px solid #c58516!important;outline-offset:3px}
-@media(max-width:500px){
- button.count,.mode-picker button,.finish-actions button,
- .collection-actions button,#galleryBack{
-  padding-inline:65px!important;min-height:calc(5.7rem * var(--control-zoom,1))!important;
- }
-}
 </style>
 <link rel="stylesheet" href="../button-schilder.css"></head>
 <body><nav style="padding:16px;text-align:center"><a href="../index.html?menu=1" style="font:700 20px system-ui;color:#173c2a">← Zurück zum Spielmenü</a></nav>
