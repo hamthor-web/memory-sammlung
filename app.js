@@ -68,8 +68,8 @@ function previewCard(c){
 $('previewClose').onclick=()=>$('cardPreview').close();
 function cardElement(c,index){
  const b=document.createElement('button');b.className='card';b.dataset.id=c.id;const revealed=stage==='study'||found.has(c.id)||wrongId===c.id;
- if(!revealed)b.classList.add('covered');if(found.has(c.id)&&c.id!==correctId)b.classList.add('found');if(wrongId===c.id)b.classList.add('wrong');if(correctId===c.id)b.classList.add('correct');b.disabled=found.has(c.id)||(stage!=='study'&&stage!=='answer'&&!(stage==='wrong'&&wrongId===c.id));
- b.setAttribute('aria-label',revealed?c.name+(found.has(c.id)?' · gefunden':''):`Verdeckte Bildkarte ${index+1}`);
+ if(!revealed)b.classList.add('covered');if(found.has(c.id)&&c.id!==correctId)b.classList.add('found');if(wrongId===c.id)b.classList.add('wrong');if(correctId===c.id)b.classList.add('correct');b.disabled=(found.has(c.id)&&!(stage==='success'&&correctId===c.id))||(stage!=='study'&&stage!=='answer'&&!(stage==='wrong'&&wrongId===c.id)&&!(stage==='success'&&correctId===c.id));
+ b.setAttribute('aria-label',stage==='success'&&correctId===c.id?c.name+' · Lies den Text und tippe die Karte noch einmal an.':revealed?c.name+(found.has(c.id)?' · gefunden':''):`Verdeckte Bildkarte ${index+1}`);
  const inner=document.createElement('span');inner.className='card-inner';const front=document.createElement('span');front.className='face front';const img=document.createElement('img');img.src=c.image;img.alt='';img.draggable=false;front.append(img);const back=document.createElement('span');back.className='face back';const backImage=document.createElement('img');backImage.src='assets/backs/memory-boy.png';backImage.alt='';backImage.draggable=false;back.append(backImage);back.setAttribute('aria-hidden','true');inner.append(front,back);b.append(inner);b.onclick=()=>stage==='study'?previewCard(c):answer(c);return b;
 }
 function renderQuestion(){
@@ -82,20 +82,26 @@ function render(){
  $('ready').hidden=stage!=='study';$('questionZone').hidden=stage==='study'||stage==='finish';$('cards').classList.toggle('large',field.length>6);
  const oldCards=[...$('cards').children];
  if(oldCards.length!==field.length||oldCards.some((b,i)=>b.dataset.id!==field[i].id))$('cards').replaceChildren(...field.map(cardElement));
- else field.forEach((c,i)=>{const b=oldCards[i],revealed=stage==='study'||found.has(c.id)||wrongId===c.id;b.classList.toggle('covered',!revealed);b.classList.toggle('found',found.has(c.id)&&c.id!==correctId);b.classList.toggle('wrong',wrongId===c.id);b.classList.toggle('correct',correctId===c.id);b.disabled=found.has(c.id)||(stage!=='study'&&stage!=='answer'&&!(stage==='wrong'&&wrongId===c.id));b.setAttribute('aria-label',revealed?c.name+(found.has(c.id)?' · gefunden':''):`Verdeckte Bildkarte ${i+1}`);});renderQuestion();
+ else field.forEach((c,i)=>{const b=oldCards[i],revealed=stage==='study'||found.has(c.id)||wrongId===c.id;b.classList.toggle('covered',!revealed);b.classList.toggle('found',found.has(c.id)&&c.id!==correctId);b.classList.toggle('wrong',wrongId===c.id);b.classList.toggle('correct',correctId===c.id);b.disabled=(found.has(c.id)&&!(stage==='success'&&correctId===c.id))||(stage!=='study'&&stage!=='answer'&&!(stage==='wrong'&&wrongId===c.id)&&!(stage==='success'&&correctId===c.id));b.setAttribute('aria-label',stage==='success'&&correctId===c.id?c.name+' · Lies den Text und tippe die Karte noch einmal an.':revealed?c.name+(found.has(c.id)?' · gefunden':''):`Verdeckte Bildkarte ${i+1}`);});renderQuestion();
  showDuo();
  const available=Array.from({length:totalQuestions},(_,i)=>i).filter(i=>!used.has(i));const width=Math.min(700,Math.max(250,$('fan').clientWidth||window.innerWidth-28));const cardWidth=window.innerWidth<=650?104:120;const spacing=Math.min(55,(width-cardWidth)/Math.max(1,available.length-1));
  $('fan').replaceChildren(...available.map((i,position)=>{const b=document.createElement('button');b.className='question-card';b.dataset.question=i;b.style.setProperty('--angle',`${(position-(available.length-1)/2)*Math.min(6,45/Math.max(1,available.length-1))}deg`);b.style.setProperty('--x',`${(position-(available.length-1)/2)*spacing}px`);b.style.zIndex=String(position+1);const backImage=document.createElement('img');backImage.src='assets/backs/question-mark.png';backImage.alt='';backImage.draggable=false;b.append(backImage);b.setAttribute('aria-label',`Fragekarte ${i+1}`);b.disabled=stage!=='choose';b.onclick=()=>choose(i);return b;}));
- $('fanLabel').textContent=stage==='choose'?'Wähle hier zuerst deine Fragekarte.':stage==='wrong'?'Tippe unten die offene Bildkarte noch einmal an.':'Lies die Frage und suche unten das passende Bild.';
+ $('fanLabel').textContent=stage==='choose'?'Wähle hier zuerst deine Fragekarte.':stage==='wrong'?'Tippe unten die offene Bildkarte noch einmal an.':stage==='success'?'Lies den Text und tippe die Karte noch einmal an.':'Lies die Frage und suche unten das passende Bild.';
  $('fan').hidden=stage!=='choose';
 }
 function choose(i){
  if(stage!=='choose'||used.has(i))return;question=E.chooseQuestion(field.filter(c=>!found.has(c.id)),level,pool,history);if(!question){$('message').textContent='Für diese Karten gibt es keine passende Frage.';return;}history.add(E.key(question));history.add(E.semanticKey(question,pool));used.add(i);stage='answer';$('message').textContent='Welche Bildkarte passt zur Frage?';render();
 }
 function answer(c){
+ if(stage==='success'){
+  if(c.id!==correctId)return;
+  // Die richtige Karte bleibt ohne Zeitlimit offen, bis das Kind weiterklickt.
+  playReward(epoch);
+  return;
+ }
  if(stage==='wrong'){if(c.id!==wrongId)return;wrongId=null;stage='answer';switchTurn();$('message').textContent='Versuche eine andere Bildkarte.';render();return;}if(stage!=='answer'||found.has(c.id))return;
  if(!E.matches(c,question)){wrongId=c.id;stage='wrong';$('message').textContent='Das passt noch nicht. Tippe dieselbe Karte an, um sie wieder zu verdecken.';render();return;}
- found.add(c.id);if(duo)points[turn]++;correctId=c.id;stage='success';$('message').textContent='Das passt! Schau dir Bild und Frage noch einmal an.';render();const token=epoch;successTimer=setTimeout(()=>{if(token===epoch)playReward(token);},2000);
+ found.add(c.id);if(duo)points[turn]++;correctId=c.id;stage='success';$('message').textContent='Lies den Text und tippe die Karte noch einmal an.';render();
 }
 function playReward(token){
  stage='reward';question=null;render();const choices=animations.map((_,i)=>i).filter(i=>i!==lastAnimation),index=choices[Math.floor(Math.random()*choices.length)];lastAnimation=index;const video=$('rewardVideo'),image=$('rewardImage'),isImage=animations[index].endsWith('.webp');$('reward').hidden=false;$('playVideo').hidden=true;$('videoStatus').hidden=true;video.hidden=isImage;image.hidden=!isImage;let complete=false;
