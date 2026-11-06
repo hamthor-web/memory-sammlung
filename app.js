@@ -79,7 +79,7 @@ function renderQuestion(){
 }
 function render(){
  $('progress').textContent=`${found.size} von ${field.length} gefunden · ${totalQuestions-used.size} Fragekarten übrig`;$('phase').textContent={study:'Anschauen',choose:'Frage wählen',answer:'Bild finden',wrong:'Noch einmal antippen',success:'In Ruhe lesen',reward:'Animation',finish:'Alle gefunden'}[stage];
- $('ready').hidden=stage!=='study';$('questionZone').hidden=stage==='study'||stage==='finish';$('cards').classList.toggle('large',field.length>6);
+ $('ready').hidden=stage!=='study';$('readPrompt').hidden=stage!=='success';$('questionZone').hidden=stage==='study'||stage==='finish';$('cards').classList.toggle('large',field.length>6);
  const oldCards=[...$('cards').children];
  if(oldCards.length!==field.length||oldCards.some((b,i)=>b.dataset.id!==field[i].id))$('cards').replaceChildren(...field.map(cardElement));
  else field.forEach((c,i)=>{const b=oldCards[i],revealed=stage==='study'||found.has(c.id)||wrongId===c.id;b.classList.toggle('covered',!revealed);b.classList.toggle('found',found.has(c.id)&&c.id!==correctId);b.classList.toggle('wrong',wrongId===c.id);b.classList.toggle('correct',correctId===c.id);b.disabled=(found.has(c.id)&&!(stage==='success'&&correctId===c.id))||(stage!=='study'&&stage!=='answer'&&!(stage==='wrong'&&wrongId===c.id)&&!(stage==='success'&&correctId===c.id));b.setAttribute('aria-label',stage==='success'&&correctId===c.id?c.name+' · Lies den Text und tippe die Karte noch einmal an.':revealed?c.name+(found.has(c.id)?' · gefunden':''):`Verdeckte Bildkarte ${i+1}`);});renderQuestion();
@@ -92,16 +92,22 @@ function render(){
 function choose(i){
  if(stage!=='choose'||used.has(i))return;question=E.chooseQuestion(field.filter(c=>!found.has(c.id)),level,pool,history);if(!question){$('message').textContent='Für diese Karten gibt es keine passende Frage.';return;}history.add(E.key(question));history.add(E.semanticKey(question,pool));used.add(i);stage='answer';$('message').textContent='Welche Bildkarte passt zur Frage?';render();
 }
+function finishReading(){
+ if(stage!=='success'||!correctId)return;
+ playReward(epoch);
+}
+$('readContinue').onclick=finishReading;
 function answer(c){
  if(stage==='success'){
   if(c.id!==correctId)return;
   // Die richtige Karte bleibt ohne Zeitlimit offen, bis das Kind weiterklickt.
-  playReward(epoch);
+  finishReading();
   return;
  }
  if(stage==='wrong'){if(c.id!==wrongId)return;wrongId=null;stage='answer';switchTurn();$('message').textContent='Versuche eine andere Bildkarte.';render();return;}if(stage!=='answer'||found.has(c.id))return;
  if(!E.matches(c,question)){wrongId=c.id;stage='wrong';$('message').textContent='Das passt noch nicht. Tippe dieselbe Karte an, um sie wieder zu verdecken.';render();return;}
- found.add(c.id);if(duo)points[turn]++;correctId=c.id;stage='success';$('message').textContent='Lies den Text und tippe die Karte noch einmal an.';render();
+ found.add(c.id);if(duo)points[turn]++;correctId=c.id;stage='success';$('message').textContent='Richtig gefunden! Lies den Text in Ruhe.';render();
+ $('readPrompt').scrollIntoView({block:'center',behavior:'smooth'});
 }
 function playReward(token){
  stage='reward';question=null;render();const choices=animations.map((_,i)=>i).filter(i=>i!==lastAnimation),index=choices[Math.floor(Math.random()*choices.length)];lastAnimation=index;const video=$('rewardVideo'),image=$('rewardImage'),isImage=animations[index].endsWith('.webp');$('reward').hidden=false;$('playVideo').hidden=true;$('videoStatus').hidden=true;video.hidden=isImage;image.hidden=!isImage;let complete=false;
