@@ -50,8 +50,16 @@
 </div>
 <div id="cards" aria-label="Bildkarten"></div>
 <div class="ready-row"><button id="ready" class="primary">Ich bin bereit!</button></div></section>
-<section id="finish" hidden><div class="stars" aria-hidden="true">✦ · ✧ · ✦</div><h2>Schön, ihr habt alles gefunden!</h2><div id="duoFinish" hidden></div><button id="again" class="primary">Noch eine Runde spielen</button></section>
+<section id="finish" hidden><div class="stars" aria-hidden="true">✦ · ✧ · ✦</div><h2>Schön, alles gefunden!</h2><div id="duoFinish" hidden></div><button id="again" class="primary">Noch eine Runde spielen</button></section>
 <footer><span id="offlineStatus" hidden></span><span id="profileStorageNote" role="status"></span></footer></main>
+<dialog id="successReading" class="success-reading" aria-labelledby="successReadTitle" aria-describedby="successReadHint">
+  <div class="success-reading-content">
+    <h2 id="successReadTitle">Richtig gefunden!</h2>
+    <p id="successReadHint">Lies den Text. Tippe dann auf Weiter.</p>
+    <img id="successReadImage" alt="">
+    <button id="successReadNext" type="button">Weiter</button>
+  </div>
+</dialog>
 <dialog id="cardPreview" class="card-preview" aria-labelledby="previewTitle">
   <button id="previewClose" type="button">Schließen</button>
   <h2 id="previewTitle"></h2>
