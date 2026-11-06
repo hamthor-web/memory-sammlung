@@ -1,64 +1,72 @@
-/* Originalschilder: 9-Slice-Rahmen, ausschließlich die Mittelzone dehnt sich.
-   Würstchen und Kartenmotiv bleiben auf den Endkappen proportional.
-   Referenzen sind bereits im Repo vorhandene SVGs mit eingebetteten Bildern. */
-.banner-button {
-  --banner-scale:var(--read-scale,var(--control-zoom,1));
-  --banner-height:calc(106px * var(--banner-scale));
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  position:relative;box-sizing:border-box;isolation:isolate;
-  width:100%;max-width:100%;height:auto!important;
-  min-height:var(--banner-height)!important;
-  padding:calc(13px * var(--banner-scale)) clamp(68px,22%,112px)!important;
-  margin:0!important;
-  font-size:calc(clamp(21px,2.8vw,28px) * var(--banner-scale))!important;
-  line-height:1.2!important;font-weight:900!important;
-  text-align:center!important;text-decoration:none!important;
-  white-space:normal!important;overflow-wrap:anywhere;
-  border-style:solid!important;
-  border-width:0 70px!important;
-  border-radius:0!important;
-  background:none!important;
-  box-shadow:none!important;
-  text-shadow:none;
-  color:#121b1c!important;
-  border-image-slice:0 77 0 77 fill!important;
-  border-image-width:0 70px 0 70px!important;
-  border-image-outset:0!important;
-  border-image-repeat:stretch!important;
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-}
-.banner-button.banner-paper{
-  border-image-source:url("assets/buttons/memory-paper.svg")!important;
-  color:#111!important;
-  text-shadow:0 1px 2px #fff!important;
+/* Schlichte Original-Schilder ohne Maskottchen und Dekoration.
+   Für hohe Schärfe die vom Benutzer gelieferten 1200 x 200 PNGs verwenden.
+   Neun-Scheiben-Aufteilung: Endkappen bleiben proportional, Mitte dehnt sich. */
+.banner-button{
+ --banner-scale:var(--read-scale,var(--control-zoom,1));
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ position:relative;box-sizing:border-box;
+ width:100%;max-width:100%;
+ min-width:0;
+ min-height:calc(88px * var(--banner-scale))!important;
+ height:auto!important;
+ padding:calc(12px * var(--banner-scale)) clamp(12px,4vw,24px)!important;
+ border-style:solid!important;
+ border-width:0 58px!important;
+ border-image-slice:0 170 0 170 fill!important;
+ border-image-width:0 58px 0 58px!important;
+ border-image-repeat:stretch!important;
+ border-image-outset:0!important;
+ border-radius:0!important;
+ background:transparent!important;
+ box-shadow:none!important;
+ margin:8px auto!important;
+ text-decoration:none!important;
+ font-family:system-ui,sans-serif!important;
+ font-size:calc(clamp(21px,3vw,27px) * var(--banner-scale))!important;
+ font-weight:900!important;line-height:1.22!important;
+ text-align:center!important;white-space:normal!important;
+ cursor:pointer;
+ overflow:visible!important;
 }
 .banner-button.banner-blue{
-  border-image-source:url("assets/buttons/memory-blue.svg")!important;
-  color:#fff!important;
-  text-shadow:0 2px 3px #002c52,0 0 3px #002c52!important;
+ border-image-source:url("assets/buttons/fuehlmemory-ohne-deko.png")!important;
+ color:#fff!important;text-shadow:0 2px 3px #09283f,0 0 3px #09283f!important;
 }
-.banner-button .banner-label{display:block;min-width:0;position:relative;z-index:1;overflow-wrap:anywhere}
-.banner-button:hover{filter:brightness(1.06)}
-.banner-button:active{filter:brightness(.95)}
-.banner-button:focus-visible{outline:4px solid #b77513!important;outline-offset:3px!important}
-.banner-button:disabled{opacity:.55}
-.banner-button.mode-selected,.banner-button[aria-pressed="true"]{outline:3px solid #227d6a!important;outline-offset:2px!important}
-/* Eine Karte braucht auch auf schmalen Handys Platz für ihre langen Texte. */
-.games .game .play.banner-button{width:100%;min-height:100px!important;}
-.games .game-actions .play.banner-button{min-height:94px!important;}
-@media(max-width:530px) {
-  .banner-button {
-    --banner-height:calc(94px * var(--banner-scale));
-    border-width:0 50px!important;
-    border-image-width:0 50px 0 50px!important;
-    border-image-slice:0 77 0 77 fill!important;
-    font-size:calc(21px * var(--banner-scale))!important;
-    padding:calc(12px * var(--banner-scale)) 9px!important;
-  }
-  .games .game-actions .play.banner-button{min-height:94px!important}
+.banner-button.banner-paper{
+ border-image-source:url("assets/buttons/memory-ohne-deko.png")!important;
+ color:#101918!important;text-shadow:0 1px 2px #fff!important;
 }
-/* Im Eigenschaften-Memory bleiben die großen Aktionen bewusst breite Schilder. */
-#startGame.banner-button,#ready.banner-button,#again.banner-button{width:min(100%,640px)!important;}
-.mode-picker:has(.banner-button){grid-template-columns:minmax(0,1fr)!important;max-width:650px!important}
+.banner-button .banner-label{
+ position:relative;z-index:1;display:block;min-width:0;
+ overflow-wrap:anywhere;
+}
+.banner-button:hover{filter:brightness(1.07)}
+.banner-button:focus-visible{outline:5px solid #db8b16!important;outline-offset:3px!important}
+.banner-button:active{filter:brightness(.93)}
+.banner-button[aria-pressed="true"],.banner-button.mode-selected,
+.banner-button.active{
+ outline:5px solid #165942!important;
+ outline-offset:2px!important;
+ filter:brightness(.86) saturate(1.22);
+ box-shadow:0 0 0 9px #f5ca53!important;
+}
+.banner-button[aria-pressed="true"] .banner-label::after,
+.banner-button.mode-selected .banner-label::after,
+.banner-button.active .banner-label::after{
+ content:" ✓";font-weight:1000;
+}
+.banner-button[aria-pressed="false"]{filter:none;outline:2px solid #b8c5bc!important;outline-offset:1px!important;}
+.banner-button:disabled{opacity:.55;cursor:default}
+.mode-picker:has(.banner-button){grid-template-columns:1fr!important;max-width:650px!important}
 #modeSolo.banner-button,#modeTwo.banner-button{width:100%!important}
+#startGame.banner-button,#ready.banner-button,#again.banner-button{width:min(100%,640px)!important}
+.games .game .play.banner-button{min-height:95px!important;width:100%!important}
+@media(max-width:540px){
+ .banner-button{
+  border-width:0 40px!important;
+  border-image-width:0 40px 0 40px!important;
+  padding:calc(12px * var(--banner-scale)) 4px!important;
+  font-size:calc(21px * var(--banner-scale))!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){.banner-button{transition:none!important}}
