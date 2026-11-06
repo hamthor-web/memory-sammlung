@@ -16,7 +16,18 @@
 <label>Spieler 1 <input id="duoName0" maxlength="20" value="Spieler 1"></label>
 <label>Spieler 2 <input id="duoName1" maxlength="20" value="Spieler 2"></label>
 </div>
-<p>Schau dir die Bilder in Ruhe an. Merke dir, wo sie liegen. Tippe ein Bild an, um es groß zu lesen.</p><div class="settings"><label>Schwierigkeit <select id="level" aria-label="Schwierigkeit"><option value="1">1 · Eine Eigenschaft</option><option value="2">2 · Zwei Eigenschaften</option><option value="3">3 · Kombination & Ausschluss</option></select></label><label>Bildkarten <select id="count" aria-label="Bildkarten"><option value="6">6 Karten</option><option value="12">12 Karten</option><option value="18">18 Karten</option></select></label></div><p id="levelHint" class="hint"></p></section>
+<p>Schau dir die Bilder in Ruhe an. Merke dir, wo sie liegen. Tippe ein Bild an, um es groß zu lesen.</p><div class="settings">
+  <fieldset class="big-setting"><legend>Schwierigkeit wählen</legend><div class="setting-buttons" id="levelButtons">
+    <button type="button" data-value="1">1 · Eine Eigenschaft</button>
+    <button type="button" data-value="2">2 · Zwei Eigenschaften</button>
+    <button type="button" data-value="3">3 · Kombination &amp; Ausschluss</button>
+  </div></fieldset>
+  <fieldset class="big-setting"><legend>Wie viele Bildkarten?</legend><div class="setting-buttons count-buttons" id="countButtons">
+    <button type="button" data-value="6">6 Karten</button>
+    <button type="button" data-value="12">12 Karten</button>
+    <button type="button" data-value="18">18 Karten</button>
+  </div></fieldset>
+</div><div class="native-settings" hidden aria-hidden="true"><label>Schwierigkeit <select id="level" aria-label="Schwierigkeit"><option value="1">1 · Eine Eigenschaft</option><option value="2">2 · Zwei Eigenschaften</option><option value="3">3 · Kombination & Ausschluss</option></select></label><label>Bildkarten <select id="count" aria-label="Bildkarten"><option value="6">6 Karten</option><option value="12">12 Karten</option><option value="18">18 Karten</option></select></label></div><p id="levelHint" class="hint"></p></section>
 <section id="game">
 <div id="duoScore" class="duo-score" hidden aria-live="polite">
 <div id="duoCard0" class="duo-player active"><strong id="duoLabel0">Spieler 1</strong><span id="duoPoints0">0 Karten</span></div>
