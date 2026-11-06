@@ -17,7 +17,7 @@
  border-image-repeat:stretch!important;
  border-image-outset:0!important;
  border-radius:0!important;
- background:transparent!important;
+ background:#ece8dd!important;
  box-shadow:none!important;
  margin:8px auto!important;
  text-decoration:none!important;
@@ -30,10 +30,12 @@
 }
 .banner-button.banner-blue{
  border-image-source:url("assets/buttons/fuehlmemory-ohne-deko.png")!important;
+ background-color:#32678f!important;
  color:#fff!important;text-shadow:0 2px 3px #09283f,0 0 3px #09283f!important;
 }
 .banner-button.banner-paper{
  border-image-source:url("assets/buttons/memory-ohne-deko.png")!important;
+ background-color:#f4ead5!important;
  color:#101918!important;text-shadow:0 1px 2px #fff!important;
 }
 .banner-button .banner-label{
