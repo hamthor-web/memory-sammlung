@@ -1,22 +1,23 @@
-/* Eingangsanimation für Fühlmemory und Ein Wort – zwei Bedeutungen. */
+/* Eingangsanimationen für die drei Memory-Spiele. */
 #introOverlay[hidden]{display:none!important}
 #introOverlay{
  position:fixed;inset:0;z-index:9999;
  display:grid;place-items:center;
  background:#f5f2e9;
- padding:clamp(12px,3vw,32px);
+ --intro-padding:clamp(12px,3vw,32px);
+ padding:var(--intro-padding);
 }
 #introOverlay .intro-inner{
- width:min(100%,960px);display:flex;flex-direction:column;align-items:center;gap:18px;
+ width:min(100%,960px);max-height:100%;display:flex;flex-direction:column;align-items:center;gap:18px;
 }
 #introVideo{
  display:block;
  max-width:100%;width:100%;height:auto;
- max-height:75dvh;object-fit:contain;
+ max-height:max(60px,calc(100dvh - 2 * var(--intro-padding) - 94px));min-height:0;object-fit:contain;
  border-radius:20px;background:transparent;
 }
 #introSkip{
- align-self:center;font:800 clamp(19px,3.5vw,25px)/1.3 system-ui,sans-serif;
+ flex-shrink:0;align-self:center;font:800 clamp(19px,3.5vw,25px)/1.3 system-ui,sans-serif;
  padding:14px 26px;min-height:54px;border:2px solid #24776b;
  background:#fffdf0;color:#173c2a;border-radius:16px;cursor:pointer;
 }

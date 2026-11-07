@@ -3,6 +3,7 @@
 (function(){
  'use strict';
  const clips={
+  'synonymmemory/index.html':'assets/intro/synonymmemory.mp4',
   'eigenschaften.html':'assets/intro/fuehlmemory.mp4',
   'wortmemory/index.html':'assets/intro/wortmemory.mp4',
   'wortmemory/test-zweispieler-2026-11-06.html':'assets/intro/wortmemory.mp4'
