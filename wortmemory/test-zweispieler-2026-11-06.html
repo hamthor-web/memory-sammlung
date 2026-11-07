@@ -685,7 +685,7 @@ function showQuiz(pair) {
           closeModal();
           pendingQuiz=null;
           busy=false;
-          if(found===currentPairs.length) later(showFinish,180);
+          if(found===currentPairs.length) later(showJubelBeforeFinish,180);
           else nextPlayer();
         },700);
       } else {
@@ -720,6 +720,40 @@ function showCollectedPairs(playerIndex) {
   document.getElementById('modal').classList.add('show');
   panel.focus();
   panel.querySelector('#galleryBack').onclick=showFinish;
+}
+// Jubel nach der letzten vollständig beantworteten Satz-Bild-Aufgabe, nur einmal pro Runde.
+function showJubelBeforeFinish() {
+  busy=true;
+  const panel=document.getElementById('panel');
+  panel.innerHTML=`
+    <h2>Geschafft!</h2>
+    <video id="wordJubelVideo" playsinline muted preload="auto"
+      aria-label="Das Würstchen jongliert eine Karte mit Obstbirne und Glühbirne"
+      style="display:block;width:min(100%,420px);max-height:60dvh;object-fit:contain;margin:0 auto"
+      src="../assets/animations/Wuerstchen_Jubel_Birne_Gluehbirne.mp4"></video>
+    <div class="finish-actions"><button type="button" id="skipWordJubel">Weiter</button></div>`;
+  document.getElementById('modal').classList.add('show');
+  panel.focus();
+  const video=panel.querySelector('#wordJubelVideo');
+  let finished=false;
+  let failsafe=0;
+  function finish() {
+    if(finished)return;
+    finished=true;
+    clearTimeout(failsafe);
+    video.pause();
+    showFinish();
+  }
+  panel.querySelector('#skipWordJubel').onclick=finish;
+  video.addEventListener('ended',finish,{once:true});
+  video.addEventListener('error',finish,{once:true});
+  failsafe=setTimeout(finish,9000);
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    finish();
+    return;
+  }
+  const attempt=video.play();
+  if(attempt && typeof attempt.catch==='function')attempt.catch(finish);
 }
 function showFinish() {
   busy=true;
