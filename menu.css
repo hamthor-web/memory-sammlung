@@ -563,3 +563,61 @@ footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
     font-size:clamp(17px,4.2vw,24px)!important;
   }
 }
+
+
+/* Einheitliche Skalierung der vier Startschilder (07.11.2026). */
+/* Die sichtbare Bedienflaeche ist in beiden Spalten gleich hoch.
+   Das Motiv des vierten Schildes wird als 9-Slice mit festen Endstuecken
+   aufgebaut, damit die Figur nicht verzerrt wird. */
+.games .game > a.play.banner-button,
+.games .game-verrueckt > a.play-verrueckt {
+  box-sizing:border-box!important;
+  display:flex!important;
+  width:100%!important;
+  height:95px!important;
+  min-height:95px!important;
+  max-height:95px!important;
+  margin:0 auto!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.games .game-verrueckt > a.play-verrueckt {
+  position:relative!important;
+  padding:8px 6px 8px 30px!important;
+  background:none!important;
+  background-image:none!important;
+  color:#23452c!important;
+  font-size:clamp(16px,2.8vw,25px)!important;
+  overflow:hidden!important;
+}
+.games .game-verrueckt > a.play-verrueckt::before {
+  display:block!important;
+  content:"";
+  position:absolute!important;
+  inset:0!important;
+  z-index:-1!important;
+  pointer-events:none!important;
+  background:none!important;
+  border:0 solid transparent!important;
+  border-width:0 clamp(35px,4.8vw,55px)!important;
+  border-image-source:url("verrueckt-gesucht/assets/buttons/los-gehts-v1.svg")!important;
+  border-image-slice:0 145 0 145 fill!important;
+  border-image-width:0 clamp(35px,4.8vw,55px) 0 clamp(35px,4.8vw,55px)!important;
+  border-image-repeat:stretch!important;
+}
+.games .game-verrueckt .verrueckt-button-label {
+  position:relative;
+  z-index:1;
+  padding:0!important;
+  margin:0!important;
+  font-size:inherit!important;
+  line-height:1.1!important;
+  white-space:nowrap;
+}
+@media(max-width:620px) {
+  .games .game-verrueckt > a.play-verrueckt {
+    padding-left:clamp(27px,8vw,36px)!important;
+    padding-right:2px!important;
+    font-size:clamp(15px,4vw,19px)!important;
+  }
+}
