@@ -621,3 +621,85 @@ footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
     font-size:clamp(15px,4vw,19px)!important;
   }
 }
+
+
+/* 07.11.2026: Schildermotive proportional statt Border-Image-Streckung. */
+/* Zwei schmale Spalten bieten nicht genug Platz, um die 6:1-Originale
+   gleichzeitig formatfuellend UND unverzerrt darzustellen.
+   Deshalb: ruhige Schildflaeche, originale Illustrationen als separate,
+   proportional skalierte Ausschnitte. Keine 9-Slice-Verformung. */
+.games .game-paper:not(.game-synonyms) > a.play.banner-paper,
+.games .game-verrueckt > a.play-verrueckt {
+  position:relative!important;
+  isolation:isolate!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:95px!important;
+  min-height:95px!important;
+  max-height:95px!important;
+  border:2px solid #a9d4df!important;
+  border-image:none!important;
+  border-radius:24px!important;
+  background:#f4efde!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  padding:8px 8px 8px 36px!important;
+  overflow:hidden!important;
+}
+.games .game-paper:not(.game-synonyms) > a.play.banner-paper::before,
+.games .game-verrueckt > a.play-verrueckt::before {
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:-1!important;
+  pointer-events:none!important;
+  top:0!important;
+  bottom:0!important;
+  left:0!important;
+  width:49px!important;
+  border:0!important;
+  border-image:none!important;
+  background-repeat:no-repeat!important;
+  background-position:left center!important;
+  background-size:auto 87px!important;
+}
+.games .game-paper:not(.game-synonyms) > a.play.banner-paper::before {
+  background-image:url("assets/buttons/btn-memory.png")!important;
+}
+.games .game-verrueckt > a.play-verrueckt::before {
+  background-image:url("verrueckt-gesucht/assets/buttons/los-gehts-v1.svg")!important;
+}
+.games .game-paper:not(.game-synonyms) > a.play.banner-paper::after {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  pointer-events:none;
+  top:0;
+  bottom:0;
+  right:0;
+  width:24px;
+  background:url("assets/buttons/btn-memory.png") right center / auto 87px no-repeat;
+}
+.games .game-paper:not(.game-synonyms) .banner-label,
+.games .game-verrueckt .verrueckt-button-label {
+  position:relative!important;
+  z-index:1!important;
+  padding:0!important;
+  margin:0!important;
+  color:#173c2a!important;
+  text-shadow:none!important;
+  font-size:clamp(15px,3.5vw,22px)!important;
+  font-weight:900!important;
+  line-height:1.12!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+}
+@media(max-width:620px){
+  .games .game-paper:not(.game-synonyms) > a.play.banner-paper,
+  .games .game-verrueckt > a.play-verrueckt {
+    padding:7px 5px 7px 39px!important;
+  }
+}
