@@ -1,0 +1,15 @@
+/* Gemeinsamer gut erreichbarer Rueckweg auf Spielseiten. */
+.collection-return {
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ min-height:52px;
+ padding:9px 14px;
+ border:2px solid #416c55;
+ border-radius:14px;
+ background:#f4f5e9;
+ color:#214635;
+ font:800 clamp(18px,2.7vw,23px)/1.25 system-ui,sans-serif;
+ text-decoration:none;
+}
+.collection-return:focus-visible {outline:4px solid #d8981c;outline-offset:3px}
