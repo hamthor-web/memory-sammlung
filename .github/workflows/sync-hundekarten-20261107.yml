@@ -1,0 +1,58 @@
+name: Hundekarten aktualisieren 2026-11-07
+on:
+  push:
+    paths:
+      - '.github/workflows/sync-hundekarten-20261107.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Zwei Hundekarten aus verifiziertem Quellcommit übernehmen
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, urllib.request, re
+          root=Path('verrueckt-gesucht')
+          source='https://raw.githubusercontent.com/hamthor-web/Verruecktes_lesen_und_finden/e5d4b28001b91b1f507991949c16862d8929cd9b/assets/'
+          checks={'05':'247310ea30cbccfecd7728d2f4deda3be3e8e5af721645ec4707e092e6a98fc0','06':'ecda7569c6441de7f777cbdf8b25e64514373c1ca00ea8d34727bc1d2d97dc26'}
+          data=(root/'data.js').read_text(encoding='utf-8')
+          sw=(root/'sw.js').read_text(encoding='utf-8')
+          for n,sha in checks.items():
+              old='assets/hund-gelbe-nase-'+n+'.svg'
+              new='assets/hund-nasen-neu-'+n+'.webp'
+              assert data.count(old)==1, (old,'data')
+              assert sw.count(old)==1, (old,'cache')
+              assert (root/old).exists() and not (root/new).exists()
+              raw=urllib.request.urlopen(source+'hund-nasen-neu-'+n+'.webp',timeout=30).read()
+              assert hashlib.sha256(raw).hexdigest()==sha, 'Bilddatei nicht identisch'
+              (root/new).write_bytes(raw)
+              data=data.replace(old,new)
+              sw=sw.replace(old,new)
+              (root/old).unlink()
+          m=re.search(r"const VERSION='([^']+)'",sw)
+          assert m
+          sw=sw.replace(m.group(0),"const VERSION='"+m.group(1)+"-hund-nasen-neu-20261107'")
+          (root/'data.js').write_text(data,encoding='utf-8')
+          (root/'sw.js').write_text(sw,encoding='utf-8')
+          cache=Path('sw.js')
+          text=cache.read_text(encoding='utf-8')
+          m=re.search(r"const VERSION='v(\d+)'",text)
+          assert m
+          text=text.replace(m.group(0),"const VERSION='v"+str(int(m.group(1))+1)+"'",1)
+          cache.write_text(text,encoding='utf-8')
+          assert 'hund-gelbe-nase' not in data+sw
+          print('Beide Bilddateien, Kartendaten, beide Caches und Löschungen geprüft')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A verrueckt-gesucht/data.js verrueckt-gesucht/sw.js verrueckt-gesucht/assets/hund* sw.js
+          git diff --cached --stat
+          git commit -m 'Verrückt gesucht: neue Hundekarten in Memory-Sammlung übernehmen'
+          git push origin HEAD:main
