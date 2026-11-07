@@ -30,12 +30,12 @@
 
 .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
   --deco-size:clamp(56px,9vw,90px);
-  background-image:url("assets/buttons/btn-memory.png")!important;
+  background-image:radial-gradient(ellipse at 35% 30%,#fff6e2 0%,transparent 68%),linear-gradient(110deg,#eee0c2 0%,#fbf0db 48%,#f3e6ce 100%)!important;
   padding:12px calc(var(--deco-size)*1.08) 12px calc(var(--deco-size)*.78)!important;
 }
 .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
   --deco-size:clamp(68px,10vw,94px);
-  background-image:url("verrueckt-gesucht/assets/buttons/los-gehts-v1.svg")!important;
+  background-image:radial-gradient(ellipse at 35% 30%,#fff6e2 0%,transparent 68%),linear-gradient(110deg,#eee0c2 0%,#fbf0db 48%,#f3e6ce 100%)!important;
   padding:12px 12px 12px calc(var(--deco-size)*.86)!important;
 }
 
