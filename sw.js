@@ -1,5 +1,5 @@
 // Change VERSION whenever published application files change.
-const VERSION='v51';
+const VERSION='v52';
 const PREFIX='fuehlmemory:'+self.registration.scope+':';
 const CACHE=PREFIX+VERSION;
 const files=['./','index.html','style.css','cards.js','engine.js','app.js','profile-store.js','profiles.js','CARD_MATRIX.csv','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','assets/backs/memory-boy.png','assets/backs/question-mark.png'];
@@ -8,6 +8,7 @@ files.push('wortmemory/linse-fernrohr.png');
 files.push('assets/buttons/memory-paper.svg','assets/buttons/memory-blue.svg','assets/buttons/fuehlmemory-ohne-deko.png','assets/buttons/memory-ohne-deko.png','wortmemory/test-zweispieler-2026-11-06.html');
 files.push('synonymmemory/index.html','synonymmemory/style.css','synonymmemory/app.js','synonymmemory/data.js','assets/menu/synonymmemory.webp','assets/buttons/synonymmemory-paper.png');
 files.push('assets/intro/synonymmemory.mp4','assets/buttons/eigenschaften-blueten.png','assets/buttons/eigenschaften-efeu.png');
+files.push('collection-navigation.js','collection-navigation.css');
 files.push('verrueckt-gesucht/index.html','verrueckt-gesucht/assets/knurpsel/stufe-08.png','verrueckt-gesucht/assets/buttons/los-gehts-v1.svg','assets/intro/verrueckt-gesucht.mp4');
 // Beide undekorierten Originalbilder sind im Repository bestätigt.
 importScripts('cards.js');
