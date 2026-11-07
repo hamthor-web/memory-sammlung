@@ -37,3 +37,5 @@ jobs:
           git diff --cached --check
           git commit -m "Integrate Verrueckt gesucht unchanged as fourth game; two-column start menu"
           git push origin HEAD:main
+
+# Retry after classifying the source's legacy browser-mock test separately.
