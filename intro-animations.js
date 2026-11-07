@@ -3,6 +3,7 @@
 (function(){
  'use strict';
  const clips={
+  'verrueckt-gesucht/index.html':'assets/intro/verrueckt-gesucht.mp4',
   'synonymmemory/index.html':'assets/intro/synonymmemory.mp4',
   'eigenschaften.html':'assets/intro/fuehlmemory.mp4',
   'wortmemory/index.html':'assets/intro/wortmemory.mp4',
