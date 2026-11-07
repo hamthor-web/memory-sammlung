@@ -479,3 +479,42 @@ footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
 .profile-system-buttons button{min-width:0;min-height:65px;padding:12px 9px;font-size:clamp(17px,2.5vw,22px);line-height:1.25;overflow-wrap:anywhere}
 #updateStatus{font-size:clamp(16px,2vw,20px);line-height:1.4;margin:14px 0 4px}
 @media(max-width:400px){.profile-system-buttons{grid-template-columns:minmax(0,1fr)}}
+
+/* 07.11.2026: Original-Würstchen niemals in X/Y unabhängig strecken.
+   Breite Schilder: unveränderte Endstücke, nur die freie Mitte dehnen.
+   Enge Zweispalten-Kacheln: das vollständige Motiv proportional einpassen. */
+.games .game-verrueckt > a.play-verrueckt {
+ position:relative!important;
+ isolation:isolate;
+ background:none!important;
+ background-image:none!important;
+ min-height:96px!important;
+ height:auto!important;
+ border:0!important;
+ padding:12px 6px!important;
+}
+.games .game-verrueckt > a.play-verrueckt::before {
+ content:"";
+ position:absolute;
+ inset:0;
+ z-index:-1;
+ pointer-events:none;
+ border:0 solid transparent;
+ border-width:0 65px;
+ border-image-source:url("verrueckt-gesucht/assets/buttons/los-gehts-v1.svg");
+ border-image-slice:0 150 0 150 fill;
+ border-image-width:0 65px 0 65px;
+ border-image-repeat:stretch;
+}
+.games .game-verrueckt .verrueckt-button-label {
+ position:relative;
+ padding-left:clamp(8px,4%,24px);
+}
+@media(max-width:700px){
+ .games .game-verrueckt > a.play-verrueckt {
+  background:transparent url("verrueckt-gesucht/assets/buttons/los-gehts-v1.svg") center / contain no-repeat!important;
+  min-height:96px!important;
+  padding:12px 5px 12px 17%!important;
+ }
+ .games .game-verrueckt > a.play-verrueckt::before{display:none}
+}
