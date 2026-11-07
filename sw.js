@@ -1,5 +1,5 @@
 // Change VERSION whenever published application files change.
-const VERSION='v63';
+const VERSION='v64';
 const PREFIX='fuehlmemory:'+self.registration.scope+':';
 const CACHE=PREFIX+VERSION;
 const files=['./','index.html','style.css','cards.js','engine.js','app.js','profile-store.js','profiles.js','CARD_MATRIX.csv','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','assets/backs/memory-boy.png','assets/backs/question-mark.png'];
@@ -10,6 +10,7 @@ files.push('synonymmemory/index.html','synonymmemory/style.css','synonymmemory/a
 files.push('assets/intro/synonymmemory.mp4','assets/buttons/eigenschaften-blueten.png','assets/buttons/eigenschaften-efeu.png');
 files.push('assets/buttons/word-left-slice.svg','assets/buttons/word-center-slice.svg','assets/buttons/word-right-slice.svg','assets/buttons/verrueckt-left-slice.svg','assets/buttons/verrueckt-middle-slice.svg','assets/buttons/verrueckt-right-slice.svg');
 files.push('menu-layered-buttons.css');
+files.push('assets/buttons/cards-overlay-standalone.svg','assets/buttons/wuerstchen-overlay-standalone.svg');
 files.push('collection-navigation.js','collection-navigation.css','assets/buttons/los-gehts-verrueckt-menue.svg');
 files.push('verrueckt-gesucht/index.html','verrueckt-gesucht/assets/knurpsel/stufe-08.png','verrueckt-gesucht/assets/buttons/los-gehts-v1.svg','assets/intro/verrueckt-gesucht.mp4');
 // Beide undekorierten Originalbilder sind im Repository bestätigt.
