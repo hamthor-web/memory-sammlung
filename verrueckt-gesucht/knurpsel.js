@@ -1,6 +1,6 @@
 (function(root){
 'use strict';
-const stages=Array.from({length:11},(_,i)=>`assets/knurpsel/stufe-${String(i).padStart(2,'0')}.png`);
+const stages=Array.from({length:11},(_,i)=>`assets/knurpsel/stufe-${String(i).padStart(2,'0')}.webp`);
 class View extends TreeReward.View {
  constructor(mount,counter,dialog,onFinish,art={kind:'knurpsel',name:'Knurpsel',stages,duration:2000}){super(art,mount,counter,dialog,onFinish);this.picture.className='reward-picture knurpsel-picture'+(art.kind==='rakete'?' rakete-picture':'');this.picture.style.setProperty?.('--reward-duration',art.duration+'ms');}
  image(stage){if(!this.art.stages[stage]){const empty=document.createElement('div');empty.className='knurpsel-frame rakete-empty';empty.textContent='?';empty.setAttribute('aria-label','Deine Rakete entsteht mit der ersten Lösung');return empty;}const image=document.createElement('img');image.className='knurpsel-frame';image.src=this.art.stages[stage];image.alt=stage===0?`${this.art.name} am Anfang`:`${this.art.name} nach ${stage} gelösten Aufgaben${this.art.descriptions?', '+this.art.descriptions[stage-1]:''}`;image.draggable=false;return image;}

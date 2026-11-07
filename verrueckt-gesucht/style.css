@@ -210,3 +210,143 @@ body.playing .feedbackRow p{font-size:clamp(15px,1.8vw,19px)}
  .setup .intro h1{font-size:calc(clamp(30px,7.5vw,38px) + var(--setup-extra,0px))}
  .setup .intro p{font-size:calc(17px + var(--setup-extra,0px))}
 }
+
+
+/* Version C: jede Ansicht ist ein eigener Bildschirm. Hochformatregeln
+   dürfen ein ausgeblendetes #setup niemals wieder sichtbar machen. */
+#setup[hidden],#play[hidden],#gallery[hidden],#finish[hidden]{display:none!important}
+body.playing .top,body.view-gallery .top,body.view-finish .top{display:none!important}
+body.playing footer,body.view-gallery footer,body.view-finish footer{display:none!important}
+body.playing main,body.view-gallery main,body.view-finish main{padding-top:0}
+body.playing #play{min-height:100dvh;box-sizing:border-box}
+body.playing .roundhead{gap:12px;flex-wrap:wrap;margin-bottom:8px}
+#playBack{margin-left:auto;min-height:44px;background:#edf4e8;font-weight:750}
+body.view-gallery #gallery{
+  min-height:100dvh;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding-block:clamp(16px,3dvh,40px)
+}
+body.view-gallery #gallery[hidden]{display:none!important}
+body.view-gallery .gallery-grid{
+  align-content:center;
+  justify-content:center;
+  margin-block:clamp(14px,3dvh,30px)
+}
+body.view-gallery .gallery-header{justify-content:space-between}
+body.view-gallery .gallery-header h1{margin:5px 0}
+@media(max-width:650px){
+ body.playing #play{min-height:100dvh}
+ body.playing .roundhead{font-size:14px}
+ #playBack{font-size:13px;padding:9px 10px}
+ body.view-gallery #gallery{padding:14px 0 24px}
+}
+
+/* Release D: genau eine Bildschirmansicht. Das Display wird durch die
+   App-Navigation zusätzlich direkt mit Inline-!important gesichert. */
+#setup[hidden],#play[hidden],#gallery[hidden],#finish[hidden]{display:none!important}
+body[data-screen="play"] .top,body[data-screen="gallery"] .top,
+body[data-screen="finish"] .top{display:none!important}
+body[data-screen="play"] footer,body[data-screen="gallery"] footer,
+body[data-screen="finish"] footer{display:none!important}
+body[data-screen="play"] main,body[data-screen="gallery"] main{padding-block:0;min-height:100dvh}
+body[data-screen="play"] #play{
+ display:flex;flex-direction:column;justify-content:center;
+ min-height:100dvh;box-sizing:border-box;
+ padding-block:clamp(12px,2vh,36px)
+}
+body[data-screen="gallery"] #gallery{
+ display:flex;flex-direction:column;justify-content:center;
+ min-height:100dvh;padding-block:clamp(16px,3dvh,42px);
+ box-sizing:border-box
+}
+body[data-screen="gallery"] .gallery-header{width:100%}
+body[data-screen="gallery"] .gallery-grid{width:100%;align-content:center}
+@media(max-width:650px) and (orientation:portrait){
+ body[data-screen="play"] main{padding-inline:10px}
+ body[data-screen="gallery"] main{padding-inline:14px}
+}
+
+/* Release E: die Sammlung zeigt nur fertige Bilder und bleibt mittig. */
+body[data-screen="gallery"] #galleryGrid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),240px));
+ justify-content:center;
+ align-content:center;
+ gap:clamp(12px,2vw,20px);
+ width:100%;
+}
+.gallery-empty{grid-column:1/-1;margin:auto;text-align:center;max-width:500px;padding:28px 18px;background:#fff;border:1px solid #dfe5d8;border-radius:18px}
+body[data-screen="gallery"] #gallery{align-items:stretch}
+body[data-screen="gallery"] #gallery>.gallery-header{align-self:stretch}
+@media(max-width:420px){
+ body[data-screen="gallery"] #galleryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* 05.11.2026: Original-Würstchenvorlagen als echte Bedienelemente.
+   Der komplette Button bleibt anklickbar; Text liegt in der hellen Mitte. */
+#start.artButton,
+#start.artButton:hover,
+#start.artButton:focus-visible,
+#treeContinue.artButton,
+#treeContinue.artButton:hover,
+#treeContinue.artButton:focus-visible{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  border:0;
+  box-shadow:none;
+  border-radius:0;
+  background-color:transparent;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:100% 100%;
+  color:#254536;
+  text-align:center;
+  text-shadow:0 1px 1px #fff9;
+}
+#start.artButton,
+#start.artButton:hover,
+#start.artButton:focus-visible{
+  background-image:url("assets/buttons/los-gehts-v1.svg");
+  width:100%;
+  min-height:72px;
+  aspect-ratio:6 / 1;
+  margin-top:22px;
+  padding:9px 20% 9px 18%;
+  font-size:clamp(20px,3.5vw,26px);
+  font-weight:850;
+}
+#treeContinue.artButton,
+#treeContinue.artButton:hover,
+#treeContinue.artButton:focus-visible{
+  background-image:url("assets/buttons/weiter-v1.svg");
+  width:min(100%,550px);
+  min-height:68px;
+  aspect-ratio:6 / 1;
+  margin:6px auto 0;
+  padding:9px 21% 9px 16%;
+  font-size:clamp(21px,3.5vw,27px);
+  font-weight:850;
+  flex-shrink:0;
+}
+#start.artButton:active,#treeContinue.artButton:active{
+  transform:translateY(2px);
+  box-shadow:none;
+  filter:brightness(.98);
+}
+#start.artButton:focus-visible,#treeContinue.artButton:focus-visible{
+  outline:4px solid #d49e37;
+  outline-offset:2px;
+}
+#start.artButton:disabled,#treeContinue.artButton:disabled{
+  opacity:.65;
+  cursor:wait;
+}
+@media(max-width:420px){
+ #start.artButton{min-height:68px;font-size:21px}
+ #treeContinue.artButton{min-height:66px;font-size:21px}
+}

@@ -29,12 +29,12 @@
  overflow:visible!important;
 }
 .banner-button.banner-blue{
- border-image-source:url("assets/buttons/eigenschaften-efeu.png")!important;
+ border-image-source:url("assets/buttons/eigenschaften-efeu.webp")!important;
 
  color:#23452c!important;text-shadow:none!important;
 }
 .banner-button.banner-paper{
- border-image-source:url("assets/buttons/memory-ohne-deko.png")!important;
+ border-image-source:url("assets/buttons/memory-ohne-deko.webp")!important;
 
  color:#101918!important;text-shadow:0 1px 2px #fff!important;
 }
@@ -139,7 +139,7 @@ body.choosing-pairs #selection .banner-button .banner-label {
  margin:0 auto!important;
 }
 
-.banner-button.banner-synonyms{border-image-source:url("assets/buttons/synonymmemory-paper.png");color:#18352e;text-shadow:none}.banner-synonyms .banner-label{color:#18352e}
+.banner-button.banner-synonyms{border-image-source:url("assets/buttons/synonymmemory-paper.webp");color:#18352e;text-shadow:none}.banner-synonyms .banner-label{color:#18352e}
 
 /* Helles Efeuschild: dunkle Schrift und ruhige, weiterhin blaue Auswahl. */
 #start .setting-buttons .banner-blue.chosen,

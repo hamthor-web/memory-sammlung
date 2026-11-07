@@ -4,6 +4,7 @@ const VERSION=self.OFFLINE_VERSION;
 const PREFIX='fuehlmemory:'+self.registration.scope+':';
 const CACHE=PREFIX+VERSION;
 const files=self.OFFLINE_FILES;
+const aliases=self.OFFLINE_ALIASES||{};
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);let cursor=0;
  try{await Promise.all(Array.from({length:4},async()=>{while(cursor<files.length){const file=files[cursor++];const request=new Request(new URL(file,self.registration.scope),{cache:'reload'});const response=await fetch(request);if(!response.ok)throw Error('Offline-Datei fehlt: '+file);await cache.put(request,response);}}));}
@@ -33,9 +34,10 @@ self.addEventListener('fetch',event=>{
  const url=new URL(event.request.url);
  if(event.request.method!=='GET'||url.origin!==self.location.origin||!url.href.startsWith(self.registration.scope))return;
  event.respondWith((async()=>{
-  const cache=await caches.open(CACHE),cached=await cache.match(event.request.url,{ignoreSearch:true});
+  const relative=decodeURIComponent(url.pathname.slice(new URL(self.registration.scope).pathname.length)),alias=aliases[relative],target=alias?new URL(alias,self.registration.scope).href:event.request.url;
+  const cache=await caches.open(CACHE),cached=await cache.match(target,{ignoreSearch:true});
   if(cached)return event.request.headers.has('range')&&url.pathname.endsWith('.mp4')?rangeResponse(cached,event.request.headers.get('range')):cached;
   // Never mask a missing game document with the menu, or mix uncached app code into a release.
-  return fetch(event.request);
+  return fetch(alias?target:event.request);
  })());
 });

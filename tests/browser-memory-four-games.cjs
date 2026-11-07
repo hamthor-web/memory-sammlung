@@ -1,8 +1,8 @@
 const {chromium} = require('playwright');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
-const base='http://127.0.0.1:8765/';
-const entries=['eigenschaften.html','wortmemory/test-zweispieler-2026-11-06.html','synonymmemory/index.html','verrueckt-gesucht/index.html'];
+const base=process.env.TEST_BASE||'http://127.0.0.1:8765/';
+const entries=['eigenschaften.html','wortmemory/index.html','synonymmemory/index.html','verrueckt-gesucht/index.html'];
 (async()=>{
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN||undefined,args:['--no-sandbox']});
 try{
