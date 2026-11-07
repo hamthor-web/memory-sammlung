@@ -34,7 +34,7 @@
  color:#23452c!important;text-shadow:none!important;
 }
 .banner-button.banner-paper{
- border-image-source:url("assets/buttons/memory-ohne-deko.png")!important;
+ border-image-source:url("assets/buttons/btn-memory.png")!important;
 
  color:#101918!important;text-shadow:0 1px 2px #fff!important;
 }
@@ -165,4 +165,34 @@ body.choosing-pairs #selection .banner-button .banner-label {
    Der Versatz waechst mit dem Schriftzoom; die Schildhoehe bleibt flexibel. */
 .banner-button.banner-blue .banner-label {
  top:calc(8px * var(--banner-scale));
+}
+
+/* 07.11.2026: Wortmemory mit Heikes ORIGINAL-Button (1200 x 200).
+   Endmotive erhalten eigene Randsegmente; nur die Pergamentmitte
+   wird in der Breite an die vorhandene Bedienflaeche angepasst. */
+.banner-button.banner-paper {
+  border-image-slice:0 260 0 185 fill!important;
+  border-image-width:0 76px 0 57px!important;
+  border-image-repeat:stretch!important;
+  border-radius:0!important;
+  text-shadow:0 1px 2px #fff!important;
+}
+@media(max-width:700px){
+ .banner-button.banner-paper {
+  border-image-slice:0 260 0 185 fill!important;
+  border-image-width:0 48px 0 38px!important;
+ }
+}
+/* In der engen zweispaltigen Spielauswahl duerfen die Woerter
+   nicht von den dekorierten Bildenden ueberdeckt werden. */
+@media(max-width:620px){
+ .games .game-paper:not(.game-synonyms) .banner-button.banner-paper {
+  padding-inline:0!important;
+  font-size:clamp(16px,4.2vw,19px)!important;
+  line-height:1.1!important;
+ }
+ .games .game-paper:not(.game-synonyms) .banner-button.banner-paper .banner-label {
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+ }
 }
