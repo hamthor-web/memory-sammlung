@@ -471,3 +471,11 @@ footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
     font-size:clamp(21px,5vw,27px)!important;
  }
 }
+
+/* Installation und Aktualisierung jederzeit im Profildialog erreichbar. */
+.profile-system-actions{margin-top:25px;padding-top:15px;border-top:2px solid #b7cbb7}
+.profile-system-actions h3{font-size:clamp(21px,3vw,27px);margin:6px 0 14px}
+.profile-system-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.profile-system-buttons button{min-width:0;min-height:65px;padding:12px 9px;font-size:clamp(17px,2.5vw,22px);line-height:1.25;overflow-wrap:anywhere}
+#updateStatus{font-size:clamp(16px,2vw,20px);line-height:1.4;margin:14px 0 4px}
+@media(max-width:400px){.profile-system-buttons{grid-template-columns:minmax(0,1fr)}}
