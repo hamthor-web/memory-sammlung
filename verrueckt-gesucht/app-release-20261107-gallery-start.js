@@ -11,6 +11,7 @@ function ensureGalleryVersionControls(){
  const versions=ensure('galleryVersionsDialog','dialog',document.body);
  versions.setAttribute('aria-labelledby','galleryVersionsTitle');
  ensure('galleryVersionsTitle','h2',versions,'Deine Bilder');
+ if(!$('galleryVersionsHint')&&versions.querySelector('p'))versions.querySelector('p').id='galleryVersionsHint';
  ensure('galleryVersionsHint','p',versions,'Welches Bild möchtest du noch einmal anschauen?');
  ensure('galleryVersionsGrid','div',versions);
  const close=ensure('galleryVersionsClose','button',versions,'Zurück zu meinen Geschichten');close.type='button';close.classList.add('primary');
