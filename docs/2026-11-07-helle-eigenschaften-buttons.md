@@ -1,0 +1,5 @@
+# Eigenschaften-Memory – helles Blütenschild, 07.11.2026
+
+Heike hat die bisherigen blauen Schilder als zu wuchtig beurteilt und die helle Blütenvorlage für deren Ersatz freigegeben. Die Original-PNG wird unverändert unter `assets/buttons/eigenschaften-blueten.png` verwendet. Alle bisher blauen Aktions- und Auswahlbuttons im Eigenschaften-Memory sowie dessen Startbutton auf der gemeinsamen Spielauswahl nutzen jetzt diese Vorlage. Die Beschriftung ist dunkelpetrol (#173d46), mit dezenter weißer Textkontur. Gewählte Optionen haben einen schmaleren blauen Außenrand und ein blaues Häkchen; keine Abdunklung. Die hellen Schilder der anderen Spiele behalten ihre Vorlagen.
+
+Technik: `button-schilder.css`, neues PNG, Offline-Cache v44 in `sw.js`. Die ursprüngliche blaue Vorlage bleibt erhalten. PWA-Prüfung mit 107 Offline-Dateien, Manifest und Video-Teilabrufen bestanden; Git-Diff ohne Whitespacefehler. Lokale automatisierte Browserprüfung wegen nicht startbarem Chromium derzeit blockiert. Visuelle Browserprüfung der veröffentlichten Fassung folgt; echte Handy-/Tabletprüfung bleibt ergänzend erforderlich.
