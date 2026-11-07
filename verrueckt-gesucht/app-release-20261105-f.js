@@ -12,7 +12,7 @@ adjustPortraitSetup();
 window.addEventListener('resize',adjustPortraitSetup);
 window.addEventListener('orientationchange',adjustPortraitSetup);
 
-let level=1,number=0,round=null,locked=false,used=[],lastStyle=-1,errors=0,firstTry=0,missed=false,activeRewardId='pfau',rewardMode='random';
+let level=1,number=0,round=null,locked=false,used=[],lastStyle=-1,errors=0,firstTry=0,missed=false,activeRewardId='pfau',rewardMode='random',completionId=null;
 const rewardIds=['pfau','baum','knurpsel','rakete','blumenwiese','wundereiche','kinderzimmer','marsmission','baumhaus','unterwasserwelt','matschwiese'];
 const rewardKey='verrueckt-gesucht-rewards-v1';
 function loadRewards(){const obj=CollectionSession.rewards();return {used:obj.used.filter(x=>rewardIds.includes(x)),finished:obj.finished};}
@@ -40,9 +40,10 @@ function chooseRewardId(){
  return avail[Math.floor(Math.random()*avail.length)];
 }
 function rememberReward(){
- if(!rewardHistory.used.includes(activeRewardId))rewardHistory.used.push(activeRewardId);
- rewardHistory.finished[activeRewardId]={model:rewardModel(),date:new Date().toISOString()};
- return saveRewards();
+ if(!reward.state.complete||number!==10)return false;
+ const saved=CollectionSession.completeReward(activeRewardId,{runId:completionId,model:rewardModel(),date:new Date().toISOString(),progress:reward.state.progress});
+ if(saved)rewardHistory=loadRewards();
+ return saved;
 }
 
 
@@ -50,7 +51,7 @@ for(const id of ['VG-01-01','VG-03-05','VG-10-03']){const c=data.cards.find(c=>c
 document.querySelectorAll('[data-level]').forEach(b=>b.onclick=()=>{level=Number(b.dataset.level);document.querySelectorAll('[data-level]').forEach(x=>{const yes=x===b;x.classList.toggle('selected',yes);x.setAttribute('aria-pressed',String(yes));});});
 let reward=new PeacockReward.View(PFAU_ART,$('treeMount'),$('treeCounter'),$('treeDialog'),finish);
 let finishedSaved=false;
-function finish(){finishedSaved=rememberReward();if(finishedSaved)CollectionSession.clear('verrueckt-gesucht');$('result').textContent=`${firstTry} Aufgaben hast du beim ersten Versuch gefunden.`;show('finish');}
+function finish(){if(!reward.state.complete||number!==10)return;finishedSaved=rememberReward();if(finishedSaved)CollectionSession.clear('verrueckt-gesucht');$('result').textContent=`${firstTry} Aufgaben hast du beim ersten Versuch gefunden.`;show('finish');}
 const names=['','Einfach','Etwas schwieriger','Ganz schwierig'];
 // Jede Spielansicht erhält einen eigenen Verlaufseintrag: Android-Zurück und
 // Browser-Wischgeste kehren zur vorherigen Ansicht zurück statt die PWA zu beenden.
@@ -112,7 +113,7 @@ document.addEventListener('touchend',e=>{
 },{passive:true});
 document.addEventListener('touchcancel',()=>{startSwipe=null;},{passive:true});
 function createReward(){reward=activeRewardId==='blumenwiese'?new FlowerReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='wundereiche'?new WonderOakReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='kinderzimmer'?new BedroomReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='marsmission'?new MarsMissionReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='baumhaus'?new TreehouseReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='unterwasserwelt'?new UnderwaterReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='matschwiese'?new MeadowReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='rakete'?new RocketReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='knurpsel'?new KnurpselReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='baum'?new TreeReward.View(TREE_ART,$('treeMount'),$('treeCounter'),$('treeDialog'),finish):new PeacockReward.View(PFAU_ART,$('treeMount'),$('treeCounter'),$('treeDialog'),finish);}
-function start(){finishedSaved=false;reward.cancel();activeRewardId=chooseRewardId();$('treeContinue').textContent='Weiter';createReward();$('treeMount').replaceChildren();number=0;used=[];errors=0;firstTry=0;reward.reset();show('play');nextRound();}
+function start(){completionId=crypto.randomUUID();finishedSaved=false;reward.cancel();activeRewardId=chooseRewardId();$('treeContinue').textContent='Weiter';createReward();$('treeMount').replaceChildren();number=0;used=[];errors=0;firstTry=0;reward.reset();show('play');nextRound();}
 function nextRound(restored=null,savedText=null){const restoring=!!restored?.question;if(!restoring)number++;locked=false;if(!restoring)missed=false;$('next').hidden=true;$('feedback').textContent='Tippe auf das passende Bild.';
  try{round=restoring?restored:E.makeRound(data,matrix,{level,group:0,size:$('size').value,used});}catch(err){$('feedback').textContent=err.message;return;}
  if(!restoring)used.push(round.question.id);let style=Math.floor(Math.random()*7);if(style===lastStyle)style=(style+1)%7;lastStyle=style;
@@ -211,15 +212,18 @@ function renderGallery(){
   if(!entry)continue;
   count++;
   const card=document.createElement('button');
-  card.type='button';card.className='gallery-tile';card.disabled=false;
+  card.type='button';card.className='gallery-tile';card.dataset.story=id;card.disabled=false;
   const picture=document.createElement('div');picture.className='gallery-thumb';
-  const parsed=document.createElement('div');parsed.innerHTML=entry.html||'';
-  const scene=entry.model?rewardScene(entry.model,10):parsed.firstElementChild;
+  const latest=MemoryProgress.versionsFor(entry)[0];
+  const scene=finalGalleryScene(latest);
   if(scene){scene.removeAttribute('role');scene.removeAttribute('tabindex');picture.append(scene);}
   const label=document.createElement('strong');label.textContent=opt.textContent.replace(/ ✓$/,'');
-  const status=document.createElement('small');status.textContent='Noch einmal ansehen';
+  const total=MemoryProgress.completionCount(entry),variable=id==='pfau'||id==='baum';
+  if(variable&&total>1)card.classList.add('gallery-stack');
+  const status=document.createElement('small');status.className='gallery-count';status.textContent=variable?total+' '+(total===1?'Bild':'Bilder'):total+'-mal geschafft';
+  card.setAttribute('aria-label',label.textContent+', '+status.textContent+(variable&&total>1?'. Version auswählen':'. Noch einmal ansehen'));
   card.append(picture,label,status);
-  card.onclick=()=>showGalleryPicture(id,label.textContent);
+  card.onclick=()=>variable&&total>1?showGalleryVersions(id,label.textContent):showGalleryPicture(id,label.textContent,latest);
   grid.append(card);
  }
  if(!count){
@@ -243,7 +247,27 @@ function replayFrames(id,entry){
  return frames.length>1?frames:[entry.html];
 }
 function updateGalleryControls(){const last=galleryIndex===galleryFrames.length-1;$('galleryStep').textContent='Bild '+(galleryIndex+1)+' von '+galleryFrames.length;$('galleryNext').textContent=last?'Noch einmal von vorn ↺':'Nächstes Bild →';$('galleryNext').disabled=galleryBusy||galleryFrames.length<2;$('galleryPrev').disabled=galleryBusy||galleryIndex===0;}
-function showGalleryPicture(id,name){const entry=rewardHistory.finished[id];if(!entry)return;galleryRun++;galleryBusy=false;galleryFrames=replayFrames(id,entry);galleryIndex=0;$('galleryTitle').textContent=name;$('galleryPicture').replaceChildren(galleryScene(galleryFrames[0]));updateGalleryControls();$('galleryDialog').showModal();}
+function finalGalleryScene(entry){if(entry.model)return rewardScene(entry.model,10);return galleryScene(entry.html||'');}
+function showGalleryVersions(id,name){
+ const entry=rewardHistory.finished[id];if(!entry)return;
+ const versions=MemoryProgress.versionsFor(entry),grid=$('galleryVersionsGrid');grid.replaceChildren();$('galleryVersionsTitle').textContent=name+' – deine Bilder';
+ versions.forEach((version,index)=>{const card=document.createElement('button');card.type='button';card.className='gallery-version';card.dataset.version=String(index);
+  const thumb=document.createElement('div');thumb.className='gallery-thumb';thumb.append(finalGalleryScene(version));
+  const label=document.createElement('strong');label.textContent='Bild '+(versions.length-index)+(index===0?' · neuestes Bild':'');card.append(thumb,label);
+  card.onclick=()=>{$('galleryVersionsDialog').close();showGalleryPicture(id,name+' · Bild '+(versions.length-index),version,name);};grid.append(card);
+ });
+ $('galleryVersionsDialog').showModal();
+}
+function showGalleryPicture(id,name,version=null,storyName=name){
+ const entry=rewardHistory.finished[id];if(!entry)return;
+ galleryRun++;galleryBusy=false;galleryFrames=replayFrames(id,version||MemoryProgress.versionsFor(entry)[0]);galleryIndex=0;$('galleryTitle').textContent=name;$('galleryPicture').replaceChildren(galleryScene(galleryFrames[0]));updateGalleryControls();
+ $('galleryVersionsBack').hidden=!(new Set(['pfau','baum']).has(id)&&MemoryProgress.completionCount(entry)>1);
+ $('galleryVersionsBack').onclick=()=>{$('galleryDialog').close();showGalleryVersions(id,storyName);};
+ $('galleryDialog').showModal();
+}
+$('galleryVersionsClose').onclick=()=>$('galleryVersionsDialog').close();
+$('galleryVersionsDialog').onclick=event=>{if(event.target===$('galleryVersionsDialog'))$('galleryVersionsDialog').close();};
+
 async function moveGallery(step){if(galleryBusy||!$('galleryDialog').open||galleryFrames.length<2)return;const next=step<0?Math.max(0,galleryIndex-1):(galleryIndex+1)%galleryFrames.length;if(next===galleryIndex)return;galleryBusy=true;const run=galleryRun;updateGalleryControls();const host=$('galleryPicture'),outgoing=host.firstElementChild,incoming=galleryScene(galleryFrames[next]);incoming.style.opacity='0';host.append(incoming);
  const images=incoming.querySelectorAll('img');await Promise.all(Array.from(images,image=>typeof image.decode==='function'?image.decode().catch(()=>{}):Promise.resolve()));if(run!==galleryRun)return;
  outgoing.classList.add('gallery-leave');incoming.classList.add('gallery-enter');incoming.style.opacity='';await new Promise(resolve=>setTimeout(resolve,window.matchMedia('(prefers-reduced-motion: reduce)').matches?20:2050));if(run!==galleryRun)return;
@@ -259,18 +283,18 @@ show('setup',true);
 
 function snapshotVG(){
  if(finishedSaved||!round||!number||currentScreen!=='play')return null;
- return {level,size:$('size').value,number,used,lastStyle,errors,firstTry,missed,locked,activeRewardId,rewardMode,model:rewardModel(),reward:{round:reward.state.round,progress:reward.state.progress,solved:[...reward.state.solved]},round:{deck:round.deck.map(c=>c.id),questionId:round.question.id,answer:round.answer},questionText:$('question').textContent};
+ return {completionId,level,size:$('size').value,number,used,lastStyle,errors,firstTry,missed,locked,activeRewardId,rewardMode,model:rewardModel(),reward:{round:reward.state.round,progress:reward.state.progress,solved:[...reward.state.solved]},round:{deck:round.deck.map(c=>c.id),questionId:round.question.id,answer:round.answer},questionText:$('question').textContent};
 }
 function checkpointVG(){const state=snapshotVG();if(state)CollectionSession.save('verrueckt-gesucht',state);}
 function restoreVG(s){
  if(!rewardIds.includes(s.activeRewardId)||!s.round.deck.every(id=>data.cards.some(c=>c.id===id)))throw Error('Ungültige Runde');
- reward.cancel();level=s.level;$('size').value=s.size;number=s.number;used=s.used;lastStyle=s.lastStyle;errors=s.errors;firstTry=s.firstTry;missed=s.missed;locked=false;activeRewardId=s.activeRewardId;rewardMode=s.rewardMode;finishedSaved=false;
+ completionId=s.completionId||crypto.randomUUID();reward.cancel();level=s.level;$('size').value=s.size;number=s.number;used=s.used;lastStyle=s.lastStyle;errors=s.errors;firstTry=s.firstTry;missed=s.missed;locked=false;activeRewardId=s.activeRewardId;rewardMode=s.rewardMode;finishedSaved=false;
  createReward();reward.reset();reward.state=new TreeReward.Progress(s.reward.round);reward.state.progress=s.reward.progress;reward.state.solved=new Set(s.reward.solved);
  const scene=rewardScene(s.model,s.reward.progress);reward.picture.replaceChildren(...scene.childNodes);
  if(reward.art.stages)reward.current=reward.picture.firstElementChild;
  else{reward.base=reward.picture.querySelector('.pfau-base');reward.foreground=reward.picture.querySelector('.pfau-body');}
  reward.update();round={deck:s.round.deck.map(id=>data.cards.find(c=>c.id===id)),question:matrix.find(q=>q.id===s.round.questionId),answer:s.round.answer};
- if(s.locked){if(s.reward.progress===10){show('play');finish();}else{show('play');nextRound();}return;}
+ if(s.locked){if(s.reward.progress===10){show('play');checkpointVG();finish();}else{show('play');nextRound();}return;}
  // Reuse the board renderer with the saved question and card order, never draw a new task.
  show('play');nextRound(round,s.questionText);checkpointVG();
 }

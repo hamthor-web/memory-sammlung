@@ -51,6 +51,8 @@ Alle vier Spiele verwenden das im Menü ausgewählte Kinderprofil. Laufende Rund
 
 Bisher gemeinsam gespeicherte Fortschrittsbilder werden erst nach ausdrücklicher Auswahl einem Kind zugeordnet. Die ursprünglichen Daten bleiben als Sicherung erhalten. Profile sind lokale Einstellungen und keine geschützten Benutzerkonten; es gibt keine automatische Cloud-Synchronisierung. Schreibfehler im lokalen Speicher werden sichtbar gemeldet.
 
+Pfau und Baum sammeln jede fertige Gestaltung als eigene auswählbare Version. Geschichten mit unverändertem Bildablauf zeigen stattdessen die Anzahl der Abschlüsse. Vorhandene Einzelbilder bleiben erhalten und zählen als erster bekannter Abschluss.
+
 Zu zweit gilt in allen Memory-Spielen: Ein Treffer gibt einen Punkt und einen weiteren Zug. Nach einem Fehler bestätigt das nächste Kind die Übergabe mit „Ich bin bereit“. Ergänzende Leseaufgaben dürfen ohne zusätzlichen Punktabzug korrigiert werden.
 
 ## Installation und Offlinebetrieb

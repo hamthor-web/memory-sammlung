@@ -1,7 +1,7 @@
 /* Regenerate whenever application files change: node scripts/build-offline.cjs */
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const root=path.resolve(__dirname,'..');
-const selected=new Set(['./','index.html','eigenschaften.html','wortmemory/index.html','wortmemory/test-zweispieler-2026-11-06.html','synonymmemory/index.html','verrueckt-gesucht/index.html','verrueckt-gesucht/manifest.webmanifest','verrueckt-gesucht/pwa.js','verrueckt-gesucht/app-release-20261105-f.js','verrueckt-gesucht/style-release-20261105-f.css','offline-files.js']);
+const selected=new Set(['./','index.html','eigenschaften.html','wortmemory/index.html','wortmemory/test-zweispieler-2026-11-06.html','synonymmemory/index.html','verrueckt-gesucht/index.html','verrueckt-gesucht/manifest.webmanifest','verrueckt-gesucht/pwa.js','verrueckt-gesucht/app-release-20261105-f.js','verrueckt-gesucht/style-release-20261105-f.css','verrueckt-gesucht/gallery-versions.css','offline-files.js']);
 function walk(dir,accept){for(const ent of fs.readdirSync(path.join(root,dir),{withFileTypes:true})){const relative=path.posix.join(dir,ent.name);if(ent.isDirectory())walk(relative,accept);else if(accept(relative))selected.add(relative);}}
 for(const ent of fs.readdirSync(root)){if(/\.(?:js|css|png|svg|webmanifest|csv)$/.test(ent)&&ent!=='sw.js')selected.add(ent);}
 walk('assets',p=>/\.(?:png|webp|jpg|jpeg|svg|mp4|ogg|mp3|wav)$/.test(p));

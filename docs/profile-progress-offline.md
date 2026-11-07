@@ -21,6 +21,32 @@ keine weiteren Profile. „Verrückt gesucht!“ bleibt ein Einzelspiel.
   ausschließlich zum aktiven Kind. Neue Bilder speichern einen Aufbauplan;
   Bilddateien bzw. eingebettete Grafiken werden nicht pro Zwischenbild dupliziert.
 
+## Mehrfach abgeschlossene Fortschrittsgeschichten
+
+Pfau und Baum bewahren jeden vollständig abgeschlossenen Durchgang als eigene
+Version mit dem genauen Aufbauplan auf. Die Übersicht zeigt einen Bilderstapel
+mit der Anzahl. Antippen öffnet eine Auswahl mit allen Vorschaubildern, neueste
+Version zuerst. Von der Wiedergabe führt „Andere Version wählen“ zurück zur
+Auswahl. Neue Durchgänge verändern keine älteren Bilder.
+
+Die neun Geschichten mit festem Bildablauf behalten eine Vorschau und zeigen
+„2-mal geschafft“ usw. Jede Geschichte lässt sich weiterhin beliebig erneut
+spielen und ansehen. Abgebrochene Runden erhöhen den Zähler nicht.
+
+Ein bereits vorhandenes einzelnes Sammelbild zählt als ein bekannter Abschluss.
+Frühere Wiederholungen, deren Bilder überschrieben wurden, können nicht
+nachträglich rekonstruiert werden. Alte HTML-/Frame-Schnappschüsse bleiben auch
+als erste Version abspielbar. Zugeordnete gemeinsame Altbilder werden weiterhin
+aus ihrer unveränderten Sicherung gelesen und nicht in jede Version kopiert.
+
+Jede neue Runde bekommt eine feste Abschlusskennung im Checkpoint. Ein nach
+Unterbrechung erneut ausgeführter Abschluss wird dadurch nur einmal gezählt.
+Schlägt das Speichern fehl, bleiben vorherige Bilder erhalten und ein erneuter
+Versuch mit derselben Kennung zählt genau einmal. Die Speicherung bleibt pro
+Kinderprofil getrennt. Variable Bilder liegen unter `finished.<geschichte>.versions`
+(neueste zuerst); feste Geschichten behalten einen Aufbauplan mit `count` und
+den gespeicherten Abschlusskennungen.
+
 ## Bestehende gemeinsame Bilder
 
 Das Menü fragt ausdrücklich, wem die bisherigen Bilder gehören. Es gibt keine
@@ -79,11 +105,13 @@ Mit lokalem Server im Repository auf Port 8765 und installiertem Playwright:
 node verify.cjs
 node verify-pwa.cjs
 node tests/progress-store.cjs
+node tests/reward-history.cjs
 node tests/service-worker-update.cjs
 CHROME_BIN=/usr/bin/chromium node tests/browser-memory-four-games.cjs
 CHROME_BIN=/usr/bin/chromium node tests/browser-progress.cjs
 CHROME_BIN=/usr/bin/chromium node tests/browser-offline.cjs
 CHROME_BIN=/usr/bin/chromium node tests/browser-reward-resume.cjs
+CHROME_BIN=/usr/bin/chromium node tests/browser-reward-history.cjs
 ```
 
 Die Browsertests prüfen Profiltrennung und die ausdrückliche Altbildzuordnung,
