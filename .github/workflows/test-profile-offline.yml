@@ -51,6 +51,8 @@ jobs:
         run: node tests/browser-memory-four-games.cjs
       - name: Check profiles, rules, handovers and round recovery
         run: node tests/browser-progress.cjs
+      - name: Start with cached old HTML and current game code
+        run: node tests/browser-cached-gallery.cjs
       - name: Check saved artwork versions and repeat counts
         run: node tests/browser-reward-history.cjs
       - name: Recover all eleven reward stories

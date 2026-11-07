@@ -92,6 +92,13 @@ Aktualisierungsbutton im Menü aktiviert, nicht mitten in einer Runde.
 „Offline bereit – alle vier Spiele“ setzt die Prüfung aller Dateieinträge voraus.
 Videos unterstützen Byte-Range-Anfragen auch aus dem Offline-Cache.
 
+Beim Übergang aus einer älteren gespeicherten Spielseite ergänzt der Spielcode
+fehlende Galerieelemente vor dem Registrieren der Klickaktionen. Dadurch kann
+auch altes HTML zusammen mit dem aktuellen Galeriecode starten. Neue Seiten
+verwenden zusätzlich eine eigene Skriptadresse für die korrigierte Version.
+Der Regressionstest `tests/browser-cached-gallery.cjs` stellt die zuvor
+beobachtete Kombination aus altem HTML und neuem JavaScript gezielt nach.
+
 Der vollständige Bestand umfasst derzeit etwa 200 MB unkomprimierte Dateien.
 Der erste Download und Updates können deshalb dauern und freien Speicher
 benötigen. Für eine spätere Android-App sollen diese Dateien lokal mitgeliefert

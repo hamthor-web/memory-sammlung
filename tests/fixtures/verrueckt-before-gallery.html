@@ -1,0 +1,68 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#315e46"><title>Verrückt gesucht! – Lese- und Suchspiel</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Verrückt gesucht!"><link rel="stylesheet" href="style-release-20261105-f.css"><style id="portrait-layout-fallback">
+/* Direkt im HTML: auch ältere PWA-Caches können das Einspalten nicht blockieren. */
+@media (orientation:portrait) and (max-width:1200px){
+ .setup{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:24px!important;max-width:760px!important;margin-inline:auto!important}
+ .setup>.intro,.setup>.setupPanel{min-width:0;width:100%;max-width:100%}
+ .setup>.intro{text-align:center}
+ .setup>.intro p{max-width:620px;margin:12px auto}
+ .setup>.intro .sample{display:flex!important;justify-content:center;align-items:center;gap:12px;margin:18px auto 0;max-width:510px}
+ .setup>.intro .sample img{width:29%;max-width:145px}
+ .setup>.setupPanel{padding:clamp(17px,3.5vw,28px)}
+}
+@media (orientation:portrait) and (max-width:650px){
+ .setup{gap:19px!important}
+ .setup>.setupPanel{padding:18px 16px}
+ .setup>.intro h1{font-size:clamp(30px,7.5vw,38px)}
+}
+html.vg-portrait-compact .setup{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:22px!important;max-width:760px!important;margin-inline:auto!important}
+html.vg-portrait-compact .setup>.intro,html.vg-portrait-compact .setup>.setupPanel{min-width:0;width:100%}
+html.vg-portrait-compact .setup>.intro{text-align:center}
+html.vg-portrait-compact .setup>.intro p{margin:12px auto}
+html.vg-portrait-compact .intro .sample{display:flex!important;justify-content:center;gap:12px;max-width:500px;margin:18px auto}
+html.vg-portrait-compact .intro .sample img{width:29%;max-width:140px}
+</style><script>
+// Zeigt auch Startfehler, die vor dem Einrichten des Klick-Handlers auftreten.
+window.addEventListener('error',function(event){
+ const status=document.getElementById('startError');
+ if(!status)return;
+ const text=event?.message||'Eine Programmdatei konnte nicht geladen werden';
+ status.textContent='Startproblem: '+text+'. Bitte Aktualisierung prüfen oder die Seite neu laden.';
+ status.hidden=false;
+});
+window.addEventListener('unhandledrejection',function(event){
+ const status=document.getElementById('startError');
+ if(!status)return;
+ const text=event.reason?.message||'Eine Aktion wurde unerwartet abgebrochen';
+ status.textContent='Startproblem: '+text;
+ status.hidden=false;
+});
+document.addEventListener('DOMContentLoaded',function(){
+ const button=document.getElementById('start'),status=document.getElementById('startError');
+ if(!button||!status)return;
+ if(typeof button.onclick!=='function'){
+  status.textContent='Die Spiellogik wurde nicht vollständig geladen. Bitte auf Aktualisierung prüfen klicken.';
+  status.hidden=false;
+ }
+ button.addEventListener('click',function(){
+  setTimeout(function(){
+   const play=document.getElementById('play');
+   if(play?.hidden&&status.hidden){
+    status.textContent='Der Spielstart wurde nicht ausgeführt. Bitte auf Aktualisierung prüfen klicken.';
+    status.hidden=false;
+   }
+  },250);
+ });
+});
+</script><style id="screen-exclusivity">
+/* Sichtbarkeitsregel mit höherer Priorität als das responsive .setup-Grid. */
+#setup[hidden],#play[hidden],#gallery[hidden],#finish[hidden]{display:none!important}
+</style><style id="collection-hide-install">/* In der gemeinsamen Sammlung keine eigene Installation/Aktualisierung anbieten. */ .install-panel{display:none!important}</style><link rel="stylesheet" href="../collection-navigation.css"><link rel="stylesheet" href="../collection-session.css"></head><body><script src="../profile-store.js"></script><script src="../progress-store.js"></script><script src="../collection-session.js"></script>
+<header class="top"><a class="brand" href="#" id="home"><span class="brandmark">?</span><span>Verrückt gesucht!<small>Lesen · vergleichen · entdecken</small></span></a><button class="quiet" id="settingsButton" hidden>Zur Auswahl</button></header>
+<main>
+<section id="setup" class="setup"><div class="intro"><div class="eyebrow">DEIN LESE- UND SUCHSPIEL</div><h1>Schau genau.<br>Was passt zur Frage?</h1><p>Lies die Aufgabe und tippe auf das passende Bild. Kleine Unterschiede machen den Unterschied.</p><div class="sample" id="sample" aria-hidden="true"></div></div>
+<div class="setupPanel"><div class="setup-heading"><h2>So möchtest du spielen</h2><div class="textZoom setupTextZoom" role="group" aria-label="Schriftgröße auf dem Startbildschirm"><button type="button" id="setupTextSmaller" class="quiet" aria-label="Schrift auf der Startseite verkleinern">A−</button><button type="button" id="setupTextReset" class="quiet" aria-label="Schriftgröße der Startseite zurücksetzen">100 %</button><button type="button" id="setupTextLarger" class="quiet" aria-label="Schrift auf der Startseite vergrößern">A+</button></div></div><p class="fine" id="startError" role="alert" hidden></p><div class="install-panel"><div style="display:flex;gap:9px;flex-wrap:wrap"><button type="button" id="installApp" class="quiet install-app-button">Installieren</button><button type="button" id="updateApp" class="quiet install-app-button">Auf Aktualisierung prüfen</button></div><p id="installStatus" role="status" aria-live="polite" hidden></p><progress id="updateProgress" hidden value="0" max="24" aria-label="Geladene App-Dateien" style="width:100%;height:14px;accent-color:#315e46"></progress><p id="updateStatus" role="status" aria-live="polite" hidden></p></div><fieldset><legend>Schwierigkeit</legend><div class="levels"><button data-level="1" class="level selected" aria-pressed="true"><span>1</span><b>Einfach</b><small>Ein Merkmal</small></button><button data-level="2" class="level" aria-pressed="false"><span>2</span><b>Etwas schwieriger</b><small>Zwei Merkmale</small></button><button data-level="3" class="level" aria-pressed="false"><span>3</span><b>Ganz schwierig</b><small>Zwei Merkmale + Ausschluss</small></button></div></fieldset><fieldset class="reward-picker"><legend>Deine Fortschrittsgeschichte</legend><div class="reward-modes"><button type="button" id="rewardRandom" class="level selected" aria-pressed="true"><b>Überrasch mich!</b><small>Ein noch nicht gespieltes Bild</small></button><button type="button" id="rewardManual" class="level" aria-pressed="false"><b>Ich suche aus!</b><small>Entscheide selbst</small></button></div><label class="field" id="rewardChoiceWrap" hidden>Welche Geschichte soll entstehen?<select id="rewardChoice"><option value="pfau">Der verrückte Pfau</option><option value="baum">Der verrückte Baum</option><option value="knurpsel">Knurpsel, das Fortschrittsmonster</option><option value="rakete">Die verrückte Rakete</option><option value="blumenwiese">Die zauberhafte Blumenwiese</option><option value="wundereiche">Die Wundereiche</option><option value="kinderzimmer">Chaos im Kinderzimmer</option><option value="marsmission">Die Marsmission</option><option value="baumhaus">Das gemütliche Baumhaus</option><option value="unterwasserwelt">Die Unterwasserwelt mit dem Schatz</option><option value="matschwiese">Knurpsel auf der Matschwiese</option></select></label><p class="fine" id="rewardRemaining" aria-live="polite"></p></fieldset><label class="field">Wie viele Bilder sollen ausliegen?<select id="size"><option value="6">6 Bilder</option><option value="9">9 Bilder</option><option value="12">12 Bilder</option></select></label><button id="start" type="button" class="primary artButton" aria-label="Los geht’s – Spiel starten"><span class="artButtonLabel">Los geht’s</span></button><p class="fine">Eine Runde hat 10 Aufgaben. Mit jeder gelösten Aufgabe wächst deine Fortschrittsfigur.</p><details><summary>Für die Begleitung</summary><p>Alle 120 Bildkarten werden verwendet. Die App stellt passende Verwechslungen zusammen und prüft jede Frage auf eine eindeutige Antwort. Auf Stufe 3 entscheidet erst der Ausschluss zwischen zwei Karten.</p><p>Die Mädchenkarten sind weiterhin Entwürfe. Beim Fisch zählen alle dargestellten Flossen einschließlich der Schwanzflosse. Die Radfarbe bezeichnet Felgen und Speichen.</p><button class="quiet" id="downloadMatrix">Fragenmatrix herunterladen</button></details><button type="button" class="quiet gallery-launch" id="openGallery">Meine Fortschrittsbilder noch einmal ansehen</button></div></section>
+<section id="play" hidden><div class="roundhead"><span id="levelLabel" class="pill"></span><span id="progressText">Aufgabe 1 von 10</span><button type="button" id="playBack" class="quiet" aria-label="Zurück zur Spielauswahl">← Zur Auswahl</button></div><div class="progress" aria-hidden="true"><div id="progressBar"></div></div><div class="taskLayout"><div class="questionBox"><div class="questionTools"><span class="eyebrow">LIES UND FINDE</span><div class="textZoom" role="group" aria-label="Schriftgröße der Leseaufgabe"><button type="button" id="textSmaller" class="quiet" aria-label="Aufgabenschrift verkleinern">A−</button><button type="button" id="textReset" class="quiet" aria-label="Normale Schriftgröße wiederherstellen">100 %</button><button type="button" id="textLarger" class="quiet" aria-label="Aufgabenschrift vergrößern">A+</button></div></div><h1 id="question" tabindex="-1"></h1></div><aside class="reward-panel" aria-label="Deine Fortschrittsfigur"><div id="treeMount"></div><p id="treeCounter" aria-live="polite">0 von 10 gefunden</p></aside></div><div class="feedbackRow"><p id="feedback" aria-live="polite">Tippe auf das passende Bild.</p><button id="next" class="primary" hidden>Nächste Aufgabe →</button></div><div id="board" class="board"></div></section>
+<section id="gallery" hidden><div class="gallery-header"><h1>Meine Bilder</h1><button type="button" id="closeGallery" class="quiet">Zurück zur Auswahl</button></div><p>Hier kannst du deine fertigen Fortschrittsgeschichten noch einmal anschauen – ganz ohne Leseaufgaben.</p><div id="galleryGrid" class="gallery-grid"></div></section>
+<section id="finish" class="finish" hidden><div class="finishMark">✓</div><h1>Alles gefunden!</h1><p>Du hast alle 10 Aufgaben gelöst.</p><p id="result"></p><button id="again" class="primary">Noch eine Runde →</button><button id="choose" class="quiet">Andere Auswahl</button></section>
+</main><footer>120 Bildkarten · 20 Motivgruppen · Für kleine und große Entdecker</footer><dialog id="galleryDialog"><h2 id="galleryTitle">Meine Bilder</h2><div id="galleryPicture" role="button" tabindex="0" aria-label="Nächstes Bild der Fortschrittsgeschichte"></div><p id="galleryStep" aria-live="polite"></p><div class="gallery-controls"><button id="galleryPrev" class="quiet" type="button">← Vorheriges Bild</button><button id="galleryNext" class="primary" type="button">Nächstes Bild →</button></div><button id="galleryClose" class="primary" type="button">Schließen</button></dialog><dialog id="zoom"><button id="closeZoom" class="quiet">Schließen ×</button><img id="zoomImage" alt=""><p id="zoomLabel"></p></dialog><dialog id="treeDialog" aria-labelledby="treeTitle"><h2 id="treeTitle">Dein verrückter Baum</h2><div id="treeLarge"></div><button type="button" class="primary artButton" id="treeContinue" aria-label="Weiter zur nächsten Leseaufgabe" hidden>Weiter</button></dialog><dialog id="installHelp" aria-labelledby="installHelpTitle"><h2 id="installHelpTitle">Verrückt gesucht! installieren</h2><p id="installHelpText"></p><button id="installHelpClose" class="primary" type="button">Verstanden</button></dialog><script src="pwa.js?v=20261105-update-1" defer></script><script src="pfau-art.js?v=20261104"></script><script src="tree-art.js?v=20261104"></script><script src="tree.js?v=20261104"></script><script src="data.js?v=20261105-yellow-noses-1"></script><script src="engine.js?v=20261104"></script><script src="pfau.js?v=20261104"></script><script src="knurpsel.js?v=20261104"></script><script src="rakete.js?v=20261104"></script><script src="matschwiese.js?v=20261104"></script><script src="unterwasserwelt.js?v=20261104"></script><script src="baumhaus.js?v=20261104"></script><script src="marsmission.js?v=20261104"></script><script src="kinderzimmer.js?v=20261104"></script><script src="blumenwiese.js?v=20261104"></script><script src="wundereiche.js?v=20261104"></script><script src="app-release-20261105-f.js"></script><script src="../collection-navigation.js"></script><script src="../offline-client.js"></script></body></html>
+
