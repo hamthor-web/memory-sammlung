@@ -29,9 +29,9 @@
  overflow:visible!important;
 }
 .banner-button.banner-blue{
- border-image-source:url("assets/buttons/eigenschaften-blueten.png")!important;
+ border-image-source:url("assets/buttons/eigenschaften-efeu.png")!important;
 
- color:#173d46!important;text-shadow:0 1px 2px #fff!important;
+ color:#23452c!important;text-shadow:none!important;
 }
 .banner-button.banner-paper{
  border-image-source:url("assets/buttons/memory-ohne-deko.png")!important;
@@ -141,7 +141,7 @@ body.choosing-pairs #selection .banner-button .banner-label {
 
 .banner-button.banner-synonyms{border-image-source:url("assets/buttons/synonymmemory-paper.png");color:#18352e;text-shadow:none}.banner-synonyms .banner-label{color:#18352e}
 
-/* Helles Bluetenschild: dunkle Schrift und ruhige, weiterhin blaue Auswahl. */
+/* Helles Efeuschild: dunkle Schrift und ruhige, weiterhin blaue Auswahl. */
 #start .setting-buttons .banner-blue.chosen,
 #start .mode-picker .banner-blue.mode-selected,
 #start .mode-picker .banner-blue[aria-pressed="true"] {
