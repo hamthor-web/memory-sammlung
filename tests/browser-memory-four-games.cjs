@@ -14,6 +14,20 @@ for(const viewport of [{width:390,height:844},{width:844,height:390},{width:768,
     await page.locator('#name').fill('Testkind');
     await page.locator('#newProfile button').click();
   }
+  // Profile dialog exposes update and installation before a child profile exists.
+  await page.goto(base+'index.html');
+  await page.evaluate(()=>localStorage.removeItem('fuehlmemory-profiles-v1'));
+  await page.reload();
+  assert.equal(await page.locator('#login').evaluate(el=>el.open),true);
+  assert.equal(await page.locator('#update').isVisible(),true);
+  assert.equal(await page.locator('#install').isVisible(),true);
+  assert.equal(await page.locator('#profiles button').count(),0);
+  await page.locator('#update').click();
+  await page.locator('#updateStatus').waitFor();
+  assert.equal(await page.locator('#updateStatus').isVisible(),true);
+  await page.locator('#name').fill('Testkind');
+  await page.locator('#newProfile button').click();
+  await page.goto(base+'index.html?menu=1');
   assert.equal(await page.locator('.games .game').count(),4);
   const dims=await page.locator('.games .game > .play').evaluateAll(els=>els.map(el=>({
    x:el.getBoundingClientRect().x,y:el.getBoundingClientRect().y,height:el.getBoundingClientRect().height,bottom:el.getBoundingClientRect().bottom,
@@ -45,6 +59,11 @@ for(const viewport of [{width:390,height:844},{width:844,height:390},{width:768,
     await page.waitForURL(url=>url.pathname.endsWith('/'+href),{timeout:10000});
     await page.goBack({waitUntil:'domcontentloaded'});
     await page.waitForURL(url=>url.pathname.endsWith('/index.html')&&url.searchParams.get('menu')==='1',{timeout:10000});
+    // Back-forward cache must never resurrect the animation over the main menu.
+    assert.equal(await page.locator('#introOverlay').isVisible(),false,
+      'Stale intro overlay after browser back: '+href);
+    assert.equal(await page.locator('.games .game').count(),4);
+
   }
   await page.goto(base+'verrueckt-gesucht/index.html');
   assert(await page.locator('#openGallery').isVisible());
