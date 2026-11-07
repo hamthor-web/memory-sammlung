@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
+const source=fs.readFileSync(require('node:path').join(__dirname,'../sw.js'),'utf8');
+const scope='https://example.test/memory-sammlung/',cacheData=new Map();let fail=null,skips=0;
+const key=r=>typeof r==='string'?new URL(r,scope).href:r.url;
+const caches={async open(name){if(!cacheData.has(name))cacheData.set(name,new Map());const data=cacheData.get(name);return {async put(request,response){data.set(key(request),response);},async match(request){return data.get(key(request))?.clone();},async keys(){return [...data.keys()].map(url=>new Request(url));}};},async keys(){return [...cacheData.keys()];},async delete(name){return cacheData.delete(name);}};
+function worker(version){const events={};const self={OFFLINE_VERSION:version,OFFLINE_FILES:['./','index.html','cards.js'],registration:{scope},location:{origin:'https://example.test'},clients:{async claim(){}},skipWaiting(){skips++;},addEventListener:(name,fn)=>events[name]=fn};const context=vm.createContext({self,caches,URL,Request,Response,importScripts(){},async fetch(request){if(key(request).endsWith(fail||'UNMATCHABLE'))return new Response('missing',{status:404});return new Response(version);}});vm.runInContext(source,context);return {context,events,async dispatch(name,data={}){let pending;events[name]({...data,waitUntil(promise){pending=promise;}});await pending;}};}
+(async()=>{
+ const old=worker('old');await old.dispatch('install');await old.dispatch('activate');const oldCache='fuehlmemory:'+scope+':old';assert(cacheData.has(oldCache));
+ fail='cards.js';const broken=worker('broken');await assert.rejects(()=>broken.dispatch('install'),/Offline-Datei fehlt/);assert(cacheData.has(oldCache));assert(!cacheData.has('fuehlmemory:'+scope+':broken'));assert.equal(skips,0);
+ fail=null;const next=worker('new');await next.dispatch('install');assert(cacheData.has(oldCache),'old version stays while the update is waiting');assert.equal(skips,0,'install must never activate automatically');
+ await next.dispatch('message',{data:'SKIP_WAITING'});assert.equal(skips,1);await next.dispatch('activate');assert(!cacheData.has(oldCache));assert.equal((await vm.runInContext('offlineStatus()',next.context)).ready,true);
+ const active=cacheData.get('fuehlmemory:'+scope+':new');active.delete(scope+'cards.js');assert.equal((await vm.runInContext('offlineStatus()',next.context)).ready,false,'one missing asset prevents readiness');
+ console.log('PASS failed update rollback, deliberate activation and full-file readiness');
+})().catch(e=>{console.error(e);process.exitCode=1;});

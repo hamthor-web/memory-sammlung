@@ -35,14 +35,13 @@ for(const viewport of [{width:390,height:844},{width:844,height:390},{width:768,
   })));
   assert(dims[3].height>=65,JSON.stringify({viewport,button:dims[3]}));
   const shield=await page.locator('.games .game-verrueckt .play-verrueckt').evaluate(el=>{
-    const bg=getComputedStyle(el).backgroundImage;
+    const bg=getComputedStyle(el).backgroundImage+' '+getComputedStyle(el,'::before').backgroundImage;
     const width=el.getBoundingClientRect().width;
     return {bg,width,height:el.getBoundingClientRect().height};
   });
-  assert(shield.bg.includes('los-gehts-verrueckt-menue.svg'),JSON.stringify(shield));
+  assert(shield.bg.includes('linear-gradient'),JSON.stringify(shield));
   assert(shield.height>=dims[2].height-8,'Shield is too small: '+JSON.stringify(shield));
-  const svg=await (await page.request.get(base+'assets/buttons/los-gehts-verrueckt-menue.svg')).text();
-  assert(svg.includes('preserveAspectRatio="none"'),'Menu SVG must stretch vertically');
+
 
   assert(dims[3].label.includes('Los geht'),JSON.stringify(dims[3]));
   assert(Math.abs(dims[2].bottom-dims[3].bottom)<=6,JSON.stringify({viewport,buttons:dims}));

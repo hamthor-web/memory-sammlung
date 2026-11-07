@@ -1,4 +1,5 @@
 'use strict';
+CollectionSession.requireProfile();
 const data=GAME_DATA,E=QuestionEngine,matrix=E.buildMatrix(data),$=id=>document.getElementById(id);
 // Mobile Hochformat-Erkennung auch für ungewöhnliche PWA-Viewport-Größen.
 function adjustPortraitSetup(){
@@ -11,12 +12,13 @@ adjustPortraitSetup();
 window.addEventListener('resize',adjustPortraitSetup);
 window.addEventListener('orientationchange',adjustPortraitSetup);
 
-let level=1,number=0,round=null,locked=false,used=[],lastStyle=-1,errors=0,firstTry=0,missed=false,activeRewardId='pfau',rewardMode='random',rewardFrames=[];
+let level=1,number=0,round=null,locked=false,used=[],lastStyle=-1,errors=0,firstTry=0,missed=false,activeRewardId='pfau',rewardMode='random';
 const rewardIds=['pfau','baum','knurpsel','rakete','blumenwiese','wundereiche','kinderzimmer','marsmission','baumhaus','unterwasserwelt','matschwiese'];
 const rewardKey='verrueckt-gesucht-rewards-v1';
-function loadRewards(){try{const obj=JSON.parse(localStorage.getItem(rewardKey)||'{}');return {used:Array.isArray(obj.used)?obj.used.filter(x=>rewardIds.includes(x)):[],finished:obj.finished&&typeof obj.finished==='object'?obj.finished:{}};}catch{return {used:[],finished:{}};}}
+function loadRewards(){const obj=CollectionSession.rewards();return {used:obj.used.filter(x=>rewardIds.includes(x)),finished:obj.finished};}
 let rewardHistory=loadRewards();
-function saveRewards(){try{localStorage.setItem(rewardKey,JSON.stringify(rewardHistory));}catch(e){console.warn('Fortschrittsbilder konnten nicht dauerhaft gespeichert werden.',e);}}
+function saveRewards(){return CollectionSession.saveRewards(rewardHistory);}
+document.addEventListener('collection:legacy-assigned',()=>{rewardHistory=loadRewards();refreshRewardPicker();if(currentScreen==='gallery')renderGallery();});
 // Der Zufallsmodus durchläuft die elf Geschichten, bevor er sie erneut anbietet.
 // Im manuellen Modus sind alle Geschichten jederzeit und auf jeder Spielstufe wählbar.
 function availableRewards(){return rewardIds.filter(id=>!rewardHistory.used.includes(id));}
@@ -39,21 +41,23 @@ function chooseRewardId(){
 }
 function rememberReward(){
  if(!rewardHistory.used.includes(activeRewardId))rewardHistory.used.push(activeRewardId);
- rewardHistory.finished[activeRewardId]={html:reward.picture.outerHTML,frames:[...rewardFrames,reward.picture.outerHTML],date:new Date().toISOString()};
- saveRewards();
+ rewardHistory.finished[activeRewardId]={model:rewardModel(),date:new Date().toISOString()};
+ return saveRewards();
 }
 
 
 for(const id of ['VG-01-01','VG-03-05','VG-10-03']){const c=data.cards.find(c=>c.id===id),im=document.createElement('img');im.src=c.image;im.alt='';$('sample').append(im);}
 document.querySelectorAll('[data-level]').forEach(b=>b.onclick=()=>{level=Number(b.dataset.level);document.querySelectorAll('[data-level]').forEach(x=>{const yes=x===b;x.classList.toggle('selected',yes);x.setAttribute('aria-pressed',String(yes));});});
 let reward=new PeacockReward.View(PFAU_ART,$('treeMount'),$('treeCounter'),$('treeDialog'),finish);
-function finish(){rememberReward();$('result').textContent=`${firstTry} Aufgaben hast du beim ersten Versuch gefunden.`;show('finish');}
+let finishedSaved=false;
+function finish(){finishedSaved=rememberReward();if(finishedSaved)CollectionSession.clear('verrueckt-gesucht');$('result').textContent=`${firstTry} Aufgaben hast du beim ersten Versuch gefunden.`;show('finish');}
 const names=['','Einfach','Etwas schwieriger','Ganz schwierig'];
 // Jede Spielansicht erhält einen eigenen Verlaufseintrag: Android-Zurück und
 // Browser-Wischgeste kehren zur vorherigen Ansicht zurück statt die PWA zu beenden.
 let currentScreen='setup',restoringHistory=false;
 try{history.replaceState({...history.state,vgScreen:'setup'},'');}catch{}
 function show(name,fromHistory=false){
+ if(currentScreen==='play'&&name!=='play')checkpointVG();
  if(!fromHistory&&name!==currentScreen){
   try{history.pushState({vgScreen:name},'');}catch{}
  }
@@ -107,20 +111,22 @@ document.addEventListener('touchend',e=>{
  if(currentScreen!=='setup')history.back();
 },{passive:true});
 document.addEventListener('touchcancel',()=>{startSwipe=null;},{passive:true});
-function start(){reward.cancel();activeRewardId=chooseRewardId();$('treeContinue').textContent='Weiter';reward=activeRewardId==='blumenwiese'?new FlowerReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='wundereiche'?new WonderOakReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='kinderzimmer'?new BedroomReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='marsmission'?new MarsMissionReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='baumhaus'?new TreehouseReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='unterwasserwelt'?new UnderwaterReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='matschwiese'?new MeadowReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='rakete'?new RocketReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='knurpsel'?new KnurpselReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='baum'?new TreeReward.View(TREE_ART,$('treeMount'),$('treeCounter'),$('treeDialog'),finish):new PeacockReward.View(PFAU_ART,$('treeMount'),$('treeCounter'),$('treeDialog'),finish);$('treeMount').replaceChildren();number=0;used=[];errors=0;firstTry=0;reward.reset();rewardFrames=[reward.picture.outerHTML];show('play');nextRound();}
-function nextRound(){number++;locked=false;missed=false;$('next').hidden=true;$('feedback').textContent='Tippe auf das passende Bild.';
- try{round=E.makeRound(data,matrix,{level,group:0,size:$('size').value,used});}catch(err){$('feedback').textContent=err.message;return;}
- used.push(round.question.id);let style=Math.floor(Math.random()*7);if(style===lastStyle)style=(style+1)%7;lastStyle=style;
- $('question').textContent=round.question.variants[style];$('levelLabel').textContent=names[level];$('progressText').textContent=`Aufgabe ${number} von 10`;$('progressBar').style.width=`${(number-1)*10}%`;
+function createReward(){reward=activeRewardId==='blumenwiese'?new FlowerReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='wundereiche'?new WonderOakReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='kinderzimmer'?new BedroomReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='marsmission'?new MarsMissionReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='baumhaus'?new TreehouseReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='unterwasserwelt'?new UnderwaterReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='matschwiese'?new MeadowReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='rakete'?new RocketReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='knurpsel'?new KnurpselReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='baum'?new TreeReward.View(TREE_ART,$('treeMount'),$('treeCounter'),$('treeDialog'),finish):new PeacockReward.View(PFAU_ART,$('treeMount'),$('treeCounter'),$('treeDialog'),finish);}
+function start(){finishedSaved=false;reward.cancel();activeRewardId=chooseRewardId();$('treeContinue').textContent='Weiter';createReward();$('treeMount').replaceChildren();number=0;used=[];errors=0;firstTry=0;reward.reset();show('play');nextRound();}
+function nextRound(restored=null,savedText=null){const restoring=!!restored?.question;if(!restoring)number++;locked=false;if(!restoring)missed=false;$('next').hidden=true;$('feedback').textContent='Tippe auf das passende Bild.';
+ try{round=restoring?restored:E.makeRound(data,matrix,{level,group:0,size:$('size').value,used});}catch(err){$('feedback').textContent=err.message;return;}
+ if(!restoring)used.push(round.question.id);let style=Math.floor(Math.random()*7);if(style===lastStyle)style=(style+1)%7;lastStyle=style;
+ $('question').textContent=savedText||round.question.variants[style];$('levelLabel').textContent=names[level];$('progressText').textContent=`Aufgabe ${number} von 10`;$('progressBar').style.width=`${(number-1)*10}%`;
  const board=$('board');board.replaceChildren();board.classList.toggle('many',Number($('size').value)>6);board.dataset.size=$('size').value;
  for(const c of round.deck){const box=document.createElement('div');box.className='card';box.dataset.id=c.id;const answer=document.createElement('button');answer.className='answer';answer.setAttribute('aria-label',`${c.motif}, Bild ${round.deck.indexOf(c)+1}`);const im=document.createElement('img');im.src=c.image;im.alt='';answer.append(im);answer.onclick=()=>choose(c,box);const zoom=document.createElement('button');zoom.className='zoomButton';zoom.textContent='⌕';zoom.setAttribute('aria-label',`${c.motif} vergrößern`);zoom.onclick=()=>openZoom(c);box.append(answer,zoom);board.append(box);}
  fitBoard();if(window.requestAnimationFrame)window.requestAnimationFrame(fitBoard);
- $('question').focus({preventScroll:true});
+ $('question').focus({preventScroll:true});checkpointVG();
 }
-async function choose(c,box){if(locked)return;if(c.id===round.answer){locked=true;box.classList.add('correct');if(!missed)firstTry++;$('feedback').textContent='Richtig! Du hast genau hingesehen.';$('next').textContent=number===10?'Runde beenden →':'Nächste Aufgabe →';document.querySelectorAll('.answer').forEach(b=>b.setAttribute('aria-disabled','true'));const completed=await reward.award(round.question.id);if(completed&&number<10){rewardFrames.push(reward.picture.outerHTML);nextRound();window.scrollTo({top:0,behavior:'instant'});}$('progressBar').style.width=`${reward.state.progress*10}%`;}else{missed=true;errors++;box.classList.remove('wrong');void box.offsetWidth;box.classList.add('wrong');$('feedback').textContent=level===3?'Schau noch einmal: Was wird ausgeschlossen?':'Schau noch einmal auf die Merkmale in der Frage.';setTimeout(()=>box.classList.remove('wrong'),450);}}
+async function choose(c,box){if(locked)return;if(c.id===round.answer){locked=true;box.classList.add('correct');if(!missed)firstTry++;$('feedback').textContent='Richtig! Du hast genau hingesehen.';$('next').textContent=number===10?'Runde beenden →':'Nächste Aufgabe →';document.querySelectorAll('.answer').forEach(b=>b.setAttribute('aria-disabled','true'));const active=reward;const award=reward.award(round.question.id);checkpointVG();const completed=await award;if(active!==reward||currentScreen!=='play')return;if(completed&&number<10){nextRound();window.scrollTo({top:0,behavior:'instant'});}$('progressBar').style.width=`${reward.state.progress*10}%`;}else{missed=true;errors++;box.classList.remove('wrong');void box.offsetWidth;box.classList.add('wrong');$('feedback').textContent=level===3?'Schau noch einmal: Was wird ausgeschlossen?':'Schau noch einmal auf die Merkmale in der Frage.';setTimeout(()=>box.classList.remove('wrong'),450);checkpointVG();}}
 function openZoom(c){$('zoomImage').src=c.image;$('zoomImage').alt=c.motif;$('zoomLabel').textContent=c.motif;$('zoom').showModal();document.body.classList.add('zoomOpen');}
 $('zoom').addEventListener('close',()=>document.body.classList.remove('zoomOpen'));$('closeZoom').onclick=()=>$('zoom').close();$('zoom').onclick=e=>{if(e.target===$('zoom'))$('zoom').close();};
 function launchGame(){
+ CollectionSession.clear('verrueckt-gesucht');
  const btn=$('start'),notice=$('startError');
  notice.hidden=true;
  btn.disabled=true;
@@ -188,6 +194,7 @@ window.visualViewport?.addEventListener('resize',fitBoard);
 
 // Completed artwork gallery: snapshots preserve the exact random feather/slot layout of a finished round.
 function openGallery(){
+ checkpointVG();const profile=CollectionSession.profile();$('gallery').querySelector('h1').textContent=profile?profile.name+'s Bilder':'Meine Bilder';
  reward.cancel();
  show('gallery');
  renderGallery();
@@ -206,8 +213,8 @@ function renderGallery(){
   const card=document.createElement('button');
   card.type='button';card.className='gallery-tile';card.disabled=false;
   const picture=document.createElement('div');picture.className='gallery-thumb';
-  const parsed=document.createElement('div');parsed.innerHTML=entry.html;
-  const scene=parsed.firstElementChild;
+  const parsed=document.createElement('div');parsed.innerHTML=entry.html||'';
+  const scene=entry.model?rewardScene(entry.model,10):parsed.firstElementChild;
   if(scene){scene.removeAttribute('role');scene.removeAttribute('tabindex');picture.append(scene);}
   const label=document.createElement('strong');label.textContent=opt.textContent.replace(/ ✓$/,'');
   const status=document.createElement('small');status.textContent='Noch einmal ansehen';
@@ -225,6 +232,7 @@ function renderGallery(){
 let galleryFrames=[],galleryIndex=0,galleryRun=0,galleryBusy=false;
 function galleryScene(html){const host=document.createElement('div');host.innerHTML=html;const scene=host.firstElementChild;if(!scene)return document.createElement('div');scene.removeAttribute('role');scene.removeAttribute('tabindex');scene.querySelectorAll('.reward-flight,.pfau-flight,.knurpsel-enter,.knurpsel-leave').forEach(node=>{node.classList.remove('reward-flight','pfau-flight','knurpsel-enter','knurpsel-leave');node.style.animation='none';});return scene;}
 function replayFrames(id,entry){
+ if(entry.model)return Array.from({length:11},(_,i)=>rewardScene(entry.model,i).outerHTML);
  const sequences={knurpsel:KnurpselReward,rakete:RocketReward,blumenwiese:FlowerReward,wundereiche:WonderOakReward,kinderzimmer:BedroomReward,marsmission:MarsMissionReward,baumhaus:TreehouseReward,unterwasserwelt:UnderwaterReward,matschwiese:MeadowReward};
  const sequence=sequences[id];
  if(sequence){return sequence.stages.filter(Boolean).map((src,i)=>{const scene=galleryScene(entry.html);scene.replaceChildren();const image=document.createElement('img');image.className='knurpsel-frame';image.src=src;image.alt='Bild '+(i+1)+' der Fortschrittsgeschichte';scene.append(image);return scene.outerHTML;});}
@@ -248,3 +256,36 @@ setRewardMode('random');
 // Initialansicht ebenfalls eindeutig festlegen; falls der Browser aus einem
 // alten PWA-Stand ein display:grid!important kennt, wird es hier korrigiert.
 show('setup',true);
+
+function snapshotVG(){
+ if(finishedSaved||!round||!number||currentScreen!=='play')return null;
+ return {level,size:$('size').value,number,used,lastStyle,errors,firstTry,missed,locked,activeRewardId,rewardMode,model:rewardModel(),reward:{round:reward.state.round,progress:reward.state.progress,solved:[...reward.state.solved]},round:{deck:round.deck.map(c=>c.id),questionId:round.question.id,answer:round.answer},questionText:$('question').textContent};
+}
+function checkpointVG(){const state=snapshotVG();if(state)CollectionSession.save('verrueckt-gesucht',state);}
+function restoreVG(s){
+ if(!rewardIds.includes(s.activeRewardId)||!s.round.deck.every(id=>data.cards.some(c=>c.id===id)))throw Error('Ungültige Runde');
+ reward.cancel();level=s.level;$('size').value=s.size;number=s.number;used=s.used;lastStyle=s.lastStyle;errors=s.errors;firstTry=s.firstTry;missed=s.missed;locked=false;activeRewardId=s.activeRewardId;rewardMode=s.rewardMode;finishedSaved=false;
+ createReward();reward.reset();reward.state=new TreeReward.Progress(s.reward.round);reward.state.progress=s.reward.progress;reward.state.solved=new Set(s.reward.solved);
+ const scene=rewardScene(s.model,s.reward.progress);reward.picture.replaceChildren(...scene.childNodes);
+ if(reward.art.stages)reward.current=reward.picture.firstElementChild;
+ else{reward.base=reward.picture.querySelector('.pfau-base');reward.foreground=reward.picture.querySelector('.pfau-body');}
+ reward.update();round={deck:s.round.deck.map(id=>data.cards.find(c=>c.id===id)),question:matrix.find(q=>q.id===s.round.questionId),answer:s.round.answer};
+ if(s.locked){if(s.reward.progress===10){show('play');finish();}else{show('play');nextRound();}return;}
+ // Reuse the board renderer with the saved question and card order, never draw a new task.
+ show('play');nextRound(round,s.questionText);checkpointVG();
+}
+CollectionSession.track('verrueckt-gesucht',snapshotVG);
+CollectionSession.offerResume('verrueckt-gesucht',restoreVG);
+
+function rewardModel(){return {id:activeRewardId,round:reward.state.round,pictureClass:reward.picture.className};}
+function rewardScene(model,step){
+ const sequences={knurpsel:KnurpselReward,rakete:RocketReward,blumenwiese:FlowerReward,wundereiche:WonderOakReward,kinderzimmer:BedroomReward,marsmission:MarsMissionReward,baumhaus:TreehouseReward,unterwasserwelt:UnderwaterReward,matschwiese:MeadowReward};
+ const picture=document.createElement('div');picture.className=model.pictureClass;picture.setAttribute('role','img');picture.setAttribute('aria-label','Dein Fortschrittsbild nach '+step+' Aufgaben');
+ if(sequences[model.id]){const src=sequences[model.id].stages[step];if(src){const image=document.createElement('img');image.className='knurpsel-frame';image.src=src;image.alt='Fortschrittsbild';picture.append(image);}else{const q=document.createElement('div');q.className='knurpsel-frame rakete-empty';q.textContent='?';picture.append(q);}return picture;}
+ const isPeacock=model.id==='pfau',view=Object.create((isPeacock?PeacockReward:TreeReward).View.prototype);view.art=isPeacock?PFAU_ART:TREE_ART;view.picture=picture;
+ const base=document.createElement('img');base.src=view.art.base;base.className=isPeacock?'pfau-base':'reward-base';base.alt='';picture.append(base);view.base=base;
+ if(isPeacock){picture.style.aspectRatio='1';view.foreground=document.createElement('img');view.foreground.src=view.art.foreground;view.foreground.className='pfau-body';view.foreground.alt='';picture.append(view.foreground);}
+ for(const info of model.round.slice(step)){const marker=document.createElement('div');marker.className='reward-slot'+(isPeacock?' pfau-question':'');marker.dataset.si=info.si;marker.textContent='?';marker.setAttribute('aria-hidden','true');if(isPeacock){const [x,y]=PeacockReward.badge(view.art,info.slot);Object.assign(marker.style,{left:x+'%',top:y+'%',width:'9%',height:'9%'});}else Object.assign(marker.style,{left:info.slot.x+'%',top:info.slot.y+'%',width:(info.slot.w/2)+'%',height:(info.slot.w/2)+'%'});picture.append(marker);}
+ for(const info of model.round.slice(0,step)){const sprite=view.createSprite(info);view.settleSprite(sprite);sprite.style.animation='none';sprite.style.opacity='1';}
+ return picture;
+}
