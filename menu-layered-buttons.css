@@ -123,3 +123,16 @@
   font-size:17px!important;
  }
 }
+
+/* Sehr schmale Displays: lesbar bleiben statt Schilder zu quetschen. */
+@media(max-width:360px){
+ .games {grid-template-columns:minmax(0,1fr)!important;}
+ .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
+  --card-deco:68px;
+  padding-right:76px!important;
+ }
+ .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+  --sausage-deco:88px;
+  padding-left:60px!important;
+ }
+}
