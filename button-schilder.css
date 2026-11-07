@@ -161,3 +161,8 @@ body.choosing-pairs #selection .banner-button .banner-label {
 #start #countButtons .banner-blue,
 #start .mode-picker .banner-blue,
 #start #startGame.banner-blue {height:auto!important;}
+/* Text tiefer in die freie Pergamentmitte setzen, auch bei zwei Zeilen.
+   Der Versatz waechst mit dem Schriftzoom; die Schildhoehe bleibt flexibel. */
+.banner-button.banner-blue .banner-label {
+ top:calc(8px * var(--banner-scale));
+}
