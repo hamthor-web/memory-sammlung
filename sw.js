@@ -1,5 +1,5 @@
 // Change VERSION whenever published application files change.
-const VERSION='v49';
+const VERSION='v50';
 const PREFIX='fuehlmemory:'+self.registration.scope+':';
 const CACHE=PREFIX+VERSION;
 const files=['./','index.html','style.css','cards.js','engine.js','app.js','profile-store.js','profiles.js','CARD_MATRIX.csv','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','assets/backs/memory-boy.png','assets/backs/question-mark.png'];
@@ -31,6 +31,6 @@ self.addEventListener('fetch',event=>{
   const cache=await caches.open(CACHE);
   const cached=await cache.match(event.request.url,{ignoreSearch:true});
   if(cached)return event.request.headers.has('range')&&url.pathname.endsWith('.mp4')?rangeResponse(cached,event.request.headers.get('range')):cached;
-  try{return await fetch(event.request);}catch(error){if(event.request.mode==='navigate')return await cache.match('index.html');throw error;}
+  try{const response=await fetch(event.request);if(response.ok&&url.pathname.endsWith('/assets/intro/verrueckt-gesucht.mp4'))cache.put(event.request.url,response.clone()).catch(()=>{});return response;}catch(error){if(event.request.mode==='navigate')return await cache.match('index.html');throw error;}
  })());
 });
