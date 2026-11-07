@@ -1,0 +1,134 @@
+/* Separate Bild- und Schaltflaechen-Ebenen NUR auf der gemeinsamen
+   Spielauswahl. Die beiden linken Schilder und die Spiele bleiben unberuehrt.
+   Originalgrafiken werden niemals horizontal/vertikal unterschiedlich skaliert.
+   Der neutrale Papierbereich ist der Hintergrund, Dekorationen sind eigene Ebenen. */
+
+.games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button,
+.games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+  position:relative!important;
+  isolation:isolate!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:100px!important;
+  margin:0!important;
+  border:0!important;
+  border-image:none!important;
+  border-radius:999px!important;
+  background-color:#f1e7cf!important;
+  background-repeat:no-repeat!important;
+  background-position:center center!important;
+  background-size:auto 100%!important;
+  box-shadow:none!important;
+  text-decoration:none!important;
+  overflow:hidden!important;
+  transform:none!important;
+}
+
+.games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
+  --deco-size:clamp(56px,9vw,90px);
+  background-image:url("assets/buttons/btn-memory.png")!important;
+  padding:12px calc(var(--deco-size)*1.08) 12px calc(var(--deco-size)*.78)!important;
+}
+.games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+  --deco-size:clamp(68px,10vw,94px);
+  background-image:url("verrueckt-gesucht/assets/buttons/los-gehts-v1.svg")!important;
+  padding:12px 12px 12px calc(var(--deco-size)*.86)!important;
+}
+
+.games .game > a.two-layer-word .button-art,
+.games .game > a.two-layer-crazy .button-art {
+  position:absolute!important;
+  top:50%!important;
+  display:block!important;
+  height:var(--deco-size)!important;
+  transform:translateY(-50%)!important;
+  background-size:auto 100%!important;
+  background-repeat:no-repeat!important;
+  pointer-events:none!important;
+  z-index:1!important;
+  border:0!important;
+}
+.games .game > a.two-layer-word .word-art-left {
+  left:0!important;
+  width:calc(var(--deco-size)*.78)!important;
+  background-image:url("assets/buttons/btn-memory.png")!important;
+  background-position:left center!important;
+  -webkit-mask-image:linear-gradient(to right,#000 80%,transparent 100%);
+  mask-image:linear-gradient(to right,#000 80%,transparent 100%);
+}
+.games .game > a.two-layer-word .word-art-right {
+  right:0!important;
+  width:calc(var(--deco-size)*1.08)!important;
+  background-image:url("assets/buttons/btn-memory.png")!important;
+  background-position:right center!important;
+  -webkit-mask-image:linear-gradient(to left,#000 82%,transparent 100%);
+  mask-image:linear-gradient(to left,#000 82%,transparent 100%);
+}
+.games .game > a.two-layer-crazy .crazy-art-left {
+  left:0!important;
+  width:calc(var(--deco-size)*.86)!important;
+  background-image:url("verrueckt-gesucht/assets/buttons/los-gehts-v1.svg")!important;
+  background-position:left center!important;
+  -webkit-mask-image:linear-gradient(to right,#000 82%,transparent 100%);
+  mask-image:linear-gradient(to right,#000 82%,transparent 100%);
+}
+
+/* Die frueheren border-image-Pseudoelemente des verrueckten Schilds
+   duerfen keine zweite, verformte Grafik mehr darueberlegen. */
+.games .game-verrueckt > a.two-layer-crazy::before,
+.games .game-verrueckt > a.two-layer-crazy::after {
+  content:none!important;
+  display:none!important;
+  border:0!important;
+  border-image:none!important;
+}
+.games .game > a.two-layer-word .banner-label,
+.games .game > a.two-layer-crazy .verrueckt-button-label {
+  z-index:2!important;
+  position:relative!important;
+  margin:0!important;
+  padding:0!important;
+  top:auto!important;
+  font-weight:900!important;
+  font-size:clamp(19px,2.7vw,27px)!important;
+  line-height:1.15!important;
+  text-align:center!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  hyphens:none!important;
+  color:#244b36!important;
+  text-shadow:0 1px 2px #fff!important;
+}
+@media(max-width:700px){
+  .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
+    --deco-size:clamp(48px,12.8vw,64px);
+    padding:8px calc(var(--deco-size)*.98) 8px calc(var(--deco-size)*.75)!important;
+  }
+  .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+    --deco-size:clamp(60px,17vw,80px);
+    padding:8px 9px 8px calc(var(--deco-size)*.85)!important;
+  }
+  .games .game > a.two-layer-word .banner-label,
+  .games .game > a.two-layer-crazy .verrueckt-button-label {
+    font-size:clamp(17px,4.4vw,22px)!important;
+  }
+}
+@media(max-width:390px){
+  .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
+    --deco-size:46px;
+    padding-inline:32px 44px!important;
+  }
+  .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+    --deco-size:58px;
+    padding-left:50px!important;
+    padding-right:4px!important;
+  }
+  .games .game > a.two-layer-word .banner-label,
+  .games .game > a.two-layer-crazy .verrueckt-button-label {
+    font-size:17px!important;
+  }
+}
