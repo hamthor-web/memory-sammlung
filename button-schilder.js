@@ -17,7 +17,7 @@
  function apply(){
   if(menu){
    document.querySelectorAll('.games .game').forEach(game=>{
-    const theme=game.classList.contains('game-blue')?'blue':'paper';
+    const theme=game.classList.contains('game-synonyms')?'synonyms':game.classList.contains('game-blue')?'blue':'paper';
     game.querySelectorAll('a.play').forEach(link=>skin(link,theme));
    });
   }

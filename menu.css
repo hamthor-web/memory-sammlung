@@ -299,3 +299,8 @@ footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
  .games{grid-template-columns:minmax(0,1fr)}
  .games .game-actions{gap:12px}
 }
+
+/* Drei Spiele: breite Ansicht nebeneinander, im Hochformat untereinander. */
+@media(min-width:1051px) and (orientation:landscape){.games{grid-template-columns:repeat(3,minmax(0,1fr))}.games .game{min-width:0}.games .game img{width:100%;height:clamp(180px,24vh,270px)}.games .game h2{font-size:clamp(24px,2.3vw,34px)}}
+.game-synonyms{border-color:#b49a51}.game-synonyms>img{border-radius:18px}.games .game-synonyms .play{color:#18352e}
+@media(min-width:1051px) and (orientation:landscape){main{max-width:1440px}h1{margin:20px 0 8px}.intro{margin:12px 0}.games{margin:20px 0;gap:20px}.games .game{gap:6px}.games .game img{height:clamp(165px,22vh,240px)}.games .game h2{margin:12px 0 6px}.games .game p{font-size:clamp(20px,1.8vw,24px);margin:12px 0 18px}}

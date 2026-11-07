@@ -138,3 +138,5 @@ body.choosing-pairs #selection .banner-button .banner-label {
  padding-block:calc(9px * var(--banner-scale))!important;
  margin:0 auto!important;
 }
+
+.banner-button.banner-synonyms{border-image-source:url("assets/buttons/synonymmemory-paper.png");color:#18352e;text-shadow:none}.banner-synonyms .banner-label{color:#18352e}
