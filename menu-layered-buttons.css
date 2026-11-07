@@ -53,14 +53,14 @@
 }
 .games .game > a.two-layer-word .word-art-right {
  right:4px!important;
- width:calc(var(--card-deco)*95/98)!important;
+ width:var(--card-deco)!important;
  height:var(--card-deco)!important;
  background-image:url("assets/buttons/cards-overlay-standalone.svg")!important;
  background-position:center!important;
 }
 .games .game > a.two-layer-crazy .crazy-art-left {
  left:5px!important;
- width:calc(var(--sausage-deco)*76/157)!important;
+ width:clamp(38px,5vw,52px)!important;
  height:var(--sausage-deco)!important;
  background-image:url("assets/buttons/wuerstchen-overlay-standalone.svg")!important;
  background-position:center!important;
