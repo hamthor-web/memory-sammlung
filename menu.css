@@ -304,3 +304,19 @@ footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
 @media(min-width:1051px) and (orientation:landscape){.games{grid-template-columns:repeat(3,minmax(0,1fr))}.games .game{min-width:0}.games .game img{width:100%;height:clamp(180px,24vh,270px)}.games .game h2{font-size:clamp(24px,2.3vw,34px)}}
 .game-synonyms{border-color:#b49a51}.game-synonyms>img{border-radius:18px}.games .game-synonyms .play{color:#18352e}
 @media(min-width:1051px) and (orientation:landscape){main{max-width:1440px}h1{margin:20px 0 8px}.intro{margin:12px 0}.games{margin:20px 0;gap:20px}.games .game{gap:6px}.games .game img{height:clamp(165px,22vh,240px)}.games .game h2{margin:12px 0 6px}.games .game p{font-size:clamp(20px,1.8vw,24px);margin:12px 0 18px}}
+
+/* Vier Spielkacheln: zwei gleichwertige Spalten, auch im Querformat. */
+.games {grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:1051px) and (orientation:landscape) {
+ .games {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+.game-verrueckt {border-color:#b49a51}
+.game-verrueckt > img {object-fit:contain}
+@media(max-width:620px) {
+ .games {grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .games .game {padding:10px;gap:7px;border-radius:16px}
+ .games .game img {height:clamp(105px,21vw,160px)}
+ .games .game h2 {font-size:clamp(18px,4.2vw,23px);overflow-wrap:anywhere}
+ .games .game p {font-size:clamp(16px,3.7vw,19px);line-height:1.35;overflow-wrap:anywhere}
+ .games .game .play {font-size:clamp(16px,3.7vw,20px);padding:12px 6px;overflow-wrap:anywhere;min-height:50px}
+}

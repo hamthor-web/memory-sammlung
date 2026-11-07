@@ -1,0 +1,91 @@
+{
+  "id": "rakete",
+  "name": "Verrückte Rakete",
+  "roundLength": 10,
+  "steps": [
+    {
+      "correctAnswers": 1,
+      "image": "assets/rakete/rakete-01.png",
+      "description": "Rakete",
+      "source": "1000260059.png"
+    },
+    {
+      "correctAnswers": 2,
+      "image": "assets/rakete/rakete-02.png",
+      "description": "Flamme",
+      "source": "1000260060.png"
+    },
+    {
+      "correctAnswers": 3,
+      "image": "assets/rakete/rakete-03.png",
+      "description": "Erstes Auge",
+      "source": "1000260061.png"
+    },
+    {
+      "correctAnswers": 4,
+      "image": "assets/rakete/rakete-04.png",
+      "description": "Zweites Auge",
+      "source": "1000260062.png"
+    },
+    {
+      "correctAnswers": 5,
+      "image": "assets/rakete/rakete-05.png",
+      "description": "Mund mit Zunge",
+      "source": "1000260063.png"
+    },
+    {
+      "correctAnswers": 6,
+      "image": "assets/rakete/rakete-06.png",
+      "description": "Großer Haken",
+      "source": "1000260074.png"
+    },
+    {
+      "correctAnswers": 7,
+      "image": "assets/rakete/rakete-07.png",
+      "description": "Leiter",
+      "source": "1000260075.png"
+    },
+    {
+      "correctAnswers": 8,
+      "image": "assets/rakete/rakete-08.png",
+      "description": "Astronaut",
+      "source": "1000260076.png"
+    },
+    {
+      "correctAnswers": 9,
+      "image": "assets/rakete/rakete-09.png",
+      "description": "Sternschnuppe",
+      "source": "1000260077.png"
+    },
+    {
+      "correctAnswers": 10,
+      "image": "assets/rakete/rakete-10.png",
+      "description": "Sternenhimmel",
+      "source": "1000260078.png"
+    }
+  ],
+  "transition": {
+    "previousImage": {
+      "scale": 0.28,
+      "blurPx": 3
+    },
+    "newImage": {
+      "scaleFrom": 0.75,
+      "scaleTo": 1
+    },
+    "durationMs": 2000,
+    "advance": "manual"
+  },
+  "display": {
+    "fit": "contain",
+    "preserveAspectRatio": true
+  },
+  "initialState": {
+    "correctAnswers": 0,
+    "image": null
+  },
+  "completion": {
+    "image": "assets/rakete/rakete-10.png",
+    "holdUntilUserContinues": true
+  }
+}

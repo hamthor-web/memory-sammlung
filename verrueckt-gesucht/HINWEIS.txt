@@ -1,0 +1,1 @@
+Aktuelle vollständige Spielversion: index.html. Alle zugehörigen Dateien und den Ordner assets zusammen verwenden. Die Federbilder im Repository-Hauptordner und docs/PFAU_SLOTS.md bleiben historischer Entwicklerbestand.

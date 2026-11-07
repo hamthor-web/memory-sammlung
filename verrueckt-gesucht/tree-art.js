@@ -1,0 +1,39 @@
+globalThis.TREE_ART={base:'assets/32ba7dd99f87eaaff5de782d.webp',sources:{
+  angefressener_apfel:'assets/11f22bda933312bcbb0c0fd1.png',
+  blaue_birne:'assets/7dd9d0650e1a7cfe1692c21f.png',
+  briefkasten:'assets/71a174f35f82c25e87207d49.png',
+  eckige_wassermelone:'assets/878dceea680c2eb0c44b68b3.png',
+  fliegenpilz:'assets/a7baf0a097e04d8e971ad714.png',
+  gestreifte_banane:'assets/6df39098398223a13800442e.png',
+  gummistiefel:'assets/4a263bca84150afb4d0781f8.png',
+  regenschirm:'assets/649ebeea4187859d33549b25.png',
+  kariertes_blatt:'assets/ebae75449b11bfd1640b410a.png',
+  herzfrucht:'assets/41cb81c6c6ffd5b5d7b8efdc.png',
+  karierte_birne:'assets/3875228c5682026697ccfdbb.png',
+  kariertes_papier:'assets/25f297f4cd11bab845733a97.png',
+  kastanie:'assets/0f497aa67fa1058c5e486e7b.png',
+  kopfueber_vogel:'assets/787d25b0b04eff0ea166a45c.png',
+  schielende_katze:'assets/084e23df98ede4b175ad2453.png',
+  schnecke:'assets/a11f2215137d2bda74ea2068.png',
+  sonne_zipfelmuetze:'assets/a3f01b12a8ec9231ebd65045.png',
+  spiralfrucht:'assets/b6006eaf9c2a460df55d2c85.png',
+  stachelfrucht:'assets/8aafa03214a7aeb6b644f8e7.png',
+  stammfenster:'assets/e6e207afe9554d825c5517b4.png',
+  sternfrucht:'assets/a6efc9c350c8ae967ae29c46.png',
+  viereckiger_apfel:'assets/da1dc60bbdcc06c96e82456e.png'
+},categories:{
+  angefressener_apfel:'frucht', blaue_birne:'frucht', briefkasten:'objekt', eckige_wassermelone:'frucht', fliegenpilz:'boden', gestreifte_banane:'frucht', gummistiefel:'objekt', regenschirm:'objekt', kariertes_blatt:'frucht', herzfrucht:'frucht', karierte_birne:'frucht', kariertes_papier:'objekt', kastanie:'figur', kopfueber_vogel:'figur', schielende_katze:'figur', schnecke:'boden', sonne_zipfelmuetze:'himmel', spiralfrucht:'frucht', stachelfrucht:'frucht', stammfenster:'stamm', sternfrucht:'frucht', viereckiger_apfel:'frucht'
+},slots:[
+ {x:24,y:27,w:19,cats:['frucht'],shape:'leaf'},
+ {x:44,y:16,w:18,cats:['frucht'],shape:'round'},
+ {x:83,y:11,w:18,cats:['himmel','frucht','objekt'],shape:'round'},
+ {x:67,y:26,w:20,cats:['figur','objekt'],shape:'round'},
+ {x:86,y:40,w:18,cats:['objekt','frucht'],shape:'round'},
+ {x:23,y:49,w:19,cats:['frucht'],shape:'leaf'},
+ {x:49,y:43,w:18,cats:['frucht'],shape:'round'},
+ {x:74,y:56,w:17,cats:['frucht','objekt'],shape:'round'},
+ {x:48,y:65,w:18,cats:['stamm'],shape:'window'},
+ {x:70,y:72,w:16,cats:['objekt','stamm'],shape:'window'},
+ {x:24,y:87,w:18,cats:['boden'],shape:'ground'},
+ {x:80,y:87,w:22,cats:['figur','boden','objekt'],shape:'ground'}
+]};
