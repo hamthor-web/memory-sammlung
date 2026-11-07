@@ -6,5 +6,61 @@ function show(){const list=document.getElementById('profiles');list.replaceChild
 document.getElementById('newProfile').onsubmit=event=>{event.preventDefault();try{choose(store.create(document.getElementById('name').value));}catch(error){document.getElementById('error').textContent=error.message;}};
 document.getElementById('changeProfile').onclick=show;document.getElementById('closeLogin').onclick=()=>dialog.close();dialog.addEventListener('cancel',event=>{if(!store.active())event.preventDefault();});
 if(store.active())choose(store.active());if(!store.active()||!new URLSearchParams(location.search).has('menu'))show();
-let prompt;window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();prompt=event;document.getElementById('install').hidden=false;});document.getElementById('install').onclick=async()=>{await prompt.prompt();document.getElementById('install').hidden=true;};
-if('serviceWorker' in navigator){document.getElementById('offline').textContent='Alle Spiele werden für offline vorbereitet …';navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(registration=>{const update=document.getElementById('update');const offer=()=>{if(registration.waiting){update.hidden=false;update.onclick=()=>{navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload(),{once:true});registration.waiting.postMessage('SKIP_WAITING');};}};if(registration.active)document.getElementById('offline').textContent='Offline bereit';offer();registration.addEventListener('updatefound',()=>{registration.installing.addEventListener('statechange',event=>{if(event.target.state==='installed'){document.getElementById('offline').textContent='Offline bereit';offer();}if(event.target.state==='redundant')document.getElementById('offline').textContent='Offline-Paket unvollständig. Bitte mit Internet neu laden.';});});}).catch(()=>document.getElementById('offline').textContent='Offline-Paket konnte nicht geladen werden.');}
+// Die App-Verwaltung gehoert in den Profil-Dialog und funktioniert auch ohne Profil.
+const installButton=document.getElementById('install');
+const updateButton=document.getElementById('update');
+const updateStatus=document.getElementById('updateStatus');
+const offline=document.getElementById('offline');
+let installPrompt=null,registration=null,updating=false;
+const status=text=>{updateStatus.textContent=text;};
+window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();installPrompt=event;});
+installButton.onclick=async()=>{
+ if(installPrompt){
+  try{await installPrompt.prompt();status('Beachte die Installationshinweise deines Gerätes.');}
+  catch{status('Installation über das Browsermenü versuchen.');}
+ }else{
+  status(/iPhone|iPad/i.test(navigator.userAgent)?'iPhone/iPad: Öffne Safari, tippe auf Teilen und dann auf „Zum Home-Bildschirm“.':'Öffne das Browsermenü und wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“.');
+ }
+};
+function offerUpdate(){
+ if(!registration?.waiting)return false;
+ status('Eine neue Version ist bereit. Sie wird jetzt aktiviert.');
+ navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload(),{once:true});
+ registration.waiting.postMessage('SKIP_WAITING');
+ return true;
+}
+updateButton.onclick=async()=>{
+ if(updating)return;
+ if(!('serviceWorker' in navigator)){
+  status('Dieser Browser unterstützt die Offline-Aktualisierung nicht. Bitte die Seite neu laden.');return;
+ }
+ updating=true;updateButton.disabled=true;
+ status('Suche nach einer neuen App-Version …');
+ try{
+  registration=registration||await navigator.serviceWorker.getRegistration('sw.js');
+  if(!registration) registration=await navigator.serviceWorker.register('sw.js',{updateViaCache:'none'});
+  if(!offerUpdate()){
+   await registration.update();
+   if(!offerUpdate())status('Die Versionsprüfung ist abgeschlossen. Sobald eine neue Version bereitsteht, wird sie hier angeboten.');
+  }
+ }catch(error){status('Aktualisierung konnte nicht geprüft werden. Bitte Internetverbindung prüfen.');}
+ finally{updating=false;updateButton.disabled=false;}
+};
+if('serviceWorker' in navigator){
+ offline.textContent='Alle Spiele werden für offline vorbereitet …';
+ navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(reg=>{
+  registration=reg;
+  if(reg.active)offline.textContent='Offline bereit';
+  if(reg.waiting)status('Ein Update ist bereit. Tippe auf „Auf Aktualisierung prüfen“.');
+  reg.addEventListener('updatefound',()=>{
+   const worker=reg.installing;if(!worker)return;
+   worker.addEventListener('statechange',()=>{
+    if(worker.state==='installed'){
+     offline.textContent='Offline bereit';
+     if(reg.waiting)status('Ein Update ist bereit. Tippe auf „Auf Aktualisierung prüfen“.');
+    }
+    if(worker.state==='redundant')offline.textContent='Offline-Paket unvollständig. Bitte mit Internet neu laden.';
+   });
+  });
+ }).catch(()=>{offline.textContent='Offline-Paket konnte nicht geladen werden.';status('Offline-Dienst nicht erreichbar.');});
+}
