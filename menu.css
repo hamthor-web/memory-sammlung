@@ -330,7 +330,7 @@ footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
   border:0;
   border-radius:0;
   box-shadow:none;
-  background:transparent url("verrueckt-gesucht/assets/buttons/los-gehts-v1.svg") center / 100% 100% no-repeat;
+  background:transparent url("verrueckt-gesucht/assets/buttons/los-gehts-v1.svg") center / contain no-repeat;
   color:transparent;
   overflow:hidden;
 }
