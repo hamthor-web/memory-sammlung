@@ -1,4 +1,4 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#24776b"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="menu.css"><title>Memory &amp; Lesen · Unsere Lernspiele</title><link rel="stylesheet" href="button-schilder.css"><link rel="stylesheet" href="intro-animations.css"></head><body><main><header><strong>Memory &amp; Lesen</strong><button id="changeProfile">Profil wählen</button></header><h1 id="greeting">Willkommen!</h1><p class="intro">Was möchtest du heute spielen?</p><section class="games" aria-label="Spielauswahl">
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#24776b"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="menu.css"><title>Memory &amp; Lesen · Unsere Lernspiele</title><link rel="stylesheet" href="button-schilder.css"><link rel="stylesheet" href="intro-animations.css"><link rel="stylesheet" href="menu-layered-buttons.css"></head><body><main><header><strong>Memory &amp; Lesen</strong><button id="changeProfile">Profil wählen</button></header><h1 id="greeting">Willkommen!</h1><p class="intro">Was möchtest du heute spielen?</p><section class="games" aria-label="Spielauswahl">
  <article class="game game-blue">
    <img src="assets/cards/27_Bernhardiner.png" alt="Ein kuscheliger Bernhardiner auf einer Waage">
    <h2>Eigenschaften-Memory</h2>
@@ -9,7 +9,7 @@
    <img src="wortmemory/birne-obst.png" alt="Eine Birne">
    <h2>Ein Wort – zwei Bedeutungen</h2>
    <p>Eine Birne zum Essen oder eine Glühbirne?<br>Finde die Bilder mit demselben Wort.</p>
-   <a class="play" href="wortmemory/test-zweispieler-2026-11-06.html">Spiel öffnen</a>
+   <a class="play banner-button banner-paper two-layer-word" href="wortmemory/test-zweispieler-2026-11-06.html"><span class="button-art word-art-left" aria-hidden="true"></span><span class="banner-label">Spiel öffnen</span><span class="button-art word-art-right" aria-hidden="true"></span></a>
  </article>
  <article class="game game-paper game-synonyms">
    <img src="assets/menu/synonymmemory.webp" alt="Sofa und Couch: zwei Wörter für dasselbe Sofa">
@@ -21,6 +21,6 @@
    <img src="verrueckt-gesucht/assets/knurpsel/stufe-08.png" alt="Knurpsel mit Propeller, Schirmflügeln und Schwimmflossen">
    <h2>Verrückt gesucht!</h2>
    <p>Lies die Frage und entdecke die verrückten Unterschiede auf den Bildern.</p>
-   <a class="play play-verrueckt" href="verrueckt-gesucht/index.html" aria-label="Verrückt gesucht! – Spiel starten"><span class="verrueckt-button-label">Los geht’s</span></a>
+   <a class="play play-verrueckt two-layer-crazy" href="verrueckt-gesucht/index.html" aria-label="Verrückt gesucht! – Spiel starten"><span class="button-art crazy-art-left" aria-hidden="true"></span><span class="verrueckt-button-label">Los geht’s</span></a>
  </article>
 </section><footer><span id="offline" role="status"></span><span id="storageNote"></span><span>Auf iPhone/iPad: Safari → Teilen → Zum Home-Bildschirm</span></footer></main><dialog id="login" aria-labelledby="loginTitle"><h2 id="loginTitle">Wer spielt heute?</h2><p>Wähle deinen Namen oder lege ein neues Profil an. Es bleibt auf diesem Gerät.</p><div id="profiles" class="profiles"></div><form id="newProfile"><label for="name">Neues Profil</label><input id="name" maxlength="32" autocomplete="off" placeholder="Dein Name" required><button>Profil anlegen</button></form><p id="error" role="alert"></p><button id="closeLogin" hidden>Zurück zur Spielauswahl</button><section class="profile-system-actions" aria-label="App verwalten"><h3>App verwalten</h3><div class="profile-system-buttons"><button type="button" id="install">App installieren</button><button type="button" id="update">Auf Aktualisierung prüfen</button></div><p id="updateStatus" role="status" aria-live="polite">Hier kannst du die App auch ohne Profil aktualisieren.</p></section></dialog><script src="profile-store.js"></script><script src="menu.js"></script><script src="button-schilder.js"></script><script src="intro-animations.js"></script></body></html>
