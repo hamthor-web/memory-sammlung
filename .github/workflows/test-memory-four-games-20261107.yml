@@ -3,6 +3,9 @@ on:
   push:
     paths:
       - '.github/workflows/test-memory-four-games-20261107.yml'
+      - 'menu.css'
+      - 'assets/buttons/los-gehts-verrueckt-menue.svg'
+      - 'tests/browser-memory-four-games.cjs'
   workflow_dispatch:
 permissions:
   contents: read
