@@ -1,6 +1,25 @@
 'use strict';
 CollectionSession.requireProfile();
 const data=GAME_DATA,E=QuestionEngine,matrix=E.buildMatrix(data),$=id=>document.getElementById(id);
+// An older cached page can meet a newer script during a browser/PWA update.
+// Complete the additive gallery markup before binding handlers so that this
+// transition neither prevents the game from starting nor requires a reload.
+function ensureGalleryVersionControls(){
+ function ensure(id,tag,parent,text=''){
+  let element=$(id);if(!element){element=document.createElement(tag);element.id=id;element.textContent=text;parent.append(element);}return element;
+ }
+ const versions=ensure('galleryVersionsDialog','dialog',document.body);
+ versions.setAttribute('aria-labelledby','galleryVersionsTitle');
+ ensure('galleryVersionsTitle','h2',versions,'Deine Bilder');
+ if(!$('galleryVersionsHint')&&versions.querySelector('p'))versions.querySelector('p').id='galleryVersionsHint';
+ ensure('galleryVersionsHint','p',versions,'Welches Bild möchtest du noch einmal anschauen?');
+ ensure('galleryVersionsGrid','div',versions);
+ const close=ensure('galleryVersionsClose','button',versions,'Zurück zu meinen Geschichten');close.type='button';close.classList.add('primary');
+ if(!$('galleryVersionsBack')){const back=ensure('galleryVersionsBack','button',$('galleryDialog'),'← Andere Version wählen');back.type='button';back.classList.add('quiet');back.hidden=true;$('galleryClose').before(back);}
+ if(!document.querySelector('link[href$="gallery-versions.css"]')){const link=document.createElement('link');link.rel='stylesheet';link.href=new URL('gallery-versions.css',document.currentScript?.src||location.href).href;document.head.append(link);}
+}
+ensureGalleryVersionControls();
+
 // Mobile Hochformat-Erkennung auch für ungewöhnliche PWA-Viewport-Größen.
 function adjustPortraitSetup(){
  const portrait=window.innerHeight>window.innerWidth*1.12;
