@@ -1,0 +1,31 @@
+const {chromium}=require('playwright');const assert=require('node:assert/strict');
+const base=process.env.TEST_BASE||'http://127.0.0.1:8765/';
+(async()=>{const browser=await chromium.launch({executablePath:process.env.CHROME_BIN||'/usr/bin/chromium',args:['--no-sandbox']});try{
+ const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'reduce',serviceWorkers:'block'});
+ await context.addInitScript(()=>{if(!localStorage.getItem('fuehlmemory-profiles-v1'))localStorage.setItem('fuehlmemory-profiles-v1',JSON.stringify({activeId:'anna',profiles:[{id:'anna',name:'Anna',level:1,count:6},{id:'ben',name:'Ben',level:1,count:6}]}));});
+ const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
+ async function setup(){await page.goto(base+'verrueckt-gesucht/index.html');}
+ async function start(story){await page.locator('#rewardManual').click();await page.locator('#rewardChoice').selectOption(story);await page.locator('#start').click();}
+ async function solve(){const id=await page.evaluate(()=>round.answer);await page.locator('#board [data-id="'+id+'"] .answer').click();await page.locator('#treeContinue').waitFor({state:'visible',timeout:12000});}
+ async function complete(story,interrupt=false){await setup();await start(story);for(let n=0;n<10;n++){await solve();if(n===9&&interrupt){await page.reload();await page.locator('#collectionDialog').getByRole('button',{name:'Weiterspielen',exact:true}).click();}else await page.locator('#treeContinue').click();}await page.locator('#finish:not([hidden])').waitFor();return page.evaluate(()=>({model:rewardModel(),html:rewardScene(rewardModel(),10).innerHTML}));}
+ async function gallery(){await page.locator('#choose').click();await page.locator('#openGallery').click();}
+ async function replayToEnd(){for(let n=0;n<10;n++){await page.locator('#galleryNext').click();await page.waitForFunction(step=>document.getElementById('galleryStep').textContent==='Bild '+step+' von 11',n+2);}return page.locator('#galleryPicture').evaluate(el=>el.firstElementChild.innerHTML);}
+ const first=await complete('pfau');const second=await complete('pfau',true);
+ await page.evaluate(()=>{finish();finish();});assert.equal(await page.evaluate(()=>MemoryProgress.completionCount(CollectionSession.rewards().finished.pfau)),2,'repeated finish/resume must count once');
+ await gallery();let tile=page.locator('.gallery-tile[data-story="pfau"]');assert.equal(await tile.locator('.gallery-count').innerText(),'2 Bilder');assert(await tile.evaluate(el=>el.classList.contains('gallery-stack')));
+ await tile.click();assert.equal(await page.locator('.gallery-version').count(),2);assert.match(await page.locator('.gallery-version').first().innerText(),/Bild 2/);
+ for(const viewport of [{width:390,height:844},{width:844,height:390},{width:768,height:1024}]){await page.setViewportSize(viewport);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert(await page.locator('#galleryVersionsClose').isVisible());}
+ await page.setViewportSize({width:390,height:844});await page.locator('.gallery-version[data-version="1"]').click();assert.match(await page.locator('#galleryTitle').innerText(),/Bild 1/);assert.equal(await replayToEnd(),first.html,'older exact artwork remains replayable');
+ await page.locator('#galleryVersionsBack').click();await page.locator('.gallery-version[data-version="0"]').click();assert.equal(await replayToEnd(),second.html,'newest artwork is first in the stack');await page.locator('#galleryClose').click();
+ console.log('PASS two peacock versions, exact replay of either version, newest-first chooser on phone/tablet and no duplicate completion');
+ await complete('baum');await complete('baum');await gallery();await page.locator('.gallery-tile[data-story="baum"]').click();assert.equal(await page.locator('.gallery-version').count(),2);await page.locator('#galleryVersionsClose').click();
+ console.log('PASS separate tree versions');
+ await complete('unterwasserwelt');await complete('unterwasserwelt');await gallery();tile=page.locator('.gallery-tile[data-story="unterwasserwelt"]');assert.equal(await tile.locator('.gallery-count').innerText(),'2-mal geschafft');assert(!(await tile.evaluate(el=>el.classList.contains('gallery-stack'))));await tile.click();assert.equal(await page.locator('#galleryVersionsDialog').isVisible(),false);assert.equal(await page.locator('#galleryVersionsBack').isVisible(),false);await page.locator('#galleryClose').click();
+ await setup();await start('unterwasserwelt');await solve();await page.locator('#treeContinue').click();await page.locator('#playBack').click();await page.locator('#openGallery').click();assert.equal(await page.locator('.gallery-tile[data-story="unterwasserwelt"] .gallery-count').innerText(),'2-mal geschafft','unfinished rounds do not count');
+ console.log('PASS fixed-story repeat count, direct replay and no count for an unfinished round');
+ await page.evaluate(()=>{const p=JSON.parse(localStorage.getItem('fuehlmemory-profiles-v1'));p.activeId='ben';localStorage.setItem('fuehlmemory-profiles-v1',JSON.stringify(p));localStorage.setItem('memory-progress-v1:ben',JSON.stringify({rewards:{used:['baum'],finished:{baum:{html:'<div class="reward-picture">Altes Baum-Bild</div>',date:'old'}}}}));});
+ await setup();await page.locator('#openGallery').click();assert.equal(await page.locator('.gallery-tile').count(),1);assert.equal(await page.locator('.gallery-count').innerText(),'1 Bild');
+ await complete('baum');await gallery();tile=page.locator('.gallery-tile[data-story="baum"]');assert.equal(await tile.locator('.gallery-count').innerText(),'2 Bilder');await tile.click();await page.locator('.gallery-version[data-version="1"]').click();assert.match(await page.locator('#galleryPicture').innerText(),/Altes Baum-Bild/);
+ assert.equal(await page.evaluate(()=>MemoryProgress.completionCount(CollectionSession.progress.rewards('anna').finished.baum)),2);assert.deepEqual(errors,[]);
+ console.log('PASS child isolation and existing single image preserved as version one');await context.close();
+}finally{await browser.close();}})().catch(error=>{console.error(error);process.exitCode=1;});

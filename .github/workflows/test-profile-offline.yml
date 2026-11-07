@@ -37,6 +37,7 @@ jobs:
           node verify.cjs
           node verify-pwa.cjs
           node tests/progress-store.cjs
+          node tests/reward-history.cjs
           node tests/service-worker-update.cjs
       - name: Require the checked-in offline manifest to match the application
         run: |
@@ -50,6 +51,8 @@ jobs:
         run: node tests/browser-memory-four-games.cjs
       - name: Check profiles, rules, handovers and round recovery
         run: node tests/browser-progress.cjs
+      - name: Check saved artwork versions and repeat counts
+        run: node tests/browser-reward-history.cjs
       - name: Recover all eleven reward stories
         run: node tests/browser-reward-resume.cjs
       - name: First-ever offline start of all four games

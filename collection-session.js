@@ -24,6 +24,7 @@
   requireProfile(){if(owner)return true;location.replace(home.href);return false;},
   rewards:()=>owner?progress.rewards(owner.id):{used:[],finished:{}},
   saveRewards:value=>owner&&progress.saveRewards(owner.id,value),
+  completeReward:(story,completion)=>owner&&progress.completeReward(owner.id,story,completion),
   escape:value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))};
  addEventListener('pagehide',flush);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flush();});
  addEventListener('pageshow',()=>{const active=MemoryProfiles.createStore(storage).active();if(active?.id!==owner?.id){flush();location.reload();}});
