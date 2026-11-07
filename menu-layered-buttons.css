@@ -136,3 +136,47 @@
   padding-left:60px!important;
  }
 }
+
+/* 07.11.2026: Die beiden rechten Papier-Schilder erhalten die gleiche
+   sichtbare Hoehenklasse wie die bestehenden linken Schilder.
+   Motive bleiben eigene, proportional skalierte Ebenen. */
+.games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button,
+.games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+  height:88px!important;
+  min-height:88px!important;
+  max-height:88px!important;
+  padding-top:6px!important;
+  padding-bottom:6px!important;
+}
+@media(max-width:700px){
+  .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button,
+  .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+    height:76px!important;
+    min-height:76px!important;
+    max-height:76px!important;
+    padding-top:4px!important;
+    padding-bottom:4px!important;
+  }
+  .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
+    --card-deco:56px;
+  }
+  .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+    --sausage-deco:64px;
+  }
+}
+@media(max-width:390px){
+  .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
+    --card-deco:49px;
+  }
+  .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+    --sausage-deco:62px;
+  }
+}
+@media(max-width:360px){
+  .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
+    --card-deco:62px;
+  }
+  .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+    --sausage-deco:68px;
+  }
+}
