@@ -1,0 +1,56 @@
+name: Profile progress and complete offline games
+on:
+  pull_request:
+  push:
+    paths:
+      - '**.js'
+      - '**.cjs'
+      - '**.html'
+      - '**.css'
+      - 'assets/**'
+      - 'verrueckt-gesucht/assets/**'
+      - '.github/workflows/test-profile-offline.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser automation
+        run: npm install --no-save --no-package-lock playwright
+      - name: Select Chromium
+        run: |
+          CHROME=$(command -v google-chrome || command -v chromium || true)
+          if [ -z "$CHROME" ]; then
+            npx playwright install --with-deps chromium
+            CHROME=$(node -e "process.stdout.write(require('playwright').chromium.executablePath())")
+          fi
+          echo "CHROME_BIN=$CHROME" >> "$GITHUB_ENV"
+      - name: Check logic, data migration and safe updates
+        run: |
+          node verify.cjs
+          node verify-pwa.cjs
+          node tests/progress-store.cjs
+          node tests/service-worker-update.cjs
+      - name: Require the checked-in offline manifest to match the application
+        run: |
+          node scripts/build-offline.cjs
+          git diff --exit-code -- offline-files.js
+      - name: Start local app
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/memory-profile-server.log 2>&1 &
+          sleep 2
+      - name: Check all menu transitions
+        run: node tests/browser-memory-four-games.cjs
+      - name: Check profiles, rules, handovers and round recovery
+        run: node tests/browser-progress.cjs
+      - name: Recover all eleven reward stories
+        run: node tests/browser-reward-resume.cjs
+      - name: First-ever offline start of all four games
+        run: node tests/browser-offline.cjs

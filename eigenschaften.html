@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#24776b"><meta name="description" content="Ein Eigenschaften-Memory mit Bildkarten, drei Schwierigkeitsstufen und lokalen Kinderprofilen. Offline spielbar."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Fühlmemory"><link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><title>Fühlmemory · Eigenschaften-Memory</title><link rel="stylesheet" href="button-schilder.css"><link rel="stylesheet" href="collection-navigation.css"></head>
-<body><main><header><a href="index.html?menu=1">← Spielmenü</a><span>FÜHLMEMORY</span><div class="header-actions"><button id="profileSwitch">Profil wählen</button><button id="install" hidden>App installieren</button> <button id="reset">Zurück zu den Einstellungen</button></div></header><h1>Eigenschaften-Memory</h1>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#24776b"><meta name="description" content="Ein Eigenschaften-Memory mit Bildkarten, drei Schwierigkeitsstufen und lokalen Kinderprofilen. Offline spielbar."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Fühlmemory"><link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><title>Fühlmemory · Eigenschaften-Memory</title><link rel="stylesheet" href="button-schilder.css"><link rel="stylesheet" href="collection-navigation.css"><link rel="stylesheet" href="collection-session.css"></head>
+<body><script src="profile-store.js"></script><script src="progress-store.js"></script><script src="collection-session.js"></script><main><header><a href="index.html?menu=1">← Spielmenü</a><span>FÜHLMEMORY</span><div class="header-actions"><button id="profileSwitch">Profil wählen</button><button id="install" hidden>App installieren</button> <button id="reset">Zurück zu den Einstellungen</button></div></header><h1>Eigenschaften-Memory</h1>
 <div class="button-zoom" role="group" aria-label="Größe der Schrift und Schaltflächen">
   <strong>Schrift &amp; Buttons</strong>
   <button type="button" id="buttonZoomOut" aria-label="Schrift und Schaltflächen verkleinern">−</button>
@@ -12,7 +12,7 @@
 <button id="modeSolo" class="mode-selected" type="button" aria-pressed="true">Allein spielen</button>
 <button id="modeTwo" type="button" aria-pressed="false">Zu zweit spielen</button>
 </div>
-<div id="duoNames" class="duo-names" hidden>
+<p>Zu zweit: Richtig gefunden? Du darfst noch einmal. Bei einem Fehler ist das andere Kind dran.</p><div id="duoNames" class="duo-names" hidden>
 <label>Spieler 1 <input id="duoName0" maxlength="20" value="Spieler 1"></label>
 <label>Spieler 2 <input id="duoName1" maxlength="20" value="Spieler 2"></label>
 </div>
@@ -37,7 +37,7 @@
 <div id="duoTurn" class="duo-turn">Spieler 1 ist dran</div>
 <div id="duoCard1" class="duo-player"><strong id="duoLabel1">Spieler 2</strong><span id="duoPoints1">0 Karten</span></div>
 </div>
-<div class="status"><span id="progress"></span><span id="phase"></span></div><p id="message" role="status" aria-live="polite"></p>
+<div class="status"><span id="progress"></span><span id="phase"></span></div><p id="message" role="status" aria-live="polite"></p><button id="wrongContinue" type="button" hidden>Noch einmal versuchen</button>
 <section id="questionZone" hidden aria-label="Fragekarten">
   <p id="fanLabel" class="hint question-instruction">Wähle hier zuerst deine Fragekarte.</p>
   <div id="question" hidden aria-live="polite"></div>
@@ -67,8 +67,8 @@
   <p id="previewDescription"></p>
 </dialog>
 <div id="reward" hidden role="dialog" aria-modal="true" aria-label="Papierkorb-Animation"><div class="animation-box"><video id="rewardVideo" muted playsinline preload="auto"></video><img id="rewardImage" hidden alt="Eine Karte dreht sich neben dem Papierkorb"><p id="videoStatus" hidden></p><button id="playVideo" hidden>Animation starten</button></div></div>
-<dialog id="profileDialog" class="profile-panel" aria-labelledby="profileHeading" aria-describedby="profileDescription"><h2 id="profileHeading">Wer spielt heute?</h2><p id="profileDescription">Wähle dein Profil oder lege ein neues an. Deine Einstellungen bleiben auf diesem Gerät.</p><p id="profileRoundNote" class="hint" hidden>Beim Profilwechsel beginnt eine neue Runde.</p><div id="profileList" class="profile-list"></div><p id="profileEmpty" class="hint">Hier ist noch kein Profil angelegt.</p><form id="profileForm"><label for="profileName">Neues Profil</label><input id="profileName" name="name" maxlength="32" autocomplete="off" placeholder="Name des Kindes" required><button type="submit">Profil anlegen</button></form><p id="profileError" class="profile-error" role="alert"></p><button id="profileClose" type="button" hidden>Zurück zum Spiel</button></dialog>
-<script src="cards.js"></script><script src="engine.js"></script><script src="app.js"></script><script src="profile-store.js"></script><script src="profiles.js"></script>
+<dialog id="profileDialog" class="profile-panel" aria-labelledby="profileHeading" aria-describedby="profileDescription"><h2 id="profileHeading">Wer spielt heute?</h2><p id="profileDescription">Wähle dein Profil oder lege ein neues an. Deine Einstellungen bleiben auf diesem Gerät.</p><p id="profileRoundNote" class="hint" hidden>Deine Runde wird für dich gespeichert. Du kannst später weiterspielen.</p><div id="profileList" class="profile-list"></div><p id="profileEmpty" class="hint">Hier ist noch kein Profil angelegt.</p><form id="profileForm"><label for="profileName">Neues Profil</label><input id="profileName" name="name" maxlength="32" autocomplete="off" placeholder="Name des Kindes" required><button type="submit">Profil anlegen</button></form><p id="profileError" class="profile-error" role="alert"></p><button id="profileClose" type="button" hidden>Zurück zum Spiel</button></dialog>
+<script src="cards.js"></script><script src="engine.js"></script><script src="app.js"></script><script src="profiles.js"></script>
 <script>
 (function(){
   let zoom=1;
@@ -82,5 +82,5 @@
   document.getElementById('buttonZoomValue').addEventListener('click',()=>apply(1));
   apply(1);
 })();
-</script><script src="button-schilder.js"></script><script src="collection-navigation.js"></script></body></html>
+</script><script src="button-schilder.js"></script><script src="collection-navigation.js"></script><script src="offline-client.js"></script></body></html>
 

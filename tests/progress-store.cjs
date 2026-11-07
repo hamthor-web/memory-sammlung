@@ -1,0 +1,23 @@
+const assert=require('node:assert/strict');
+const {createStore,PREFIX,LEGACY,ASSIGNMENT}=require('../progress-store.js');
+const data=new Map(),storage={getItem:k=>data.get(k)||null,setItem:(k,v)=>data.set(k,v)};
+const store=createStore(storage);
+store.saveRound('anna','word',{score:2});store.saveRound('ben','word',{score:1});
+assert.deepEqual(store.loadRound('anna','word'),{score:2});assert.deepEqual(store.loadRound('ben','word'),{score:1});
+store.clearRound('ben','word');assert.equal(store.loadRound('ben','word'),null);assert.deepEqual(store.loadRound('anna','word'),{score:2});
+store.saveRewards('ben',{used:['baum'],finished:{baum:{date:'today'}}});
+storage.setItem(LEGACY,JSON.stringify({used:['pfau'],finished:{pfau:{html:'old picture'}}}));
+assert(store.legacyPending());assert.equal(store.rewards('anna').used.length,0);assert.equal(store.rewards('ben').used.length,1);
+assert(store.assignLegacy('ben'));assert(!store.legacyPending());assert(!store.assignLegacy('anna'));
+assert.deepEqual(store.rewards('ben').used,['pfau','baum']);assert.equal(store.rewards('anna').used.length,0);
+let migrated=store.rewards('ben');migrated.used=[];store.saveRewards('ben',migrated);
+assert.deepEqual(store.rewards('ben').used,[],'reset of surprise cycle must survive migration');
+assert.equal(JSON.parse(storage.getItem(LEGACY)).finished.pfau.html,'old picture','legacy backup must stay unchanged');
+assert.equal(JSON.parse(storage.getItem(ASSIGNMENT)).ownerId,'ben');assert(storage.getItem(ASSIGNMENT).length<100);assert(!JSON.parse(storage.getItem(PREFIX+'ben')).rewards.finished.pfau);
+let errors=0;const failed=createStore({getItem:k=>storage.getItem(k),setItem(){throw Error('Quota');}},()=>errors++);
+assert.equal(failed.saveRound('anna','word',{score:99}),false);assert.equal(errors,1);assert.deepEqual(store.loadRound('anna','word'),{score:2});
+assert.throws(()=>store.saveRound(null,'word',{}));
+// Failed migration must neither assign nor delete any legacy image.
+const fresh=new Map([[LEGACY,storage.getItem(LEGACY)]]);const unavailable=createStore({getItem:k=>fresh.get(k)||null,setItem(){throw Error('Quota');}});
+assert.equal(unavailable.assignLegacy('anna'),false);assert(unavailable.legacyPending());assert(fresh.has(LEGACY));assert(!fresh.has(ASSIGNMENT));
+console.log('PASS profile isolation, round checkpoints, explicit migration, backup preservation and quota failures');

@@ -1,5 +1,5 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
-const listeners={};const context={self:{registration:{scope:'https://example.org/Fuehlmemory/'},addEventListener:(name,fn)=>listeners[name]=fn},URL,Response,importScripts:()=>{},MEMORY_CARDS:require('./cards.js')||globalThis.MEMORY_CARDS};
+const listeners={};const context={self:{registration:{scope:'https://example.org/Fuehlmemory/'},addEventListener:(name,fn)=>listeners[name]=fn},URL,Response,importScripts:file=>vm.runInContext(fs.readFileSync(path.join(__dirname,file),'utf8'),context),MEMORY_CARDS:require('./cards.js')||globalThis.MEMORY_CARDS};
 context.MEMORY_CARDS=globalThis.MEMORY_CARDS;
 vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'sw.js'),'utf8'),context);
 const files=vm.runInContext('files',context);for(const file of files)assert(fs.existsSync(path.join(__dirname,file)),'Missing '+file);

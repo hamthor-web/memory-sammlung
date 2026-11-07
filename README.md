@@ -1,13 +1,18 @@
-# Memory & Lesen – zwei Memory-Spiele
+# Memory & Lesen – vier Lernspiele
 
-Dieses Repository enthält den gemeinsamen Einstieg [index.html](index.html) mit Profilwahl und zwei Spielen:
+Dieses Repository enthält den gemeinsamen Einstieg [index.html](index.html) mit gemeinsamer Profilwahl und vier Spielen:
 
 | Spiel | Einstieg | Umfang |
 |---|---|---|
 | **Eigenschaften-Memory** | [eigenschaften.html](eigenschaften.html) | 30 Bildkarten, drei Schwierigkeitsstufen; Runden mit 6/12/18 Karten, abhängig von den geeigneten Karten der Stufe |
-| **Ein Wort – zwei Bedeutungen** | [wortmemory/index.html](wortmemory/index.html) | 20 Wortpaare mit 40 Bildbedeutungen und 80 Fragesätzen; Auswahl von 6/8/10/12 Paaren |
+| **Ein Wort – zwei Bedeutungen** | [wortmemory/test-zweispieler-2026-11-06.html](wortmemory/test-zweispieler-2026-11-06.html) | 20 Wortpaare mit 40 Bildbedeutungen und 80 Fragesätzen; Auswahl von 6/8/10/12 Paaren |
 
-Stand dieser Beschreibung: 30.10.2026, mit den vorhandenen Quellen abgeglichen. Die aktuelle Oberfläche und das Manifest nennen die Sammlung **Memory & Lesen**.
+| **1 Sache, 2 Bezeichnungen** | [synonymmemory/index.html](synonymmemory/index.html) | Wortpaare mit ergänzendem Bildvergleich |
+| **Verrückt gesucht!** | [verrueckt-gesucht/index.html](verrueckt-gesucht/index.html) | 10 Leseaufgaben pro Runde; persönliche Fortschrittsbilder |
+
+Die aktualisierten Regeln für Profile, Wiederaufnahme, Altbildzuordnung und Offlinebetrieb stehen in [Kinderprofile, Spielerwechsel und Offlinebetrieb](docs/profile-progress-offline.md). Die folgenden historischen Detailbeschreibungen werden dadurch ergänzt.
+
+Stand der älteren Detailbeschreibung: 30.10.2026, mit den vorhandenen Quellen abgeglichen. Die aktuelle Oberfläche und das Manifest nennen die Sammlung **Memory & Lesen**.
 
 ## Namen und Pflegeorte
 
@@ -26,7 +31,7 @@ Das Kind betrachtet zunächst alle Bildkarten ohne feste Lernzeit. Mit **Ich bin
 - Die Rundenauswahl bietet 6, 12 oder 18 Bildkarten. Je nach geeigneten Karten kann der Code eine Auswahl deaktivieren oder herabsetzen.
 - Pro Runde gibt es zwei Fragekarten mehr als Bildkarten; bei sechs Bildern also acht Fragekarten.
 - Eine falsche Bildkarte bleibt offen, bis **dieselbe Karte erneut angetippt** wird. Andere Bildkarten bleiben währenddessen gesperrt.
-- Eine richtige Karte bleibt während zwei Sekunden Lesezeit und der anschließenden zufälligen Papierkorb-/Kartenanimation sichtbar; erst danach wird sie ausgegraut.
+- Eine richtige Karte bleibt ohne Zeitlimit zum Lesen sichtbar. Mit „Weiter“ folgt die Papierkorb-/Kartenanimation; anschließend wird sie ausgegraut.
 - Animationen bestehen aus einer animierten WebP-Datei und drei MP4-Dateien. Die unmittelbar zuvor gewählte Animation wird bei der nächsten Auswahl ausgeschlossen.
 
 ## Ein Wort – zwei Bedeutungen
@@ -42,22 +47,22 @@ Zwei Bildbedeutungen desselben Wortes bilden ein Paar. Nach einem Treffer liest 
 
 ## Lokale Profile und Speicherung
 
-Gemeinsames Menü und Eigenschaften-Spiel verwenden lokale Kinderprofile. Gespeichert werden Profil-ID, Name, Schwierigkeit und Kartenzahl. Beim Profilwechsel im Eigenschaften-Spiel beginnt eine neue Runde. Bestehende Fühlmemory-Profile werden über denselben Speicherschlüssel weiterverwendet.
+Alle vier Spiele verwenden das im Menü ausgewählte Kinderprofil. Laufende Runden und die Fortschrittsbilder von „Verrückt gesucht!“ werden pro Profil-ID gespeichert. Nach erneutem Öffnen bietet das Spiel „Weiterspielen“ oder „Neue Runde“ an. Beim Profilwechsel bleibt die bisherige Runde erhalten.
 
-Das Wortmemory besitzt keine eigene dauerhafte Profilstatistik. Aus der gemeinsamen Profilwahl folgen keine gespeicherten Wortmemory-Ergebnisse oder Ergebnistreppen.
+Bisher gemeinsam gespeicherte Fortschrittsbilder werden erst nach ausdrücklicher Auswahl einem Kind zugeordnet. Die ursprünglichen Daten bleiben als Sicherung erhalten. Profile sind lokale Einstellungen und keine geschützten Benutzerkonten; es gibt keine automatische Cloud-Synchronisierung. Schreibfehler im lokalen Speicher werden sichtbar gemeldet.
 
-Profile sind lokale Einstellungen, keine geschützten Benutzerkonten. Die statische App sendet sie nicht an einen Anmeldeserver; es gibt keine automatische Cloud-Synchronisierung. Ohne verfügbaren lokalen Speicher weist die Oberfläche auf Sitzungsbetrieb hin.
+Zu zweit gilt in allen Memory-Spielen: Ein Treffer gibt einen Punkt und einen weiteren Zug. Nach einem Fehler bestätigt das nächste Kind die Übergabe mit „Ich bin bereit“. Ergänzende Leseaufgaben dürfen ohne zusätzlichen Punktabzug korrigiert werden.
 
 ## Installation und Offlinebetrieb
 
-Beide Spiele, Kartenbilder und Animationen sind im gemeinsamen Offline-Paket vorgesehen. Die Startseite online öffnen und warten, bis **Offline bereit** erscheint. Danach Installation und erneutes Öffnen ohne Netz auf dem vorgesehenen Gerät prüfen.
+Alle vier Spiele, Kartenbilder und Animationen sind im gemeinsamen Offline-Paket vorgesehen. Die Startseite online öffnen und warten, bis **Offline bereit** erscheint. Danach Installation und erneutes Öffnen ohne Netz auf dem vorgesehenen Gerät prüfen.
 
 - Android und unterstützte Desktopbrowser: die angebotene **App installieren**-Funktion oder die Installationsfunktion des Browsers verwenden.
 - iPhone/iPad: Safari → **Teilen → Zum Home-Bildschirm**.
 
 Service Worker benötigen HTTPS oder localhost. Direktes Öffnen einer HTML-Datei bietet kein gemeinsames Offline-Paket. Gelöschte Browser-/Websitedaten oder automatische Speicherbereinigung können Profile und Offline-Dateien entfernen; ein anderer Browser oder eine andere Adresse übernimmt vorhandene Daten nicht automatisch.
 
-Die Startseite kann **App aktualisieren** anbieten, sobald eine neue Version vorbereitet ist. Dabei wird neu geladen. Aktuelle Service-Worker-Version im Quellcode: **`v12`**. Der ältere technische Präfix `fuehlmemory:` ist weiterhin vorhanden. Bei Änderungen an den **Anwendungsdateien** auch `VERSION` in [sw.js](sw.js) berücksichtigen; die README selbst gehört nicht zum Cachebestand.
+Die Startseite kann **App aktualisieren** anbieten, sobald eine neue Version vorbereitet ist. Dabei wird neu geladen. Die Version wird aus den Anwendungsdateien automatisch erzeugt. Der ältere technische Präfix `fuehlmemory:` ist weiterhin vorhanden. Nach Änderungen an **Anwendungsdateien** `node scripts/build-offline.cjs` ausführen und `offline-files.js` mit einchecken; die README selbst gehört nicht zum Cachebestand.
 
 ## Vorschau und GitHub Pages
 

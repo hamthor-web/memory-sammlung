@@ -79,7 +79,7 @@ function renderQuestion(){
  question.yes.forEach((p,i)=>{if(i)node.append(i===question.yes.length-1?' und ':', ');property(p);});if(question.no.length){node.append(', aber nicht ');question.no.forEach((p,i)=>{if(i)node.append(' oder ');property(p);});}node.append('?');
 }
 function render(){
- $('progress').textContent=`${found.size} von ${field.length} gefunden · ${totalQuestions-used.size} Fragekarten übrig`;$('phase').textContent={study:'Anschauen',choose:'Frage wählen',answer:'Bild finden',wrong:'Noch einmal antippen',success:'In Ruhe lesen',reward:'Animation',finish:'Alle gefunden'}[stage];
+ $('progress').textContent=`${found.size} von ${field.length} gefunden · ${totalQuestions-used.size} Fragekarten übrig`;$('phase').textContent={study:'Anschauen',choose:'Frage wählen',answer:'Bild finden',wrong:'Noch einmal antippen',handoff:'Weitergeben',success:'In Ruhe lesen',reward:'Animation',finish:'Alle gefunden'}[stage];
  $('ready').hidden=stage!=='study';$('readPrompt').hidden=stage!=='success';$('questionZone').hidden=stage==='study'||stage==='finish';$('cards').classList.toggle('large',field.length>6);
  const oldCards=[...$('cards').children];
  if(oldCards.length!==field.length||oldCards.some((b,i)=>b.dataset.id!==field[i].id))$('cards').replaceChildren(...field.map(cardElement));
@@ -89,6 +89,8 @@ function render(){
  $('fan').replaceChildren(...available.map((i,position)=>{const b=document.createElement('button');b.className='question-card';b.dataset.question=i;b.style.setProperty('--angle',`${(position-(available.length-1)/2)*Math.min(6,45/Math.max(1,available.length-1))}deg`);b.style.setProperty('--x',`${(position-(available.length-1)/2)*spacing}px`);b.style.zIndex=String(position+1);const backImage=document.createElement('img');backImage.src='assets/backs/question-mark.png';backImage.alt='';backImage.draggable=false;b.append(backImage);b.setAttribute('aria-label',`Fragekarte ${i+1}`);b.disabled=stage!=='choose';b.onclick=()=>choose(i);return b;}));
  $('fanLabel').textContent=stage==='choose'?'Wähle hier zuerst deine Fragekarte.':stage==='wrong'?'Tippe unten die offene Bildkarte noch einmal an.':stage==='success'?'Lies den Text und tippe die Karte noch einmal an.':'Lies die Frage und suche unten das passende Bild.';
  $('fan').hidden=stage!=='choose';
+ $('wrongContinue').hidden=stage!=='wrong';$('wrongContinue').textContent=duo?'Weiter – '+names[1-turn]+' ist dran':'Noch einmal versuchen';
+ checkpoint();
 }
 function choose(i){
  if(stage!=='choose'||used.has(i))return;question=E.chooseQuestion(field.filter(c=>!found.has(c.id)),level,pool,history);if(!question){$('message').textContent='Für diese Karten gibt es keine passende Frage.';return;}history.add(E.key(question));history.add(E.semanticKey(question,pool));used.add(i);stage='answer';$('message').textContent='Welche Bildkarte passt zur Frage?';render();
@@ -116,7 +118,7 @@ function answer(c){
   finishReading();
   return;
  }
- if(stage==='wrong'){if(c.id!==wrongId)return;wrongId=null;stage='answer';switchTurn();$('message').textContent='Versuche eine andere Bildkarte.';render();return;}if(stage!=='answer'||found.has(c.id))return;
+ if(stage==='wrong'){if(c.id!==wrongId)return;wrongId=null;if(duo){switchTurn();stage='handoff';render();openHandoff();}else{stage='answer';$('message').textContent='Versuche eine andere Bildkarte.';render();}return;}if(stage!=='answer'||found.has(c.id))return;
  if(!E.matches(c,question)){wrongId=c.id;stage='wrong';$('message').textContent='Das passt noch nicht. Tippe dieselbe Karte an, um sie wieder zu verdecken.';render();return;}
  found.add(c.id);if(duo)points[turn]++;correctId=c.id;stage='success';$('message').textContent='Lies den Text. Tippe dann auf Weiter.';render();
  openSuccessReading(c);
@@ -127,10 +129,10 @@ function playReward(token){
  stage='finish';$('finish').hidden=false;$('message').textContent='';
  if(duo){
   $('duoFinish').hidden=false;
-  $('duoFinish').textContent=names[0]+': '+points[0]+' Karten · '+names[1]+': '+points[1]+' Karten';
+  $('duoFinish').textContent=names[0]+': '+points[0]+' Karten · '+names[1]+': '+points[1]+' Karten · '+(points[0]===points[1]?'Unentschieden!':names[points[0]>points[1]?0:1]+' hat die meisten Karten gefunden.');
  }else $('duoFinish').hidden=true;
 }else{
- stage='choose';switchTurn();$('message').textContent='Wähle deine nächste Fragekarte.';
+ stage='choose';$('message').textContent=duo?'Richtig! '+names[turn]+' darf noch einmal.':'Wähle deine nächste Fragekarte.';
 }render();if(stage==='finish')$('again').focus();}
  if(isImage){image.onload=()=>{if(token===epoch)rewardTimer=setTimeout(done,3000);};image.onerror=()=>{if(token!==epoch)return;$('videoStatus').textContent='Die Animation konnte nicht geladen werden.';$('videoStatus').hidden=false;rewardTimer=setTimeout(done,1200);};image.src='assets/animations/'+animations[index]+'?round='+token+'-'+found.size;return;}
  video.src='assets/animations/'+animationFile;video.currentTime=0;
@@ -158,19 +160,21 @@ $('ready').onclick=()=>{if(stage!=='study')return;document.body.classList.remove
 let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(stage!=='wrong')render();},120);});
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('install').hidden=false;});$('install').onclick=async()=>{if(!installPrompt)return;await installPrompt.prompt();installPrompt=null;$('install').hidden=true;};
 reset();
-if('serviceWorker' in navigator&&location.protocol!=='file:'){
- let updating=false;
- const updateButton=document.createElement('button');updateButton.textContent='App aktualisieren';updateButton.hidden=true;document.querySelector('.header-actions').append(updateButton);
- navigator.serviceWorker.addEventListener('controllerchange',()=>{if(updating)location.reload();});
- $('offlineStatus').textContent='Offline-Paket wird vorbereitet …';
- navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(registration=>{
-  const offerUpdate=()=>{if(registration.waiting){updateButton.hidden=false;updateButton.onclick=()=>{updating=true;registration.waiting.postMessage('SKIP_WAITING');};}};
-  const observe=worker=>{if(!worker)return;worker.addEventListener('statechange',()=>{if(worker.state==='installed'){if(registration.active)offerUpdate();else $('offlineStatus').textContent='Offline bereit';}else if(worker.state==='redundant')$('offlineStatus').textContent='Offline-Paket nicht vollständig. Bitte mit Internet neu laden.';});};
-  if(registration.active)$('offlineStatus').textContent='Offline bereit';
-  observe(registration.installing);offerUpdate();registration.addEventListener('updatefound',()=>observe(registration.installing));
- }).catch(()=>{$('offlineStatus').textContent='Offline-Modus konnte nicht vorbereitet werden';});
-}else $('offlineStatus').textContent='Installation benötigt HTTPS oder localhost';
 
+function openHandoff(){CollectionSession.handoff('Jetzt ist '+names[turn]+' dran.',()=>{stage='answer';$('message').textContent='Welche Bildkarte passt zur Frage?';render();});}
+function roundSnapshot(){
+ if($('game').hidden||stage==='finish')return null;
+ let savedStage=stage;
+ if(stage==='success'||stage==='reward')savedStage=found.size===field.length?'finish':'choose';
 
-
-
+ return {field:field.map(c=>c.id),found:[...found],used:[...used],history:[...history],question:savedStage==='choose'?null:question,stage:savedStage,level,count:field.length,duo,turn,points,names,wrongId,correctId:null,totalQuestions};
+}
+function checkpoint(){if(typeof CollectionSession==='undefined')return;if(stage==='finish'){CollectionSession.clear('eigenschaften');return;}const state=roundSnapshot();if(state)CollectionSession.save('eigenschaften',state);}
+function restoreRound(state){
+ if(!Array.isArray(state.field)||!state.field.length||state.field.some(id=>!pool.some(c=>c.id===id)))throw Error('Ungültige Runde');
+ reset();field=state.field.map(id=>pool.find(c=>c.id===id));found=new Set(state.found);used=new Set(state.used);history=new Set(state.history);question=state.question;stage=state.stage;level=state.level;duo=state.duo;turn=state.turn;points=state.points;names=state.names;wrongId=state.wrongId;totalQuestions=state.totalQuestions;
+ $('level').value=String(level);$('count').value=String(state.count);$('duoName0').value=names[0];$('duoName1').value=names[1];$('modeSolo').setAttribute('aria-pressed',String(!duo));$('modeTwo').setAttribute('aria-pressed',String(duo));
+ document.body.classList.remove('start-layout');$('start').hidden=true;$('game').hidden=false;$('message').textContent='Deine Runde geht weiter.';$('cards').replaceChildren();render();if(stage==='finish'){$('game').hidden=true;$('finish').hidden=false;$('duoFinish').hidden=!duo;$('duoFinish').textContent=names[0]+': '+points[0]+' Karten · '+names[1]+': '+points[1]+' Karten · '+(points[0]===points[1]?'Unentschieden!':names[points[0]>points[1]?0:1]+' hat die meisten Karten gefunden.');}if(stage==='handoff')openHandoff();
+}
+$('wrongContinue').onclick=()=>{const card=field.find(c=>c.id===wrongId);if(card)answer(card);};
+CollectionSession.track('eigenschaften',roundSnapshot);
