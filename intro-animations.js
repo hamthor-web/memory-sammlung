@@ -25,7 +25,7 @@
  }
  function go(){
   if(!busy)return;
-  clean();busy=false;location.assign(target);
+  clean();busy=false;overlay.hidden=true;video.pause();location.assign(target);
  }
  function finish(){
   if(!busy)return;
@@ -54,6 +54,14 @@
   const p=video.play();
   if(p&&typeof p.catch==='function')p.catch(go);
  }
+ // Beim Zurueckwischen liefert der Browser die Menue-Seite oft aus dem
+ // Back-Forward-Cache. Der alte Videolayer darf nicht wieder erscheinen.
+ function resetOnReturn(){
+  clean();busy=false;target='';
+  video.pause();video.removeAttribute('src');overlay.hidden=true;
+ }
+ addEventListener('pagehide',resetOnReturn);
+ addEventListener('pageshow',event=>{if(event.persisted)resetOnReturn();});
  links.forEach(a=>a.addEventListener('click',event=>{
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
   event.preventDefault();play(a);
