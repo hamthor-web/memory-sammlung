@@ -166,3 +166,33 @@ body.choosing-pairs #selection .banner-button .banner-label {
 .banner-button.banner-blue .banner-label {
  top:calc(8px * var(--banner-scale));
 }
+
+/* Wortmemory: Kartenmotiv als eigenstaendige Dekoration (07.11.2026). */
+/* Gilt nur innerhalb von "Ein Wort – zwei Bedeutungen", nicht fuer die
+   gemeinsame Spielauswahl oder die anderen Memorys.
+   Weder Breite, Hoehe, Mindesthoehe, Padding noch Schriftgroesse aendern! */
+body:has(#startWordMemory) button.banner-button.banner-paper {
+  position:relative!important;
+  isolation:isolate;
+  overflow:visible!important;
+}
+body:has(#startWordMemory) button.banner-button.banner-paper::after {
+  content:"";
+  display:block;
+  position:absolute;
+  right:clamp(3px,1vw,10px);
+  top:50%;
+  transform:translateY(-50%);
+  width:clamp(34px,11vw,82px);
+  height:clamp(34px,11vw,82px);
+  background:url("assets/buttons/cards-overlay-standalone.svg") center / contain no-repeat;
+  pointer-events:none;
+  z-index:2;
+}
+@media(max-width:420px) {
+  body:has(#startWordMemory) button.banner-button.banner-paper::after {
+    width:clamp(30px,9vw,42px);
+    height:clamp(30px,9vw,42px);
+    right:3px;
+  }
+}
