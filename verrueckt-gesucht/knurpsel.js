@@ -47,7 +47,7 @@ class View extends TreeReward.View {
   title.hidden=!this.finished;
   title.textContent=this.finished?(this.art.finishText||(this.art.kind==='rakete'?'Deine Rakete ist jetzt fertig.':'Dein Knurpsel ist jetzt fertig.')):'';
   this.dialog.setAttribute('aria-labelledby',this.finished?'treeTitle':'treeCounter');
-  button.textContent=this.finished?'Runde beenden →':'Weiter →';button.hidden=false;button.focus();
+  button.textContent='Weiter';button.hidden=false;button.focus();
   // No timer dismisses the picture: only the child's tap resolves the award.
   return await new Promise(resolve=>{this.dismissResolve=resolve;});
  }

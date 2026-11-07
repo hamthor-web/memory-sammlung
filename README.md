@@ -1,13 +1,13 @@
 # Memory & Lesen – vier Lernspiele
 
-Dieses Repository enthält den gemeinsamen Einstieg [index.html](index.html) mit gemeinsamer Profilwahl und vier Spielen:
+Dieses Repository enthält den gemeinsamen Einstieg [index.html](index.html) mit gemeinsamer Namensauswahl und vier Spielen:
 
 | Spiel | Einstieg | Umfang |
 |---|---|---|
-| **Eigenschaften-Memory** | [eigenschaften.html](eigenschaften.html) | 30 Bildkarten, drei Schwierigkeitsstufen; Runden mit 6/12/18 Karten, abhängig von den geeigneten Karten der Stufe |
-| **Ein Wort – zwei Bedeutungen** | [wortmemory/test-zweispieler-2026-11-06.html](wortmemory/test-zweispieler-2026-11-06.html) | 20 Wortpaare mit 40 Bildbedeutungen und 80 Fragesätzen; Auswahl von 6/8/10/12 Paaren |
+| **Bilder merken** | [eigenschaften.html](eigenschaften.html) | 30 Bildkarten, drei Schwierigkeitsstufen; Runden mit 6/12/18 Karten, abhängig von den geeigneten Karten der Stufe |
+| **Ein Wort, zwei Bilder** | [wortmemory/test-zweispieler-2026-11-06.html](wortmemory/test-zweispieler-2026-11-06.html) | 20 Wortpaare mit 40 Bildbedeutungen und 80 Fragesätzen; Auswahl von 6/8/10/12 Paaren |
 
-| **1 Sache, 2 Bezeichnungen** | [synonymmemory/index.html](synonymmemory/index.html) | Wortpaare mit ergänzendem Bildvergleich |
+| **Zwei Wörter, eine Sache** | [synonymmemory/index.html](synonymmemory/index.html) | Wortpaare mit ergänzendem Bildvergleich |
 | **Verrückt gesucht!** | [verrueckt-gesucht/index.html](verrueckt-gesucht/index.html) | 10 Leseaufgaben pro Runde; persönliche Fortschrittsbilder |
 
 Die aktualisierten Regeln für Profile, Wiederaufnahme, Altbildzuordnung und Offlinebetrieb stehen in [Kinderprofile, Spielerwechsel und Offlinebetrieb](docs/profile-progress-offline.md). Die folgenden historischen Detailbeschreibungen werden dadurch ergänzt.
@@ -22,7 +22,7 @@ Aktueller Pflegeort beider Spiele ist **hamthor-web/memory-sammlung**. Das älte
 
 Die separate [Spielesammlung-fuer-Lesefreude-](https://github.com/hamthor-web/Spielesammlung-fuer-Lesefreude-) enthält die sieben Spiele der großen App. Die beiden Memory-Spiele gehören nicht automatisch zu deren Spielumfang.
 
-## Eigenschaften-Memory
+## Bilder merken
 
 Das Kind betrachtet zunächst alle Bildkarten ohne feste Lernzeit. Mit **Ich bin bereit!** werden die Karten verdeckt. Danach wählt es eine Fragekarte und sucht eine passende Bildkarte.
 
@@ -34,7 +34,7 @@ Das Kind betrachtet zunächst alle Bildkarten ohne feste Lernzeit. Mit **Ich bin
 - Eine richtige Karte bleibt ohne Zeitlimit zum Lesen sichtbar. Mit „Weiter“ folgt die Papierkorb-/Kartenanimation; anschließend wird sie ausgegraut.
 - Animationen bestehen aus einer animierten WebP-Datei und drei MP4-Dateien. Die unmittelbar zuvor gewählte Animation wird bei der nächsten Auswahl ausgeschlossen.
 
-## Ein Wort – zwei Bedeutungen
+## Ein Wort, zwei Bilder
 
 Zwei Bildbedeutungen desselben Wortes bilden ein Paar. Nach einem Treffer liest das Kind einen Satz und ordnet ihn einer der beiden Bildbedeutungen zu.
 
@@ -46,6 +46,8 @@ Zwei Bildbedeutungen desselben Wortes bilden ein Paar. Nach einem Treffer liest 
 - Das optische Linsenbild verwendet ein Fernrohr in Piratenumgebung. Der zugehörige Satz lautet: „Das Fernrohr vergrößert mit seinen Linsen Dinge, die weit entfernt sind.“
 
 ## Lokale Profile und Speicherung
+
+Auf dem Handy stehen die vier Spiele untereinander, auf Tablets in zwei Spalten. „Alle Spiele“ und „Einstellungen“ führen in jedem Spiel zum selben Ziel. Schriftgröße ist über „Aa“, Installation und Aktualisierung über „App verwalten“ erreichbar.
 
 Alle vier Spiele verwenden das im Menü ausgewählte Kinderprofil. Laufende Runden und die Fortschrittsbilder von „Verrückt gesucht!“ werden pro Profil-ID gespeichert. Nach erneutem Öffnen bietet das Spiel „Weiterspielen“ oder „Neue Runde“ an. Beim Profilwechsel bleibt die bisherige Runde erhalten.
 
@@ -64,7 +66,7 @@ Alle vier Spiele, Kartenbilder und Animationen sind im gemeinsamen Offline-Paket
 
 Service Worker benötigen HTTPS oder localhost. Direktes Öffnen einer HTML-Datei bietet kein gemeinsames Offline-Paket. Gelöschte Browser-/Websitedaten oder automatische Speicherbereinigung können Profile und Offline-Dateien entfernen; ein anderer Browser oder eine andere Adresse übernimmt vorhandene Daten nicht automatisch.
 
-Die Startseite kann **App aktualisieren** anbieten, sobald eine neue Version vorbereitet ist. Dabei wird neu geladen. Die Version wird aus den Anwendungsdateien automatisch erzeugt. Der ältere technische Präfix `fuehlmemory:` ist weiterhin vorhanden. Nach Änderungen an **Anwendungsdateien** `node scripts/build-offline.cjs` ausführen und `offline-files.js` mit einchecken; die README selbst gehört nicht zum Cachebestand.
+Unter **App verwalten → Auf Aktualisierung prüfen** lässt sich eine vorbereitete neue Version aktivieren. Dabei wird neu geladen. Die Version wird aus den Anwendungsdateien automatisch erzeugt. Der ältere technische Präfix `fuehlmemory:` ist weiterhin vorhanden. Nach Änderungen an **Anwendungsdateien** `node scripts/build-offline.cjs` ausführen und `offline-files.js` mit einchecken; die README selbst gehört nicht zum Cachebestand.
 
 ## Vorschau und GitHub Pages
 

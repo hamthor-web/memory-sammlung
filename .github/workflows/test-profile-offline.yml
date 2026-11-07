@@ -49,6 +49,10 @@ jobs:
           sleep 2
       - name: Check all menu transitions
         run: node tests/browser-memory-four-games.cjs
+      - name: Check consistent mobile navigation and reading windows
+        run: |
+          node tests/browser-navigation.cjs
+          node tests/browser-reading-back.cjs
       - name: Check profiles, rules, handovers and round recovery
         run: node tests/browser-progress.cjs
       - name: Start with cached old HTML and current game code
