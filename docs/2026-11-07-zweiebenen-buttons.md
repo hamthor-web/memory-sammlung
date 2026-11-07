@@ -30,3 +30,14 @@ Heike hat auf dem Handy festgestellt, dass die beiden neuen Papierflaechen recht
 In `menu-layered-buttons.css` liegen deshalb die Papierflaechen als eigene Pseudoelemente zentriert innerhalb einer weiterhin 95px hohen Tippflaeche. Sichtbare Papierhoehe: 56px auf schmalen Geraeten, 66px bei breiteren Formaten. Die beiden Dekorationsbilder bleiben unabhaengige Ebenen. Beide linken Buttons bleiben unveraendert. Offline-Cache in `sw.js`: v67.
 
 Code und Cache-Inhalte auf GitHub gegengeprueft. Die optische Endabnahme am echten Handy/Tablet ist offen. Alte Versionen bleiben in der Git-Historie erhalten.
+
+
+## Nachtrag – Kartenmotiv auch innerhalb von „Ein Wort – zwei Bedeutungen“ (07.11.2026, v68)
+
+Heike bestätigt die Papierhöhe und die aufliegenden Figuren der gemeinsamen Startseite im Smartphone-Test als passend; Tablet-Test der Startseite steht weiterhin aus.
+
+Neuer Auftrag: Auf den bereits gestalteten großen Papierschildern **innerhalb des Spiels „Ein Wort – zwei Bedeutungen“** rechts das Kartenmotiv als eigene, proportional skalierte Dekoration ergänzen. **Sämtliche bisherigen Breiten, Höhen, Abstände, Schriftgrößen und Zoomfunktionen bleiben unverändert.** Kleine Zoom- und Systembuttons werden nicht dekoriert.
+
+Umgesetzt über eine ausschließlich auf das Wortmemory begrenzte CSS-Ergänzung in `button-schilder.css`. Vorhandene `banner-button banner-paper`-Schilder werden verwendet; die transparente Kartenillustration `assets/buttons/cards-overlay-standalone.svg` liegt rechts als nicht interaktive Bildebene über dem Schild. Keine Änderung an der großen, eingebetteten Spiel-HTML-Datei oder an der Spiellogik. Offline-Cache `v68` in `sw.js`.
+
+GitHub-Dateien und Referenzen kontrolliert. **Praktische Darstellung, Textüberdeckung bei unterschiedlichen Schriftgrößen sowie Smartphone- und Tablet-Abnahme sind noch offen.**
