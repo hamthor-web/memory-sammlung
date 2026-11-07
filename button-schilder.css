@@ -196,3 +196,51 @@ body.choosing-pairs #selection .banner-button .banner-label {
   word-break:normal!important;
  }
 }
+
+/* 07.11.2026 - Bildmotive werden nicht mehr mittels border-image gestaucht.
+   Beide Endmotive sind unabhängige, proportional skalierte SVG-Ausschnitte.
+   Nur die dekorationsfreie Pergamentmitte darf Breite aufnehmen. */
+.banner-button.banner-paper {
+ --word-art-h:clamp(42px, 13vw, 76px);
+ border:0!important;
+ border-image:none!important;
+ border-radius:0!important;
+ isolation:isolate;
+ background:transparent url("assets/buttons/word-center-slice.svg") center / 100% 100% no-repeat!important;
+ padding-inline:calc(var(--word-art-h) * .76) calc(var(--word-art-h) * 1.18)!important;
+}
+.banner-button.banner-paper::before,
+.banner-button.banner-paper::after {
+ content:"";
+ position:absolute;
+ top:50%;
+ transform:translateY(-50%);
+ pointer-events:none;
+ background-repeat:no-repeat;
+ background-size:contain;
+ height:var(--word-art-h);
+ z-index:0;
+}
+.banner-button.banner-paper::before {
+ left:0;
+ width:calc(var(--word-art-h) * .8);
+ background-image:url("assets/buttons/word-left-slice.svg");
+ background-position:left center;
+}
+.banner-button.banner-paper::after {
+ right:0;
+ width:calc(var(--word-art-h) * 1.15);
+ background-image:url("assets/buttons/word-right-slice.svg");
+ background-position:right center;
+}
+.banner-button.banner-paper > .banner-label {
+ position:relative;
+ z-index:1;
+}
+@media(max-width:620px){
+ .games .game-paper:not(.game-synonyms) .banner-button.banner-paper {
+  --word-art-h:clamp(39px, 11vw, 49px);
+  padding-inline:calc(var(--word-art-h) * .72) calc(var(--word-art-h) * 1.1)!important;
+  font-size:clamp(16px,4.2vw,19px)!important;
+ }
+}
