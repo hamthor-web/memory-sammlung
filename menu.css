@@ -703,3 +703,67 @@ footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
     padding:7px 5px 7px 39px!important;
   }
 }
+
+/* 07.11.2026 - echtes Drei-Stuecke-Schild statt verzerrter Gesamtgrafik.
+   Die sichtbare Hoehe folgt den Nachbarbuttons; Wuerstchen und Rundung
+   behalten eigene Seitenverhaeltnisse. */
+.games .game-verrueckt > a.play-verrueckt {
+ --verr-art-h:clamp(56px, 12vw, 82px);
+ position:relative!important;
+ isolation:isolate;
+ display:flex!important;
+ width:100%!important;
+ min-height:95px!important;
+ height:auto!important;
+ background:transparent url("assets/buttons/verrueckt-middle-slice.svg") center / 100% 100% no-repeat!important;
+ border:0!important;
+ border-image:none!important;
+ padding:12px calc(var(--verr-art-h) * .5) 12px calc(var(--verr-art-h) * .84)!important;
+ box-sizing:border-box!important;
+ overflow:visible!important;
+}
+.games .game-verrueckt > a.play-verrueckt::before,
+.games .game-verrueckt > a.play-verrueckt::after {
+ content:"";
+ display:block!important;
+ position:absolute;
+ top:50%;
+ transform:translateY(-50%);
+ pointer-events:none;
+ z-index:0;
+ border:0!important;
+ border-image:none!important;
+ background-repeat:no-repeat!important;
+ background-size:contain!important;
+ height:var(--verr-art-h);
+}
+.games .game-verrueckt > a.play-verrueckt::before {
+ inset:auto auto auto 0!important;
+ top:50%!important;
+ width:calc(var(--verr-art-h) * .867);
+ background-image:url("assets/buttons/verrueckt-left-slice.svg")!important;
+ background-position:left center!important;
+}
+.games .game-verrueckt > a.play-verrueckt::after {
+ inset:auto 0 auto auto!important;
+ top:50%!important;
+ width:calc(var(--verr-art-h) * .534);
+ background-image:url("assets/buttons/verrueckt-right-slice.svg")!important;
+ background-position:right center!important;
+}
+.games .game-verrueckt .verrueckt-button-label {
+ z-index:1;
+ position:relative;
+ padding:0!important;
+ font-size:clamp(19px,2.65vw,28px)!important;
+}
+@media(max-width:700px){
+ .games .game-verrueckt > a.play-verrueckt {
+  --verr-art-h:clamp(52px,13vw,66px);
+  background:transparent url("assets/buttons/verrueckt-middle-slice.svg") center / 100% 100% no-repeat!important;
+  padding:12px calc(var(--verr-art-h) * .47) 12px calc(var(--verr-art-h) * .82)!important;
+ }
+ .games .game-verrueckt .verrueckt-button-label {
+  font-size:clamp(16px,4.2vw,21px)!important;
+ }
+}
