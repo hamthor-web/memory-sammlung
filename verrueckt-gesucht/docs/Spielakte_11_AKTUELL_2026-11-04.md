@@ -73,3 +73,17 @@ Diese Akte erhält die frühere Akte als historische Quelle und dokumentiert akt
 
 **Nachweis:** Alle sieben Pfade sind im Repository vorhanden; Manifest wird korrekt geparst, pwa.js und sw.js sind syntaktisch gültig, der Button ist in index.html eingebaut.
 **Noch offen:** praktische Installation in Chrome/Edge unter Windows sowie Android/iPad; Firefox unter Windows muss eine Anleitung zeigen, da keine native PWA-Installation bereitsteht. Vollständige visuelle Abnahme aller elf Fortschrittsanimationen bleibt ebenfalls offen.
+
+
+## 8. Nachtrag – Hundekarten mit schwarzer und gelber Nase (07.11.2026)
+
+**Bestätigte Entscheidung:** Die Karten VG-01-05 und VG-01-06 bekommen neue Bilder im bisherigen freundlichen Hundestil. Die linke Nase ist schwarz, die rechte gelb; keine gelben Flecken auf der Schnauze; eine Zunge. Alle drei abgefragten Merkmale bleiben bestehen: Nasenfarben, Schwanzfarbe und Halsschleife. Eine Zungenfrage existiert in der aktuellen Hundemotiv-Gruppe nicht.
+
+| Karte | Nasen | Schwanz | Halsschleife | Bilddatei |
+|---|---|---|---|---|
+| VG-01-05 | schwarz und gelb | braun | rot | `assets/hund-nasen-neu-05.webp` |
+| VG-01-06 | schwarz und gelb | blau | grün | `assets/hund-nasen-neu-06.webp` |
+
+**Technischer Stand:** In `hamthor-web/Verruecktes_lesen_und_finden` und der Kopie unter `hamthor-web/memory-sammlung/verrueckt-gesucht/` wurden die zwei Bilddateien eingebaut, `data.js` und `sw.js` aktualisiert und ausschließlich die beiden ersetzten Dateien `assets/hund-gelbe-nase-05.svg` und `assets/hund-gelbe-nase-06.svg` aus dem Dateibaum entfernt. Die vier anderen Hundekarten und alle Fragen bleiben unverändert. Die Bilder sind derzeit weboptimierte 256×256-WebP-Dateien; die ursprünglich neu erzeugten 800×800-Vorlagen bleiben außerhalb der Repositories erhalten. Cache der Memory-Sammlung: v69.
+
+**Quellnachweis:** Quellrepository-Commit `e5d4b28001b91b1f507991949c16862d8929cd9b`; Bild-SHA-256 VG-01-05 `247310ea30cbccfecd7728d2f4deda3be3e8e5af721645ec4707e092e6a98fc0`, VG-01-06 `ecda7569c6441de7f777cbdf8b25e64514373c1ca00ea8d34727bc1d2d97dc26`. Eine vollständige visuelle Abnahme der veröffentlichten Version auf Smartphone und Tablet bleibt offen.
