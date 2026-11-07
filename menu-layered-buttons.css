@@ -1,182 +1,166 @@
-/* Zwei-Ebenen-Buttons auf der gemeinsamen Spielauswahl.
-   Die beiden linken Buttons bleiben unveraendert.
-   Papier ist flexibel, hochgeladene Dekorationen bleiben proportional. */
+/* Verbindliche Zweiebenen-Gestaltung (07.11.2026).
+   NUR die zwei rechten Spielstart-Schilder. Die linke Spalte bleibt unveraendert.
+   Die Hoehe der Papierflaeche orientiert sich am sichtbaren Papier der linken
+   Originalschilder, NICHT an den darueberliegenden Dekomotiven. */
 
 .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button,
 .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
- position:relative!important;
- isolation:isolate!important;
- display:flex!important;
- align-items:center!important;
- justify-content:center!important;
- box-sizing:border-box!important;
- width:100%!important;
- height:auto!important;
- min-height:100px!important;
- margin:0!important;
- border:3px solid #b8d9e5!important;
- border-image:none!important;
- border-radius:999px!important;
- background:#f5eacf!important;
- background-image:radial-gradient(ellipse at 42% 24%,#fff8e8 0%,transparent 70%),linear-gradient(110deg,#efdfbe,#fbefd8 50%,#f3e5c8)!important;
- background-size:100% 100%!important;
- background-position:center!important;
- background-repeat:no-repeat!important;
- box-shadow:none!important;
- text-decoration:none!important;
- overflow:hidden!important;
+  position:relative!important;
+  isolation:isolate!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:95px!important;
+  min-height:95px!important;
+  max-height:none!important;
+  margin:0!important;
+  padding-block:5px!important;
+  border:0!important;
+  border-image:none!important;
+  border-radius:0!important;
+  background:none!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  text-decoration:none!important;
+}
+/* Das Papier ist eine eigene, duennere Ebene innerhalb der grossen Tippflaeche. */
+.games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button::before,
+.games .game-verrueckt > a.two-layer-crazy.play-verrueckt::before {
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  top:50%!important;
+  left:0!important;
+  right:0!important;
+  bottom:auto!important;
+  transform:translateY(-50%)!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:66px!important;
+  border:2px solid #a9d6e6!important;
+  border-image:none!important;
+  border-radius:999px!important;
+  background:radial-gradient(ellipse at 40% 24%,#fff8e9,transparent 72%),linear-gradient(105deg,#eee0c3,#fbefd8 50%,#f2e4ca)!important;
+  box-shadow:none!important;
+  pointer-events:none!important;
+  z-index:0!important;
+}
+.games .game-verrueckt > a.two-layer-crazy.play-verrueckt::before {
+  border-color:#bdb69a!important;
+}
+.games .game-verrueckt > a.two-layer-crazy.play-verrueckt::after {
+  content:none!important;
+  display:none!important;
 }
 
-.games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
- --card-deco:clamp(70px,9vw,92px);
- padding:12px calc(var(--card-deco)*.93 + 9px) 12px 10px!important;
-}
-.games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
- --sausage-deco:clamp(80px,10vw,100px);
- border-color:#c9c2a5!important;
- padding:12px 10px 12px calc(var(--sausage-deco)*.49 + 12px)!important;
-}
-
-/* Wirklich getrennte, transparente Dekorationsbilder.
-   width proportional zur Hoehe; keine nicht-proportionale Streckung. */
+/* Die Dekorationen liegen ueber dem Papier und duerfen es oben/unten
+   ueberragen. Sie bestimmen niemals die Hoehe der Papierflaeche.
+   background-size:contain erhaelt die Proportionen. */
 .games .game > a.two-layer-word .button-art,
 .games .game > a.two-layer-crazy .button-art {
- position:absolute!important;
- top:50%!important;
- display:block!important;
- transform:translateY(-50%)!important;
- background-repeat:no-repeat!important;
- background-size:contain!important;
- pointer-events:none!important;
- z-index:1!important;
- border:0!important;
+  position:absolute!important;
+  display:block!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+  background-size:contain!important;
+  pointer-events:none!important;
+  border:0!important;
+  z-index:1!important;
+}
+.games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
+  --card-deco:80px;
+  padding-left:8px!important;
+  padding-right:84px!important;
 }
 .games .game > a.two-layer-word .word-art-right {
- right:4px!important;
- width:var(--card-deco)!important;
- height:var(--card-deco)!important;
- background-image:url("assets/buttons/cards-overlay-standalone.svg")!important;
- background-position:center!important;
+  right:2px!important;
+  width:var(--card-deco)!important;
+  height:var(--card-deco)!important;
+  background-image:url("assets/buttons/cards-overlay-standalone.svg")!important;
+}
+.games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+  --sausage-deco:91px;
+  padding-left:56px!important;
+  padding-right:8px!important;
 }
 .games .game > a.two-layer-crazy .crazy-art-left {
- left:5px!important;
- width:clamp(38px,5vw,52px)!important;
- height:var(--sausage-deco)!important;
- background-image:url("assets/buttons/wuerstchen-overlay-standalone.svg")!important;
- background-position:center!important;
+  left:4px!important;
+  width:48px!important;
+  height:var(--sausage-deco)!important;
+  background-image:url("assets/buttons/wuerstchen-overlay-standalone.svg")!important;
 }
-
-/* Nie die alten kompletten Schildgrafiken zusaetzlich einblenden. */
-.games .game-verrueckt > a.two-layer-crazy::before,
-.games .game-verrueckt > a.two-layer-crazy::after {
- content:none!important;
- display:none!important;
- border-image:none!important;
-}
-
 .games .game > a.two-layer-word .banner-label,
 .games .game > a.two-layer-crazy .verrueckt-button-label {
- position:relative!important;
- z-index:2!important;
- display:block!important;
- margin:0!important;
- padding:0!important;
- top:auto!important;
- font-size:clamp(20px,2.8vw,28px)!important;
- font-weight:900!important;
- line-height:1.14!important;
- text-align:center!important;
- color:#244834!important;
- text-shadow:0 1px 2px #fff!important;
- overflow-wrap:normal!important;
- word-break:normal!important;
- hyphens:none!important;
+  position:relative!important;
+  display:block!important;
+  z-index:2!important;
+  top:auto!important;
+  margin:0!important;
+  padding:0!important;
+  color:#244834!important;
+  text-shadow:0 1px 2px #fff!important;
+  font-size:clamp(20px,2.8vw,28px)!important;
+  font-weight:900!important;
+  line-height:1.15!important;
+  text-align:center!important;
+  white-space:normal!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  hyphens:none!important;
 }
-
-/* Die Spielauswahl bleibt zweispaltig, die Motive werden im Hochformat
-   proportional kleiner; die Papierflaeche bleibt genauso hoch. */
+/* Die Papierhoehe sinkt im Zweispalten-Handyformat auf die sichtbare
+   Papierhoehe der linken Originalschilder; Tippflaeche bleibt gross. */
 @media(max-width:700px){
- .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
-  --card-deco:clamp(52px,14vw,70px);
-  padding:8px calc(var(--card-deco)*.93 + 6px) 8px 5px!important;
- }
- .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
-  --sausage-deco:clamp(68px,19vw,86px);
-  padding:8px 5px 8px calc(var(--sausage-deco)*.49 + 7px)!important;
- }
- .games .game > a.two-layer-word .banner-label,
- .games .game > a.two-layer-crazy .verrueckt-button-label {
-  font-size:clamp(17px,4.3vw,22px)!important;
- }
-}
-@media(max-width:390px){
- .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
-  --card-deco:50px;
-  padding-right:54px!important;
- }
- .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
-  --sausage-deco:70px;
-  padding-left:40px!important;
- }
- .games .game > a.two-layer-word .banner-label,
- .games .game > a.two-layer-crazy .verrueckt-button-label {
-  font-size:17px!important;
- }
-}
-
-/* Sehr schmale Displays: lesbar bleiben statt Schilder zu quetschen. */
-@media(max-width:360px){
- .games {grid-template-columns:minmax(0,1fr)!important;}
- .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
-  --card-deco:68px;
-  padding-right:76px!important;
- }
- .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
-  --sausage-deco:88px;
-  padding-left:60px!important;
- }
-}
-
-/* 07.11.2026: Die beiden rechten Papier-Schilder erhalten die gleiche
-   sichtbare Hoehenklasse wie die bestehenden linken Schilder.
-   Motive bleiben eigene, proportional skalierte Ebenen. */
-.games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button,
-.games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
-  height:88px!important;
-  min-height:88px!important;
-  max-height:88px!important;
-  padding-top:6px!important;
-  padding-bottom:6px!important;
-}
-@media(max-width:700px){
-  .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button,
-  .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
-    height:76px!important;
-    min-height:76px!important;
-    max-height:76px!important;
-    padding-top:4px!important;
-    padding-bottom:4px!important;
+  .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button::before,
+  .games .game-verrueckt > a.two-layer-crazy.play-verrueckt::before {
+    height:56px!important;
   }
   .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
-    --card-deco:56px;
+    --card-deco:64px;
+    padding-left:5px!important;
+    padding-right:68px!important;
   }
   .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
-    --sausage-deco:64px;
+    --sausage-deco:78px;
+    padding-left:45px!important;
+    padding-right:5px!important;
+  }
+  .games .game > a.two-layer-crazy .crazy-art-left {
+    width:40px!important;
+  }
+  .games .game > a.two-layer-word .banner-label,
+  .games .game > a.two-layer-crazy .verrueckt-button-label {
+    font-size:clamp(17px,4.3vw,22px)!important;
   }
 }
 @media(max-width:390px){
   .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
-    --card-deco:49px;
+    --card-deco:55px;
+    padding-right:58px!important;
   }
   .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
-    --sausage-deco:62px;
+    --sausage-deco:73px;
+    padding-left:43px!important;
+  }
+  .games .game > a.two-layer-word .banner-label,
+  .games .game > a.two-layer-crazy .verrueckt-button-label {
+    font-size:17px!important;
   }
 }
+/* Erst wenn zwei Spalten die Lesbarkeit beeintraechtigen, umschalten. */
 @media(max-width:360px){
+  .games {grid-template-columns:minmax(0,1fr)!important;}
   .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
-    --card-deco:62px;
+    --card-deco:76px;
+    padding-right:86px!important;
   }
   .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
-    --sausage-deco:68px;
+    --sausage-deco:87px;
+    padding-left:54px!important;
   }
 }
