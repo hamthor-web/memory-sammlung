@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded',function(){
 </script><style id="screen-exclusivity">
 /* Sichtbarkeitsregel mit höherer Priorität als das responsive .setup-Grid. */
 #setup[hidden],#play[hidden],#gallery[hidden],#finish[hidden]{display:none!important}
-</style></head><body>
+</style><style id="collection-hide-install">/* In der gemeinsamen Sammlung keine eigene Installation/Aktualisierung anbieten. */ .install-panel{display:none!important}</style></head><body>
 <header class="top"><a class="brand" href="#" id="home"><span class="brandmark">?</span><span>Verrückt gesucht!<small>Lesen · vergleichen · entdecken</small></span></a><button class="quiet" id="settingsButton" hidden>Zur Auswahl</button></header>
 <main>
 <section id="setup" class="setup"><div class="intro"><div class="eyebrow">DEIN LESE- UND SUCHSPIEL</div><h1>Schau genau.<br>Was passt zur Frage?</h1><p>Lies die Aufgabe und tippe auf das passende Bild. Kleine Unterschiede machen den Unterschied.</p><div class="sample" id="sample" aria-hidden="true"></div></div>
