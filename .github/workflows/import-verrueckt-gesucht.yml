@@ -1,0 +1,39 @@
+name: Integrate Verrueckt gesucht (one-time)
+on:
+  push:
+    paths:
+      - '.github/workflows/import-verrueckt-gesucht.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current Memory collection
+        uses: actions/checkout@v4
+        with:
+          path: target
+          persist-credentials: true
+      - name: Checkout exact original game version
+        uses: actions/checkout@v4
+        with:
+          repository: hamthor-web/Verruecktes_lesen_und_finden
+          ref: 359ec7dd8863e906012bf92db9f28dc259f0482f
+          path: source
+          persist-credentials: false
+      - name: Configure Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Copy and verify without overwriting previous work
+        run: python3 target/scripts/import_verrueckt_gesucht.py source target
+      - name: Commit only integration files
+        working-directory: target
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- verrueckt-gesucht index.html menu.css sw.js
+          git diff --cached --check
+          git commit -m "Integrate Verrueckt gesucht unchanged as fourth game; two-column start menu"
+          git push origin HEAD:main
