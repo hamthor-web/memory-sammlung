@@ -1,0 +1,306 @@
+
+:root {
+  --paper:#f0eee7;
+  --ink:#242424;
+  --accent:#42a9c2;
+  --accent2:#f2c55a;
+  --good:#44ad6d;
+  --soft:#fffaf0;
+  --shadow:0 8px 20px rgba(65,53,35,.16);
+}
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body {
+  margin:0; min-height:100vh; color:var(--ink);
+  font-family: "Trebuchet MS", system-ui, sans-serif;
+  background:
+    radial-gradient(circle at 18% 25%, rgba(255,255,255,.8) 0 1px, transparent 2px) 0 0/29px 31px,
+    linear-gradient(115deg, rgba(180,170,155,.08), transparent 38%, rgba(255,255,255,.35) 53%, transparent 70%),
+    linear-gradient(25deg, rgba(150,140,125,.05), transparent 45%, rgba(255,255,255,.38)),
+    var(--paper);
+}
+.wrap { max-width:1180px; margin:auto; padding:14px; }
+.top {
+  background:rgba(255,255,255,.78); border:1px solid rgba(255,255,255,.95);
+  border-radius:22px; box-shadow:var(--shadow); padding:14px;
+}
+.title-row { display:flex; align-items:center; gap:12px; }
+.logo { width:72px; height:72px; border-radius:16px; object-fit:cover; flex:none; }
+h1 { margin:0; font-size:clamp(1.45rem,4vw,2.35rem); line-height:1.05; }
+.sub { margin:.3rem 0 0; opacity:.72; font-size:.95rem; }
+.controls {
+  display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px;
+}
+button {
+  border:0; background:#fff; color:var(--ink); font:inherit; font-weight:800;
+  border-radius:14px; padding:10px 13px; cursor:pointer;
+  box-shadow:0 3px 8px rgba(0,0,0,.10);
+}
+button:active { transform:translateY(1px); }
+button.active { outline:3px solid var(--accent); }
+button.primary { background:#ffe293; }
+
+.status {
+  margin:12px 2px 9px; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+  font-weight:800; font-size:.95rem;
+}
+.grid {
+  display:grid; grid-template-columns:repeat(var(--board-cols,4),minmax(0,1fr)); gap:11px;
+  transform:scale(var(--board-scale,1)); transform-origin:top center;
+  transition:transform .24s ease, margin-bottom .24s ease;
+}
+.card {
+  aspect-ratio:1/1; perspective:1000px; cursor:pointer;
+  position:relative; z-index:1;
+}
+.compare-tray {
+  position:fixed; z-index:45; left:50%; bottom:max(14px,env(safe-area-inset-bottom));
+  transform:translateX(-50%);
+  width:min(94vw,920px);
+  display:none; gap:12px; justify-content:center; align-items:center;
+  pointer-events:none;
+}
+.compare-tray.show { display:flex; }
+.compare-card {
+  pointer-events:auto; padding:0; background:transparent; box-shadow:none;
+  border:0; border-radius:18px;
+  width:min(42vw,360px); aspect-ratio:1/1;
+  overflow:hidden;
+  box-shadow:0 12px 34px rgba(0,0,0,.34);
+  animation:compareIn .24s ease-out;
+}
+.compare-card img { width:100%; height:100%; object-fit:cover; display:block; }
+@keyframes compareIn {
+  from { transform:scale(.72); opacity:.2; }
+  to { transform:scale(1); opacity:1; }
+}
+@media (max-width:420px) and (orientation:portrait) {
+  .compare-tray { gap:8px; }
+  .compare-card { width:min(44vw,260px); }
+}
+.card.locked { cursor:default; }
+.inner {
+  position:relative; width:100%; height:100%;
+  transform-style:preserve-3d; transition:transform .44s ease;
+}
+.card.flipped .inner { transform:rotateY(180deg); }
+.face {
+  position:absolute; inset:0; backface-visibility:hidden; border-radius:18px; overflow:hidden;
+  background:#fff; box-shadow:var(--shadow); border:3px solid rgba(236,184,55,.82);
+}
+.back { padding:6%; display:grid; place-items:center; background:#fffdfa; }
+.back img, .front img { width:100%; height:100%; object-fit:cover; display:block; }
+.back img { border-radius:12px; }
+.front { transform:rotateY(180deg); }
+.card.matched .front { filter:grayscale(1) opacity(.42) brightness(.92); }
+.check {
+  display:none; position:absolute; z-index:8; top:8px; right:8px;
+  width:34px; height:34px; border-radius:50%; align-items:center; justify-content:center;
+  background:var(--good); color:#fff; font-size:23px; font-weight:900;
+  box-shadow:0 3px 8px rgba(0,0,0,.23);
+}
+.card.matched .check { display:flex; }
+
+.modal {
+  position:fixed; inset:0; z-index:30; background:rgba(35,35,35,.45);
+  display:none; place-items:center; padding:14px;
+}
+.modal.show { display:grid; }
+.panel {
+  width:min(780px,96vw); max-height:92vh; overflow:auto;
+  border-radius:24px; background:#fffdf8; padding:18px; box-shadow:0 18px 55px rgba(0,0,0,.28);
+}
+.panel h2 { margin:0 0 10px; font-size:clamp(1.35rem,4vw,2rem); }
+.quiztext { font-size:clamp(1.08rem,3.7vw,1.35rem); line-height:1.4; font-weight:700; }
+.choices { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.choice {
+  padding:0; overflow:hidden; border-radius:18px; border:3px solid transparent; background:#fff;
+}
+.choice img { width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
+.choice.good { border-color:var(--good); }
+.choice.bad { border-color:#e9a233; animation:shake .28s linear 1; }
+.feedback { min-height:28px; margin-top:10px; font-weight:900; }
+.finish-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+
+@keyframes shake {
+  0%,100%{transform:translateX(0)} 33%{transform:translateX(-6px)} 66%{transform:translateX(6px)}
+}
+@media (max-width:760px) {
+  .grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; }
+  .face { border-radius:14px; }
+  .wrap { padding:9px; }
+  .logo { width:60px; height:60px; }
+  .controls button { padding:9px 10px; font-size:.9rem; }
+
+}
+@media (max-width:400px) {
+  .grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; }
+  .check { width:26px; height:26px; font-size:18px; top:4px; right:4px; }
+}
+[hidden] { display:none !important; }
+button:focus-visible, .card:focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
+.card { padding:0; background:transparent; box-shadow:none; font-weight:normal; }
+.wrap { padding-bottom:max(14px,env(safe-area-inset-bottom)); }
+
+/* Only the initial pair-selection screen is large and centered.
+   When the game starts, the header returns to the existing compact layout. */
+.logo {
+  transition: width .38s ease, height .38s ease;
+}
+.title-row h1, .title-row .sub {
+  transition: font-size .38s ease;
+}
+.top {
+  transition: padding .38s ease;
+}
+body.choosing-pairs .wrap {
+  min-height: calc(100vh - 66px);
+  min-height: calc(100svh - 66px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+body.choosing-pairs .top {
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+  padding: clamp(18px, 3.4vw, 30px);
+}
+body.choosing-pairs .title-row {
+  justify-content: center;
+  gap: clamp(14px, 3vw, 24px);
+}
+body.choosing-pairs .logo {
+  width: clamp(112px, 13vw, 148px);
+  height: clamp(112px, 13vw, 148px);
+  border-radius: 22px;
+}
+body.choosing-pairs .title-row h1 {
+  font-size: clamp(2.05rem, 5.2vw, 3.15rem);
+  line-height: 1.12;
+}
+body.choosing-pairs .title-row .sub {
+  font-size: clamp(1.12rem, 2.5vw, 1.35rem);
+  line-height: 1.4;
+  opacity: .85;
+  margin-top: 12px;
+}
+body.choosing-pairs #selection {
+  margin-top: clamp(24px, 4vw, 36px);
+  text-align: center;
+}
+body.choosing-pairs #selection h2 {
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  line-height: 1.3;
+  margin: 0 0 20px;
+}
+body.choosing-pairs #selection .controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  gap: 14px;
+}
+body.choosing-pairs #selection .count {
+  width: 100%;
+  min-height: 78px;
+  padding: 16px 12px;
+  font-size: clamp(1.25rem, 4.7vw, 1.6rem);
+  line-height: 1.2;
+  border-radius: 18px;
+}
+@media (max-width: 420px) {
+  body.choosing-pairs .logo {
+    width: 112px;
+    height: 112px;
+  }
+  body.choosing-pairs .title-row h1 {
+    font-size: 2rem;
+  }
+  body.choosing-pairs #selection .count {
+    min-height: 76px;
+  }
+}
+@media (max-height: 690px) and (max-width: 760px) {
+  body.choosing-pairs .top { padding: 16px; }
+  body.choosing-pairs .logo { width: 92px; height: 92px; }
+  body.choosing-pairs .title-row h1 { font-size: 1.8rem; }
+  body.choosing-pairs #selection { margin-top: 18px; }
+  body.choosing-pairs #selection h2 { margin-bottom: 12px; }
+  body.choosing-pairs #selection .count { min-height: 66px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo, .title-row h1, .title-row .sub, .top {
+    transition: none;
+  }
+}
+
+/* Zusatzfunktion: vom Einzelspiel unabhängiger Zweispielermodus */
+.mode-picker {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px auto;max-width:540px}
+.mode-picker button {font-size:clamp(1.05rem,3vw,1.35rem);padding:16px 10px;min-height:64px;border:3px solid transparent}
+.mode-picker button.active {border-color:#16817a;background:#d9f5ee}
+.player-names {display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:540px;margin:12px auto}
+.player-names label {font-weight:800;font-size:1.05rem;text-align:left}
+.player-names input {width:100%;margin-top:5px;min-height:48px;font:inherit;font-size:1.08rem;border:2px solid #72a9ae;border-radius:12px;padding:7px 10px;background:#fff}
+.pairs-heading {margin-top:20px!important}
+.two-player-score {display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,1.25fr) minmax(0,1fr);gap:8px;align-items:stretch;margin:10px 0 12px}
+.player-chip {display:flex;flex-direction:column;justify-content:center;gap:4px;padding:10px;border:3px solid #d3d7d7;background:white;border-radius:16px;font-size:clamp(.95rem,2.8vw,1.23rem);overflow-wrap:anywhere}
+.player-chip strong {font-size:clamp(1.08rem,3vw,1.38rem)}
+.player-chip.current {border-color:#177e79;background:#d8f5ed;box-shadow:0 0 0 2px #a9e0cf}
+#scorePlayer1.current {border-color:#a36414;background:#fff0c2;box-shadow:0 0 0 2px #f0d48c}
+.turn-notice {background:#fff5d6;border-radius:16px;display:grid;place-items:center;padding:10px;text-align:center;font-weight:900;font-size:clamp(1.04rem,3.4vw,1.4rem);line-height:1.3}
+@media(max-width:440px){.two-player-score{grid-template-columns:1fr 1fr}.turn-notice{grid-column:1/-1;grid-row:1;min-height:45px}.player-chip{grid-row:2}.player-names{grid-template-columns:1fr}.mode-picker button{min-height:62px}}
+.collection-actions {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+.collection-actions button{min-height:64px;border:3px solid #399b91;background:#e1f5ed;font-size:clamp(1rem,3vw,1.25rem)}
+.collection-actions button:nth-child(2){border-color:#dfa846;background:#fff1d1}
+.collection-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:14px;margin:16px 0}
+.collected-pair{border-radius:18px;border:2px solid #dbd6c7;background:#fff8e9;padding:12px}
+.collected-pair h3{text-align:center;font-size:clamp(1.2rem,3.5vw,1.65rem);margin:0 0 9px}
+.collected-images{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.collected-images figure{margin:0;min-width:0}
+.collected-images img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}
+.collected-images figcaption{text-align:center;font-size:clamp(.95rem,2.6vw,1.12rem);font-weight:700;line-height:1.3;padding:6px 0;overflow-wrap:anywhere}
+@media(max-width:430px){.collection-actions{grid-template-columns:1fr}}
+/* Zweiter, unabhängig vom Spielfeldzoom arbeitender Größenregler */
+:root { --control-zoom: 1; }
+.interface-zoom {display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin-top:13px;padding:10px 12px;border-radius:15px;background:#e8f5f4}
+.interface-zoom strong{font-size:clamp(1.03rem,3vw,1.3rem)}
+#game-controls {align-items:center}
+#game-controls .zoom-controls {display:inline-flex;align-items:center;flex-wrap:wrap;gap:7px}
+button:not(.card):not(.compare-card):not(.choice) {
+ font-size:calc(1.08rem * var(--control-zoom)) !important;
+ padding:calc(.64rem * var(--control-zoom)) calc(.85rem * var(--control-zoom)) !important;
+ min-height:calc(3rem * var(--control-zoom)) !important;
+ line-height:1.24 !important;
+ height:auto !important;
+ max-width:100%;
+ white-space:normal;
+ overflow-wrap:anywhere;
+}
+body.choosing-pairs #selection .count {
+ font-size:calc(1.38rem * var(--control-zoom)) !important;
+ min-height:calc(4.55rem * var(--control-zoom)) !important;
+ padding:calc(.85rem * var(--control-zoom)) !important;
+}
+.mode-picker button {font-size:calc(1.17rem * var(--control-zoom)) !important}
+.collection-actions button{font-size:calc(1.13rem * var(--control-zoom)) !important}
+#interfaceZoom button{min-width:calc(2.85rem * var(--control-zoom));font-variant-numeric:tabular-nums}
+#uiZoomReset{min-width:calc(5.5rem * var(--control-zoom))!important}
+@media(max-width:420px) {.interface-zoom{gap:6px;padding:9px 5px}.interface-zoom strong{width:100%;text-align:center}
+  body.choosing-pairs #selection .controls {gap:9px}
+}
+
+/* Statt verzierter Altbuttons gelten die einheitlichen Schilderregeln
+   aus ../button-schilder.css. Paarzahlen immer als volle Zeile. */
+body.choosing-pairs #selection .controls {
+ grid-template-columns:minmax(0,1fr)!important;
+ max-width:680px!important;
+ gap:14px!important;
+}
+.mode-picker{grid-template-columns:minmax(0,1fr)!important;max-width:680px!important}
+.finish-actions,.collection-actions{display:grid!important;grid-template-columns:minmax(0,1fr)!important;max-width:720px;margin-inline:auto}
+/* Ein gesonderter Spielstart nach Modus- und Paarzahlauswahl. */
+#selection .start-action{display:flex;justify-content:center;max-width:680px;margin:20px auto 0}
+#startWordMemory.banner-button{width:100%!important;height:calc(124px * var(--control-zoom,1))!important;min-height:calc(124px * var(--control-zoom,1))!important}
+#startWordMemory:disabled{opacity:.55!important;filter:grayscale(.25)!important;cursor:not-allowed!important}
+#selection .start-action{position:relative;z-index:2;min-height:calc(124px * var(--control-zoom,1))}

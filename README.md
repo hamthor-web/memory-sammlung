@@ -5,7 +5,7 @@ Dieses Repository enthält den gemeinsamen Einstieg [index.html](index.html) mit
 | Spiel | Einstieg | Umfang |
 |---|---|---|
 | **Bilder merken** | [eigenschaften.html](eigenschaften.html) | 30 Bildkarten, drei Schwierigkeitsstufen; Runden mit 6/12/18 Karten, abhängig von den geeigneten Karten der Stufe |
-| **Ein Wort, zwei Bilder** | [wortmemory/test-zweispieler-2026-11-06.html](wortmemory/test-zweispieler-2026-11-06.html) | 20 Wortpaare mit 40 Bildbedeutungen und 80 Fragesätzen; Auswahl von 6/8/10/12 Paaren |
+| **Ein Wort, zwei Bilder** | [wortmemory/index.html](wortmemory/index.html) | 20 Wortpaare mit 40 Bildbedeutungen und 80 Fragesätzen; Auswahl von 6/8/10/12 Paaren |
 
 | **Zwei Wörter, eine Sache** | [synonymmemory/index.html](synonymmemory/index.html) | Wortpaare mit ergänzendem Bildvergleich |
 | **Verrückt gesucht!** | [verrueckt-gesucht/index.html](verrueckt-gesucht/index.html) | 10 Leseaufgaben pro Runde; persönliche Fortschrittsbilder |
@@ -100,3 +100,7 @@ node verify-pwa.cjs
 Einzelne Prüfungen benötigen den vollständigen lokalen Dateibestand. Die Befehle werden hier dokumentiert; sie wurden bei dieser reinen README-Korrektur nicht erneut ausgeführt. Sie ersetzen keine Geräte-, Bildinhalts- oder Offlineprüfung.
 
 Karten, Rückseiten und Animationen stammen aus den bereitgestellten Materialien. Dieses Repository erweitert keine Nutzungsrechte daran.
+
+## Produktionspaket
+
+`node scripts/build-production.cjs` erstellt `dist/` mit ausschließlich den benötigten Spieldateien (etwa 113 MB). Tests, Dokumentation und Entwicklungsskripte werden nicht mitverpackt. Die Bereinigung, Bildprüfung und Kompatibilität älterer Fortschrittsbilder sind unter [Produktionsbestand](docs/production-assets.md) dokumentiert.

@@ -224,7 +224,7 @@ function renderGallery(){
  }
 }
 let galleryFrames=[],galleryIndex=0,galleryRun=0,galleryBusy=false;
-function galleryScene(html){const host=document.createElement('div');host.innerHTML=html;const scene=host.firstElementChild;if(!scene)return document.createElement('div');scene.removeAttribute('role');scene.removeAttribute('tabindex');scene.querySelectorAll('.reward-flight,.pfau-flight,.knurpsel-enter,.knurpsel-leave').forEach(node=>{node.classList.remove('reward-flight','pfau-flight','knurpsel-enter','knurpsel-leave');node.style.animation='none';});return scene;}
+function galleryScene(html){const host=document.createElement('div');host.innerHTML=CollectionSession.rewriteAssetMarkup(html);const scene=host.firstElementChild;if(!scene)return document.createElement('div');scene.removeAttribute('role');scene.removeAttribute('tabindex');scene.querySelectorAll('.reward-flight,.pfau-flight,.knurpsel-enter,.knurpsel-leave').forEach(node=>{node.classList.remove('reward-flight','pfau-flight','knurpsel-enter','knurpsel-leave');node.style.animation='none';});return scene;}
 function replayFrames(id,entry){
  if(entry.model)return Array.from({length:11},(_,i)=>rewardScene(entry.model,i).outerHTML);
  const sequences={knurpsel:KnurpselReward,rakete:RocketReward,blumenwiese:FlowerReward,wundereiche:WonderOakReward,kinderzimmer:BedroomReward,marsmission:MarsMissionReward,baumhaus:TreehouseReward,unterwasserwelt:UnderwaterReward,matschwiese:MeadowReward};

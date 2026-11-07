@@ -1,2 +1,89 @@
-<!doctype html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=test-zweispieler-2026-11-06.html"><title>Ein Wort, zwei Bilder</title><script>location.replace(new URL('test-zweispieler-2026-11-06.html',location.href).href);</script></head><body><p><a href="test-zweispieler-2026-11-06.html">Ein Wort, zwei Bilder spielen</a></p></body></html>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ein Wort, zwei Bilder</title>
+
+<meta name="theme-color" content="#42a9c2">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Wort-Memory">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../button-schilder.css"><link rel="stylesheet" href="../collection-navigation.css"><link rel="stylesheet" href="../collection-session.css"></head>
+<body><script src="../profile-store.js"></script><script src="../progress-store.js"></script><script src="../collection-session.js"></script><nav style="padding:16px;text-align:center"><a href="../index.html?menu=1" style="font:700 20px system-ui;color:#173c2a">← Zurück zum Spielmenü</a></nav>
+<div class="wrap">
+  <section class="top">
+    <div class="title-row">
+      <img class="logo" src="assets/back.jpg" alt="">
+      <div>
+        <h1>Ein Wort, zwei Bilder</h1>
+        <div class="sub">Finde die Karten, die zusammengehören. Zu zweit: Bei einem Treffer darfst du noch einmal. Nach einem Fehlpaar ist das andere Kind dran.</div>
+      </div>
+    </div>
+
+    <div id="interfaceZoom" class="interface-zoom" role="group" aria-label="Schrift und Schaltflächen vergrößern oder verkleinern">
+      <strong>Schriftgröße:</strong>
+      <button type="button" id="uiZoomOut" aria-label="Schrift und Buttons verkleinern">−</button>
+      <button type="button" id="uiZoomReset" aria-label="Schrift und Buttons auf 100 Prozent zurücksetzen">100 %</button>
+      <button type="button" id="uiZoomIn" aria-label="Schrift und Buttons vergrößern">+</button>
+    </div>
+    <section id="selection" aria-labelledby="selection-title">
+      <h2 id="selection-title">Wie möchtest du spielen?</h2>
+      <div class="mode-picker" role="group" aria-label="Spielmodus">
+        <button type="button" class="mode active" data-mode="1" aria-pressed="true">Allein spielen</button>
+        <button type="button" class="mode" data-mode="2" aria-pressed="false">Zu zweit spielen</button>
+      </div>
+      <div id="playerNames" class="player-names" hidden>
+        <label>Spieler 1 <input id="player1Name" maxlength="20" value="Spieler 1" autocomplete="off"></label>
+        <label>Spieler 2 <input id="player2Name" maxlength="20" value="Spieler 2" autocomplete="off"></label>
+      </div>
+      <h2 class="pairs-heading">Mit wie vielen Paaren möchtest du spielen?</h2>
+      <div class="controls">
+        <button class="count primary" data-count="6">6 Paare · 12 Karten</button>
+        <button class="count primary" data-count="8">8 Paare · 16 Karten</button>
+        <button class="count primary" data-count="10">10 Paare · 20 Karten</button>
+        <button class="count primary" data-count="12">12 Paare · 24 Karten</button>
+      </div>
+      <div class="controls start-action">
+        <button id="startWordMemory" type="button" class="banner-button banner-paper" disabled><span class="banner-label">Spiel starten</span></button>
+      </div>
+    </section>
+    <div class="controls" id="game-controls" hidden>
+      <button class="primary" id="restart">Neu mischen</button>
+      <button id="selectGame">Einstellungen</button>
+      <span class="zoom-controls" aria-label="Spielbrett-Zoom">
+        <strong>Spielbrett:</strong>
+        <button type="button" id="zoomOut" aria-label="Spielbrett verkleinern">−</button>
+        <button type="button" id="zoomReset" aria-label="Zoom zurücksetzen">100 %</button>
+        <button type="button" id="zoomIn" aria-label="Spielbrett vergrößern">+</button>
+      </span>
+    </div>
+  </section>
+
+  <div class="status" id="status" hidden>
+    <span id="progress">0 von 6 Paaren gefunden</span>
+    <span id="timing">Du bestimmst das Tempo. Tippe eine offene Karte an, wenn du fertig gelesen hast.</span>
+  </div>
+
+  <section id="twoPlayerScore" class="two-player-score" aria-label="Spielstand" hidden>
+    <div id="scorePlayer0" class="player-chip current"><span id="namePlayer0">Spieler 1</span><strong><span id="pairsPlayer0">0</span> Paare</strong></div>
+    <div id="turnNotice" class="turn-notice" role="status" aria-live="polite">Spieler 1 ist dran</div>
+    <div id="scorePlayer1" class="player-chip"><span id="namePlayer1">Spieler 2</span><strong><span id="pairsPlayer1">0</span> Paare</strong></div>
+  </section>
+  <main id="grid" class="grid" hidden aria-label="Memory-Karten"></main>
+
+
+</div>
+
+<div id="compareTray" class="compare-tray" aria-label="Aufgedeckte Karten zum Vergleichen"></div>
+
+<div id="modal" class="modal">
+  <div class="panel" id="panel" role="dialog" aria-modal="true" aria-label="Wortfrage" tabindex="-1"></div>
+</div>
+
+<script src="data.js"></script><script src="app.js"></script>
+
+<script src="../button-schilder.js"></script><script src="../collection-navigation.js"></script><script src="../offline-client.js"></script></body>
+</html>

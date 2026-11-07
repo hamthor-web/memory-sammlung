@@ -26,8 +26,8 @@ keine weiteren Profile. „Verrückt gesucht!“ bleibt ein Einzelspiel.
 Die Spielauswahl zeigt auf dem Handy eine Karte pro Zeile, auf Tablets zwei.
 Alle Karten verwenden „Spielen“. Die sichtbaren Namen sind „Bilder merken“,
 „Ein Wort, zwei Bilder“, „Zwei Wörter, eine Sache“ und „Verrückt gesucht!“.
-Profil-IDs und Speicherzuordnungen bleiben erhalten. Die historische Adresse
-`wortmemory/index.html` leitet auf dieselbe gepflegte Spielversion weiter.
+Profil-IDs und Speicherzuordnungen bleiben erhalten. Der gepflegte Einstieg ist
+`wortmemory/index.html`; die frühere datierte Testadresse leitet dorthin weiter.
 
 Die Einstellungen folgen der Reihenfolge Spielmodus, Schwierigkeit (wo
 vorhanden), Kartenanzahl und beim Suchspiel Geschichte. Die Stufen heißen
@@ -125,14 +125,16 @@ Videos unterstützen Byte-Range-Anfragen auch aus dem Offline-Cache.
 Beim Übergang aus einer älteren gespeicherten Spielseite ergänzt der Spielcode
 fehlende Galerieelemente vor dem Registrieren der Klickaktionen. Dadurch kann
 auch altes HTML zusammen mit dem aktuellen Galeriecode starten. Neue Seiten
-verwenden zusätzlich eine eigene Skriptadresse für die korrigierte Version.
+verwenden die gepflegte Datei `app.js`; frühere Skriptadressen bleiben als kleine Kompatibilitätsdateien erhalten.
 Der Regressionstest `tests/browser-cached-gallery.cjs` stellt die zuvor
 beobachtete Kombination aus altem HTML und neuem JavaScript gezielt nach.
 
-Der vollständige Bestand umfasst derzeit etwa 200 MB unkomprimierte Dateien.
+Das Produktionspaket umfasst nach der Bereinigung etwa 113 MB unkomprimierte Dateien (zuvor etwa 199 MB).
 Der erste Download und Updates können deshalb dauern und freien Speicher
 benötigen. Für eine spätere Android-App sollen diese Dateien lokal mitgeliefert
-werden; ein Android-Projekt/AAB ist nicht Teil dieser Änderung.
+werden; ein Android-Projekt/AAB ist nicht Teil dieser Änderung. Der Befehl
+`node scripts/build-production.cjs` erstellt dafür den Ordner `dist/`.
+Details: [Produktionsbestand](production-assets.md).
 
 ## Prüfen
 

@@ -1,0 +1,807 @@
+{
+  "content": [
+    {
+      "id": "hahn",
+      "word": "HAHN",
+      "a": {
+        "label": "der Hahn"
+      },
+      "b": {
+        "label": "der Wasserhahn"
+      },
+      "questions": [
+        {
+          "text": "Der Hahn weckt die Familie jeden Morgen sehr früh.",
+          "answer": "a"
+        },
+        {
+          "text": "Zwischen den Hühnern läuft stolz der Hahn herum.",
+          "answer": "a"
+        },
+        {
+          "text": "Lena dreht den Hahn zu, um Wasser zu sparen.",
+          "answer": "b"
+        },
+        {
+          "text": "Paul füllt seine Trinkflasche am Hahn auf.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "schloss",
+      "word": "SCHLOSS",
+      "a": {
+        "label": "das Schloss"
+      },
+      "b": {
+        "label": "das Türschloss"
+      },
+      "questions": [
+        {
+          "text": "Rapunzels langer Zopf hängt aus dem Fenster des alten Schlosses.",
+          "answer": "a"
+        },
+        {
+          "text": "Im Schloss gibt es einen Saal mit schönen bunten Bildern.",
+          "answer": "a"
+        },
+        {
+          "text": "Der Schlüssel steckt fest im Schloss.",
+          "answer": "b"
+        },
+        {
+          "text": "Max schließt das Schloss ab, bevor er das Haus verlässt.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "blatt",
+      "word": "BLATT",
+      "a": {
+        "label": "das Blatt"
+      },
+      "b": {
+        "label": "das Blatt Papier"
+      },
+      "questions": [
+        {
+          "text": "Im Herbst färbt sich das Blatt gelb.",
+          "answer": "a"
+        },
+        {
+          "text": "Eine Raupe knabbert ein Loch in das Blatt.",
+          "answer": "a"
+        },
+        {
+          "text": "Auf dem Blatt steht, was Mia sich zum Geburtstag wünscht.",
+          "answer": "b"
+        },
+        {
+          "text": "Ben schreibt seinen Namen oben auf das Blatt.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "decke",
+      "word": "DECKE",
+      "a": {
+        "label": "die Decke"
+      },
+      "b": {
+        "label": "die Zimmerdecke"
+      },
+      "questions": [
+        {
+          "text": "Die Katze hat sich unter der warmen Decke versteckt.",
+          "answer": "a"
+        },
+        {
+          "text": "Paul legt Oma eine Decke über die Beine.",
+          "answer": "a"
+        },
+        {
+          "text": "An der Decke entdeckt Mia eine kleine Spinne.",
+          "answer": "b"
+        },
+        {
+          "text": "Der Luftballon schwebt bis hoch an die Decke.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "birne",
+      "word": "BIRNE",
+      "a": {
+        "label": "die Birne"
+      },
+      "b": {
+        "label": "die Glühbirne"
+      },
+      "questions": [
+        {
+          "text": "Paul nimmt die Birne aus der Brotdose und beißt hinein.",
+          "answer": "a"
+        },
+        {
+          "text": "Mia schneidet die Birne in kleine Stücke.",
+          "answer": "a"
+        },
+        {
+          "text": "Die Birne ist aus Glas und geht leicht kaputt.",
+          "answer": "b"
+        },
+        {
+          "text": "Papa wechselt die kaputte Birne aus.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "tor",
+      "word": "TOR",
+      "a": {
+        "label": "das Tor"
+      },
+      "b": {
+        "label": "das Gartentor"
+      },
+      "questions": [
+        {
+          "text": "Der Ball fliegt ins Netz. Paul hat ein Tor geschossen.",
+          "answer": "a"
+        },
+        {
+          "text": "Die Mannschaft jubelt über das dritte Tor.",
+          "answer": "a"
+        },
+        {
+          "text": "Am Abend wird das große Tor zum Hof geschlossen.",
+          "answer": "b"
+        },
+        {
+          "text": "Das Auto fährt langsam durch das offene Tor.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "nagel",
+      "word": "NAGEL",
+      "a": {
+        "label": "der Nagel"
+      },
+      "b": {
+        "label": "der Metallnagel"
+      },
+      "questions": [
+        {
+          "text": "Mia lackiert sich die Nägel bunt.",
+          "answer": "a"
+        },
+        {
+          "text": "Unter dem Nagel steckt ein bisschen Erde.",
+          "answer": "a"
+        },
+        {
+          "text": "Papa hängt das Bild an einen Nagel in der Wand.",
+          "answer": "b"
+        },
+        {
+          "text": "Der Nagel hält das kleine Regal an seinem Platz.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "schale",
+      "word": "SCHALE",
+      "a": {
+        "label": "die Schale"
+      },
+      "b": {
+        "label": "die Schale"
+      },
+      "questions": [
+        {
+          "text": "Mia füllt Erdbeeren in eine Schale.",
+          "answer": "a"
+        },
+        {
+          "text": "Auf dem Tisch steht eine Schale mit Nüssen.",
+          "answer": "a"
+        },
+        {
+          "text": "Mia legt die Schale der Melone weg.",
+          "answer": "b"
+        },
+        {
+          "text": "Ben zieht die Schale von der Mandarine ab.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "schirm",
+      "word": "SCHIRM",
+      "a": {
+        "label": "der Schirm"
+      },
+      "b": {
+        "label": "der Lampenschirm"
+      },
+      "questions": [
+        {
+          "text": "Der Wind zerrt Paul den Schirm aus der Hand.",
+          "answer": "a"
+        },
+        {
+          "text": "Draußen regnet es. Zum Glück hat Ben seinen Schirm dabei.",
+          "answer": "a"
+        },
+        {
+          "text": "Der Schirm macht das Licht der Lampe schöner.",
+          "answer": "b"
+        },
+        {
+          "text": "Oma hat für ihre Lampe einen neuen Schirm gekauft.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "schlange",
+      "word": "SCHLANGE",
+      "a": {
+        "label": "die Schlange"
+      },
+      "b": {
+        "label": "die Schlange"
+      },
+      "questions": [
+        {
+          "text": "Die Schlange versteckt sich zwischen zwei Steinen.",
+          "answer": "a"
+        },
+        {
+          "text": "Eine Schlange hat keine Beine.",
+          "answer": "a"
+        },
+        {
+          "text": "Zum Mittagessen bildet sich im Speisesaal eine lange Schlange.",
+          "answer": "b"
+        },
+        {
+          "text": "Diese Schlange hat viele Beine.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "strauss",
+      "word": "STRAUSS",
+      "a": {
+        "label": "der Strauß"
+      },
+      "b": {
+        "label": "der Blumenstrauß"
+      },
+      "questions": [
+        {
+          "text": "Der Strauß legt ein sehr großes Ei.",
+          "answer": "a"
+        },
+        {
+          "text": "Ein Strauß kann schneller laufen als ein Mensch.",
+          "answer": "a"
+        },
+        {
+          "text": "Kerstin bringt ihrer Mutti zum Geburtstag einen bunten Strauß mit.",
+          "answer": "b"
+        },
+        {
+          "text": "Auf dem Tisch steht ein Strauß aus roten und gelben Blumen.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "note",
+      "word": "NOTE",
+      "a": {
+        "label": "die Note"
+      },
+      "b": {
+        "label": "die Musiknote"
+      },
+      "questions": [
+        {
+          "text": "Ben freut sich über seine gute Note in der Klassenarbeit.",
+          "answer": "a"
+        },
+        {
+          "text": "Mia zeigt ihrer Oma stolz ihre gute Note.",
+          "answer": "a"
+        },
+        {
+          "text": "Die Sängerin singt eine besonders hohe Note.",
+          "answer": "b"
+        },
+        {
+          "text": "Paul erkennt die Note und spielt den richtigen Ton.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "strom",
+      "word": "STROM",
+      "a": {
+        "label": "der Strom"
+      },
+      "b": {
+        "label": "der Strom"
+      },
+      "questions": [
+        {
+          "text": "Der breite Strom fließt durch mehrere Länder.",
+          "answer": "a"
+        },
+        {
+          "text": "Viele Schiffe fahren auf dem großen Strom.",
+          "answer": "a"
+        },
+        {
+          "text": "Plötzlich sind die Lampe und der Kühlschrank aus. Es gibt keinen Strom.",
+          "answer": "b"
+        },
+        {
+          "text": "Ohne Strom kann Paul seinen Computer nicht einschalten.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "paar",
+      "word": "PAAR",
+      "a": {
+        "label": "das Paar"
+      },
+      "b": {
+        "label": "das Paar Schuhe"
+      },
+      "questions": [
+        {
+          "text": "Die beiden sind seit vielen Jahren ein Paar.",
+          "answer": "a"
+        },
+        {
+          "text": "Auf dem Fest tanzt ein Paar zusammen.",
+          "answer": "a"
+        },
+        {
+          "text": "Peter hat ein Paar unterschiedliche Socken an.",
+          "answer": "b"
+        },
+        {
+          "text": "Mia kauft sich ein Paar Handschuhe für den Winter.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "bad",
+      "word": "BAD",
+      "a": {
+        "label": "das Bad"
+      },
+      "b": {
+        "label": "das Bad"
+      },
+      "questions": [
+        {
+          "text": "Nach dem Spielen wäscht sich Ben im Bad die Hände.",
+          "answer": "a"
+        },
+        {
+          "text": "Mia sucht ihre Zahnbürste im Bad.",
+          "answer": "a"
+        },
+        {
+          "text": "Weil es heute so warm ist, gehen die Kinder nachmittags ins Bad.",
+          "answer": "b"
+        },
+        {
+          "text": "Am Wochenende verbringen die Kinder fast den ganzen Nachmittag im Bad.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "sieben",
+      "word": "SIEBEN",
+      "a": {
+        "label": "sieben"
+      },
+      "b": {
+        "label": "sieben"
+      },
+      "questions": [
+        {
+          "text": "Sieben Zwerge sitzen an einem Tisch.",
+          "answer": "a"
+        },
+        {
+          "text": "Heute um sieben Uhr höre ich Radio.",
+          "answer": "a"
+        },
+        {
+          "text": "Wir sieben den Sand in den Kasten.",
+          "answer": "b"
+        },
+        {
+          "text": "Mutti will das Mehl sieben.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "pflaster",
+      "word": "PFLASTER",
+      "a": {
+        "label": "das Pflaster"
+      },
+      "b": {
+        "label": "das Pflaster"
+      },
+      "questions": [
+        {
+          "text": "Mutti klebt ein Pflaster auf den Kratzer.",
+          "answer": "a"
+        },
+        {
+          "text": "Der Arzt hat lustige Pflaster mit Hunden und Katzen.",
+          "answer": "a"
+        },
+        {
+          "text": "Die Kutsche rattert über das Pflaster.",
+          "answer": "b"
+        },
+        {
+          "text": "Nach dem Regen glänzt das Pflaster in der Sonne.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "krone",
+      "word": "KRONE",
+      "a": {
+        "label": "die Krone"
+      },
+      "b": {
+        "label": "die Baumkrone"
+      },
+      "questions": [
+        {
+          "text": "Im Goldschatz des Drachen liegt eine Krone.",
+          "answer": "a"
+        },
+        {
+          "text": "Im Museum liegt eine prächtige Krone auf einem roten Kissen.",
+          "answer": "a"
+        },
+        {
+          "text": "In der Baumkrone sitzt ein Vogel.",
+          "answer": "b"
+        },
+        {
+          "text": "Die Kronen der Bäume bilden ein grünes Dach.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "linse",
+      "word": "LINSE",
+      "a": {
+        "label": "die Linse"
+      },
+      "b": {
+        "label": "die Linse"
+      },
+      "questions": [
+        {
+          "text": "Mutti kocht eine Suppe mit Linsen.",
+          "answer": "a"
+        },
+        {
+          "text": "Der Bäcker verkauft heute Brot mit roten Linsen.",
+          "answer": "a"
+        },
+        {
+          "text": "Das Fernrohr vergrößert mit seinen Linsen Dinge, die weit entfernt sind.",
+          "answer": "b"
+        },
+        {
+          "text": "Durch eine Linse sieht die Welt manchmal anders aus.",
+          "answer": "b"
+        }
+      ]
+    },
+    {
+      "id": "fluegel",
+      "word": "FLÜGEL",
+      "a": {
+        "label": "der Flügel"
+      },
+      "b": {
+        "label": "der Flügel"
+      },
+      "questions": [
+        {
+          "text": "Das kleine Vögelchen flattert mit seinen Flügeln.",
+          "answer": "a"
+        },
+        {
+          "text": "Mit seinen Flügeln kann der Vogel weit fliegen.",
+          "answer": "a"
+        },
+        {
+          "text": "Heute übt Mia am Flügel.",
+          "answer": "b"
+        },
+        {
+          "text": "Im Konzertsaal steht ein großer schwarzer Flügel.",
+          "answer": "b"
+        }
+      ]
+    }
+  ],
+  "images": [
+    {
+      "id": "hahn",
+      "side": "a",
+      "source": null,
+      "sha256": "5e6c3f2c4c17b6644a27472679c5a9c459c9578b2ccff614b5e1f5d835b312b4"
+    },
+    {
+      "id": "hahn",
+      "side": "b",
+      "source": null,
+      "sha256": "395eeccf9de729c1f1d1e3dd926d5ad40741375c28e36f87f69b3ae5f0162e23"
+    },
+    {
+      "id": "schloss",
+      "side": "a",
+      "source": null,
+      "sha256": "be7f565ea4c4d6232746a09a123a8e301c2c9a7eb23234015315f1433010e28a"
+    },
+    {
+      "id": "schloss",
+      "side": "b",
+      "source": null,
+      "sha256": "be1bc239b648c8d201aa8724f2446b07469195a95fb53e70b05c4235eef2823c"
+    },
+    {
+      "id": "blatt",
+      "side": "a",
+      "source": null,
+      "sha256": "d5954d28f9aa99058ea3ac5d81dc51298f3ae63d83f93033fcc559f4b3dba8bc"
+    },
+    {
+      "id": "blatt",
+      "side": "b",
+      "source": null,
+      "sha256": "9aa19e64ebc8b259d4e0982c61eb8212d6020c2d3c40e4bf7d4f39eb49eb6a25"
+    },
+    {
+      "id": "decke",
+      "side": "a",
+      "source": null,
+      "sha256": "023af6954482243005646640ae701063a3df85c152b03a1388f2366b2f680b6d"
+    },
+    {
+      "id": "decke",
+      "side": "b",
+      "source": null,
+      "sha256": "bedb6c2e4729156b21b9255be376b08d335a34e8fc0b3f1c953de801cb416f8e"
+    },
+    {
+      "id": "birne",
+      "side": "a",
+      "source": null,
+      "sha256": "a46b5dda5da9d143e6c58b40b2a39cadf28fe83e8fcf65a48f11d5c6727d80b0"
+    },
+    {
+      "id": "birne",
+      "side": "b",
+      "source": null,
+      "sha256": "d7d1976dc96870675c1660d520d1dfb99d964e49484b367884762cb9c8eb0b23"
+    },
+    {
+      "id": "tor",
+      "side": "a",
+      "source": null,
+      "sha256": "3fe106eceb53731fd782ab874f1c9487dbb79e41cc69e7b0f0fedeed18cba9e9"
+    },
+    {
+      "id": "tor",
+      "side": "b",
+      "source": null,
+      "sha256": "8bd8e3ffa4e9816d392dc7ecdec159c465687ff76ae8a6becac85fade6a3cce0"
+    },
+    {
+      "id": "nagel",
+      "side": "a",
+      "source": null,
+      "sha256": "18c7d4e9800add40cd290e6ae4e24b5ffa040d2fa377b4115f4872c001d223f7"
+    },
+    {
+      "id": "nagel",
+      "side": "b",
+      "source": null,
+      "sha256": "88dbfdd9ca1c116823ca7b885175a018ca7efcdf05fac82d8e1304ebbbbe2dde"
+    },
+    {
+      "id": "schale",
+      "side": "a",
+      "source": null,
+      "sha256": "8bc091d1f26fe6ad32b9bed7f311e1a6964845aa612e5e460d05b78a7f067e38"
+    },
+    {
+      "id": "schale",
+      "side": "b",
+      "source": null,
+      "sha256": "b1c0ba377f37005d2990f827e11ac74bfb8c5362513c9b64b7c0a6dad9a4da65"
+    },
+    {
+      "id": "schirm",
+      "side": "a",
+      "source": null,
+      "sha256": "7dacdbfbd3b4c994125c60d4688dcd8120498d60d1b850ea2bb56f796bf42edd"
+    },
+    {
+      "id": "schirm",
+      "side": "b",
+      "source": null,
+      "sha256": "184a0d50182ca67d1acd9d958ebbe6048ccc6a0e6f76053cb42784c7af0e158c"
+    },
+    {
+      "id": "schlange",
+      "side": "a",
+      "source": null,
+      "sha256": "d6abe3452d0708d955edbfb4838246537922e188f94fd30b99a5a04d0025d736"
+    },
+    {
+      "id": "schlange",
+      "side": "b",
+      "source": null,
+      "sha256": "e6307dc45d4d3aea2120050fb6831033d25002156b79ea4ba569051204d98127"
+    },
+    {
+      "id": "strauss",
+      "side": "a",
+      "source": null,
+      "sha256": "206d19ef56ad1e682bf176f2e00d6123343088ddbe1506495f69931739d17f55"
+    },
+    {
+      "id": "strauss",
+      "side": "b",
+      "source": null,
+      "sha256": "8b3c2dd47bb88cd0894fe1efd9715fe0f9f50cfd8d414631950edf96ce08b1bc"
+    },
+    {
+      "id": "note",
+      "side": "a",
+      "source": null,
+      "sha256": "5e5055fbf727337baad629f478c41ff274be6184564e6fab0e75580b6aa04c65"
+    },
+    {
+      "id": "note",
+      "side": "b",
+      "source": null,
+      "sha256": "c104edd7a33de627de1101df04c88966e555c89f43e72eb355de16186ecb0e87"
+    },
+    {
+      "id": "strom",
+      "side": "a",
+      "source": null,
+      "sha256": "20097c833e24f70fc993ba5d7479a95b6f8fcb46472a699891ddd09c56aed37c"
+    },
+    {
+      "id": "strom",
+      "side": "b",
+      "source": null,
+      "sha256": "f87aed2a9869374715041b5c0094c5aeaf12cf9209fbaf9a4cd0fe823e1556db"
+    },
+    {
+      "id": "paar",
+      "side": "a",
+      "source": null,
+      "sha256": "2656aaaea49095a7273b37a6411b58c130f59b6c40c086df1c382db3271778b0"
+    },
+    {
+      "id": "paar",
+      "side": "b",
+      "source": null,
+      "sha256": "d168b550bf47299a6cbbf3faa6aa3920b0592d89cf8960d9b4fd0c4d0627998e"
+    },
+    {
+      "id": "bad",
+      "side": "a",
+      "source": null,
+      "sha256": "37db02a9ac2b45b754b46c49701b3563b4f1cea4522edc3b27ae7e4342627b10"
+    },
+    {
+      "id": "bad",
+      "side": "b",
+      "source": null,
+      "sha256": "89d2fbc0adb2c0217dc714e18f17461fa2b56017bd5321692d41d43ec1e55931"
+    },
+    {
+      "id": "sieben",
+      "side": "a",
+      "source": null,
+      "sha256": "203b829fff04f29110fea79fc8d88c6843f671cc30321dc91c87460da327d969"
+    },
+    {
+      "id": "sieben",
+      "side": "b",
+      "source": null,
+      "sha256": "2ec76349fe1811ec1d9d27d997a2c8eb9aa5ecc507898b50229c6244e1fd3d7d"
+    },
+    {
+      "id": "pflaster",
+      "side": "a",
+      "source": null,
+      "sha256": "7182c28529ec440d0b8fae906acd15277a7a308e74d6bb09c69badf79c337cf2"
+    },
+    {
+      "id": "pflaster",
+      "side": "b",
+      "source": null,
+      "sha256": "862635738a87384bfe4092b7af8826b568b7fb131300a15d09f369102b5d4182"
+    },
+    {
+      "id": "krone",
+      "side": "a",
+      "source": null,
+      "sha256": "4ffd0af52568ea61a52f985d2471d63c75defe2ae82b15e9c228afd41104ecb3"
+    },
+    {
+      "id": "krone",
+      "side": "b",
+      "source": null,
+      "sha256": "fcd93332500c59d52bc0dfc3572219388f5b322992b279a58787fe68eb96e932"
+    },
+    {
+      "id": "linse",
+      "side": "a",
+      "source": null,
+      "sha256": "153837b3a5d70679ea16b099c2807bf5ec2bb2e872ba92d6cb0cd3ab61625dca"
+    },
+    {
+      "id": "linse",
+      "side": "b",
+      "source": "wortmemory/linse-fernrohr.png",
+      "sha256": "d024ad17cea5ff12b96a1710383931ea1050f27153f577c057334c253a12c920"
+    },
+    {
+      "id": "fluegel",
+      "side": "a",
+      "source": null,
+      "sha256": "d941ad65e3e6f9d822d34f88960181b46c82f0445f5f40bbee2cb3b80e4b4df2"
+    },
+    {
+      "id": "fluegel",
+      "side": "b",
+      "source": null,
+      "sha256": "035d211f909132ce39df89300394e0f2ceca34e0dbfcda088bc6ab2ba0162f9a"
+    }
+  ],
+  "backSha256": "c2a2873efcabe00ab31c35d623a2e7cbb5d597ccf0f9889e07d5aa1d45b3af5f"
+}
