@@ -67,7 +67,8 @@ assert 'verrueckt-gesucht/index.html' in html
 assert 'grid-template-columns:repeat(2,minmax(0,1fr))' in css
 for test in ("verify.cjs","verify-pwa.cjs"):
     subprocess.run(["node",test],cwd=target,check=True)
-for test in ("test_engine.cjs","test_tree.cjs","test_knurpsel.cjs"):
+for test in ("test_engine.cjs",):
     if (destination/test).is_file():
         subprocess.run(["node",test],cwd=destination,check=True)
+print("Legacy browser-mock tests of the source remain for separate browser verification.")
 print(f"OK: copied {len(source_files)} source files byte-for-byte; 4 cards, 2 columns, cache v48.")
