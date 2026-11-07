@@ -1,0 +1,29 @@
+name: Browser smoke test four Memory games
+on:
+  push:
+    paths:
+      - '.github/workflows/test-memory-four-games-20261107.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser automation library
+        run: npm install --no-save --no-package-lock playwright
+      - name: Locate system Chrome
+        run: |
+          CHROME=$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)
+          echo "CHROME_BIN=$CHROME" >> "$GITHUB_ENV"
+          if [ -z "$CHROME" ]; then npx playwright install --with-deps chromium; fi
+      - name: Start local web app
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/memory-server.log 2>&1 &
+          sleep 2
+      - name: Test four games on portrait and landscape phone/tablet
+        run: node tests/browser-memory-four-games.cjs
