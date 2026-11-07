@@ -444,10 +444,10 @@ footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
   height:clamp(86px,10vw,108px)!important;
   min-height:clamp(86px,10vw,108px)!important;
   padding:10px 8px 10px 16%!important;
-  /* Das Quell-SVG enthaelt viel transparenten Raum ober- und unterhalb.
-     Hoeher zeichnen, damit der Button genauso gross wie die anderen ist. */
-  background-image:url("verrueckt-gesucht/assets/buttons/los-gehts-v1.svg")!important;
-  background-size:100% 165%!important;
+  /* Separate Menue-Kopie des Original-SVG mit preserveAspectRatio=none:
+     sichtbares Schild fuellt exakt die gleiche Buttonhoehe wie die Nachbarn. */
+  background-image:url("assets/buttons/los-gehts-verrueckt-menue.svg")!important;
+  background-size:100% 100%!important;
   background-position:center!important;
   background-repeat:no-repeat!important;
   font-size:clamp(23px,3.2vw,36px)!important;
