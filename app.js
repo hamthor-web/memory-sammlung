@@ -122,7 +122,7 @@ function answer(c){
  openSuccessReading(c);
 }
 function playReward(token){
- stage='reward';question=null;render();const choices=animations.map((_,i)=>i).filter(i=>i!==lastAnimation),index=choices[Math.floor(Math.random()*choices.length)];lastAnimation=index;const video=$('rewardVideo'),image=$('rewardImage'),isImage=animations[index].endsWith('.webp');$('reward').hidden=false;$('playVideo').hidden=true;$('videoStatus').hidden=true;video.hidden=isImage;image.hidden=!isImage;let complete=false;
+ stage='reward';question=null;render();const finalJubel=found.size===field.length;const choices=animations.map((_,i)=>i).filter(i=>i!==lastAnimation),index=choices[Math.floor(Math.random()*choices.length)];if(!finalJubel)lastAnimation=index;const animationFile=finalJubel?'Fuehlmemory_Wuerstchen_Jubelanimation.mp4':animations[index];const video=$('rewardVideo'),image=$('rewardImage'),isImage=animationFile.endsWith('.webp');$('reward').hidden=false;$('playVideo').hidden=true;$('videoStatus').hidden=true;video.hidden=isImage;image.hidden=!isImage;let complete=false;
  function done(){if(complete||token!==epoch)return;complete=true;correctId=null;clearTimeout(rewardTimer);video.pause();video.onended=null;video.onerror=null;image.onload=null;image.onerror=null;image.removeAttribute('src');image.hidden=true;$('reward').hidden=true;if(found.size===field.length){
  stage='finish';$('finish').hidden=false;$('message').textContent='';
  if(duo){
@@ -133,9 +133,9 @@ function playReward(token){
  stage='choose';switchTurn();$('message').textContent='Wähle deine nächste Fragekarte.';
 }render();if(stage==='finish')$('again').focus();}
  if(isImage){image.onload=()=>{if(token===epoch)rewardTimer=setTimeout(done,3000);};image.onerror=()=>{if(token!==epoch)return;$('videoStatus').textContent='Die Animation konnte nicht geladen werden.';$('videoStatus').hidden=false;rewardTimer=setTimeout(done,1200);};image.src='assets/animations/'+animations[index]+'?round='+token+'-'+found.size;return;}
- video.src='assets/animations/'+animations[index];video.currentTime=0;
+ video.src='assets/animations/'+animationFile;video.currentTime=0;
  video.onended=done;video.onerror=()=>{if(token!==epoch)return;$('videoStatus').textContent='Die Animation konnte nicht geladen werden.';$('videoStatus').hidden=false;rewardTimer=setTimeout(done,1200);};
- function play(){video.play().then(()=>{if(token!==epoch)return;$('playVideo').hidden=true;rewardTimer=setTimeout(done,3200);}).catch(()=>{if(token!==epoch)return;$('playVideo').hidden=false;$('playVideo').onclick=play;});}play();
+ function play(){video.play().then(()=>{if(token!==epoch)return;$('playVideo').hidden=true;rewardTimer=setTimeout(done,finalJubel?5500:3200);}).catch(()=>{if(token!==epoch)return;$('playVideo').hidden=false;$('playVideo').onclick=play;});}play();
 }
 $('startGame').onclick=()=>{
  if(!$('game').hidden)return;
