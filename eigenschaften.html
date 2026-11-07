@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#24776b"><meta name="description" content="Ein Eigenschaften-Memory mit Bildkarten, drei Schwierigkeitsstufen und lokalen Kinderprofilen. Offline spielbar."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Fühlmemory"><link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><title>Fühlmemory · Eigenschaften-Memory</title><link rel="stylesheet" href="button-schilder.css"><link rel="stylesheet" href="collection-navigation.css"><link rel="stylesheet" href="collection-session.css"></head>
-<body><script src="profile-store.js"></script><script src="progress-store.js"></script><script src="collection-session.js"></script><main><header><a href="index.html?menu=1">← Spielmenü</a><span>FÜHLMEMORY</span><div class="header-actions"><button id="profileSwitch">Profil wählen</button><button id="install" hidden>App installieren</button> <button id="reset">Zurück zu den Einstellungen</button></div></header><h1>Eigenschaften-Memory</h1>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#24776b"><meta name="description" content="Ein Bilder merken mit Bildkarten, drei Schwierigkeitsstufen und lokalen Kinderprofilen. Offline spielbar."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Bilder merken"><link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><title>Bilder merken · Bilder merken</title><link rel="stylesheet" href="button-schilder.css"><link rel="stylesheet" href="collection-navigation.css"><link rel="stylesheet" href="collection-session.css"></head>
+<body><script src="profile-store.js"></script><script src="progress-store.js"></script><script src="collection-session.js"></script><main><header><a href="index.html?menu=1">← Spielmenü</a><span>BILDER MERKEN</span><div class="header-actions"><button id="profileSwitch">Kind wechseln</button><button id="install" hidden>App installieren</button> <button id="reset">Zurück zu den Einstellungen</button></div></header><h1>Bilder merken</h1>
 <div class="button-zoom" role="group" aria-label="Größe der Schrift und Schaltflächen">
-  <strong>Schrift &amp; Buttons</strong>
+  <strong>Schriftgröße</strong>
   <button type="button" id="buttonZoomOut" aria-label="Schrift und Schaltflächen verkleinern">−</button>
   <button type="button" id="buttonZoomValue" aria-label="Schrift und Schaltflächen auf 100 Prozent zurücksetzen">100 %</button>
   <button type="button" id="buttonZoomIn" aria-label="Schrift und Schaltflächen vergrößern">+</button>
@@ -18,9 +18,9 @@
 </div>
 <div class="settings">
   <fieldset class="big-setting"><legend>Schwierigkeit wählen</legend><div class="setting-buttons" id="levelButtons">
-    <button type="button" data-value="1">1 · Eine Eigenschaft</button>
-    <button type="button" data-value="2">2 · Zwei Eigenschaften</button>
-    <button type="button" data-value="3">3 · Kombination &amp; Ausschluss</button>
+    <button type="button" data-value="1">1 · Leicht<small>Eine Eigenschaft</small></button>
+    <button type="button" data-value="2">2 · Knifflig<small>Zwei Eigenschaften</small></button>
+    <button type="button" data-value="3">3 · Sehr knifflig<small>Drei Hinweise</small></button>
   </div></fieldset>
   <fieldset class="big-setting"><legend>Wie viele Bildkarten?</legend><div class="setting-buttons count-buttons" id="countButtons">
     <button type="button" data-value="6">6 Karten</button>
@@ -45,12 +45,12 @@
 </section>
 <div id="readPrompt" class="read-prompt" hidden role="group" aria-label="Lesehinweis für die gefundene Karte">
   <p>Lies den Text auf der gefundenen Karte.</p>
-  <button type="button" id="readContinue">Ich habe gelesen – weiter</button>
+  <button type="button" id="readContinue">Weiter</button>
   <span class="read-arrow" aria-hidden="true">↓</span>
 </div>
 <div id="cards" aria-label="Bildkarten"></div>
 <div class="ready-row"><button id="ready" class="primary">Ich bin bereit!</button></div></section>
-<section id="finish" hidden><div class="stars" aria-hidden="true">✦ · ✧ · ✦</div><h2>Schön, alles gefunden!</h2><div id="duoFinish" hidden></div><button id="again" class="primary">Noch eine Runde spielen</button></section>
+<section id="finish" hidden><div class="stars" aria-hidden="true">✦ · ✧ · ✦</div><h2>Schön, alles gefunden!</h2><div id="duoFinish" hidden></div><button id="again" class="primary">Noch einmal spielen</button></section>
 <footer><span id="offlineStatus" hidden></span><span id="profileStorageNote" role="status"></span></footer></main>
 <dialog id="successReading" class="success-reading" aria-labelledby="successReadTitle" aria-describedby="successReadHint">
   <div class="success-reading-content">
@@ -67,7 +67,7 @@
   <p id="previewDescription"></p>
 </dialog>
 <div id="reward" hidden role="dialog" aria-modal="true" aria-label="Papierkorb-Animation"><div class="animation-box"><video id="rewardVideo" muted playsinline preload="auto"></video><img id="rewardImage" hidden alt="Eine Karte dreht sich neben dem Papierkorb"><p id="videoStatus" hidden></p><button id="playVideo" hidden>Animation starten</button></div></div>
-<dialog id="profileDialog" class="profile-panel" aria-labelledby="profileHeading" aria-describedby="profileDescription"><h2 id="profileHeading">Wer spielt heute?</h2><p id="profileDescription">Wähle dein Profil oder lege ein neues an. Deine Einstellungen bleiben auf diesem Gerät.</p><p id="profileRoundNote" class="hint" hidden>Deine Runde wird für dich gespeichert. Du kannst später weiterspielen.</p><div id="profileList" class="profile-list"></div><p id="profileEmpty" class="hint">Hier ist noch kein Profil angelegt.</p><form id="profileForm"><label for="profileName">Neues Profil</label><input id="profileName" name="name" maxlength="32" autocomplete="off" placeholder="Name des Kindes" required><button type="submit">Profil anlegen</button></form><p id="profileError" class="profile-error" role="alert"></p><button id="profileClose" type="button" hidden>Zurück zum Spiel</button></dialog>
+<dialog id="profileDialog" class="profile-panel" aria-labelledby="profileHeading" aria-describedby="profileDescription"><h2 id="profileHeading">Wer spielt heute?</h2><p id="profileDescription">Tippe auf deinen Namen. Oder trage deinen Namen neu ein.</p><p id="profileRoundNote" class="hint" hidden>Deine Runde wird für dich gespeichert. Du kannst später weiterspielen.</p><div id="profileList" class="profile-list"></div><p id="profileEmpty" class="hint">Trage deinen Namen ein.</p><form id="profileForm"><label for="profileName">Dein Name</label><input id="profileName" name="name" maxlength="32" autocomplete="off" placeholder="Name des Kindes" required><button type="submit">Los geht’s</button></form><p id="profileError" class="profile-error" role="alert"></p><button id="profileClose" type="button" hidden>Zurück zum Spiel</button></dialog>
 <script src="cards.js"></script><script src="engine.js"></script><script src="app.js"></script><script src="profiles.js"></script>
 <script>
 (function(){

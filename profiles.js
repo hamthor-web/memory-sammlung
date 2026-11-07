@@ -1,7 +1,7 @@
 'use strict';
 let profileStorage;try{profileStorage=window.localStorage;}catch{profileStorage={getItem(){throw Error('Speicher nicht verfügbar');},setItem(){throw Error('Speicher nicht verfügbar');}};}
 const profileStore=MemoryProfiles.createStore(profileStorage),profileDialog=document.getElementById('profileDialog');
-function applyProfile(profile){CollectionSession.setOwner(profile);document.getElementById('duoName0').value=profile.name;document.getElementById('level').value=String(profile.level);document.getElementById('count').value=String(profile.count);reset();document.getElementById('profileSwitch').textContent='Profil: '+profile.name;document.getElementById('profileStorageNote').textContent=profileStore.isPersistent()?'':'Profile bleiben in diesem Browser nur für diese Sitzung erhalten.';}
+function applyProfile(profile){CollectionSession.setOwner(profile);document.getElementById('duoName0').value=profile.name;document.getElementById('level').value=String(profile.level);document.getElementById('count').value=String(profile.count);reset();document.getElementById('profileSwitch').textContent='Kind wechseln';document.getElementById('profileStorageNote').textContent=profileStore.isPersistent()?'':'Deine Einstellungen bleiben hier nur für diese Sitzung erhalten.';}
 function chooseProfile(profile){applyProfile(profile);profileDialog.close();CollectionSession.offerResume('eigenschaften',restoreRound);}
 function showProfiles(){
  const list=document.getElementById('profileList');list.replaceChildren();const current=profileStore.active();

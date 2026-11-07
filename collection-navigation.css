@@ -13,3 +13,30 @@
  text-decoration:none;
 }
 .collection-return:focus-visible {outline:4px solid #d8981c;outline-offset:3px}
+
+.collection-game-nav{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;gap:10px;width:min(100%,1180px);padding:8px 12px;margin:0 auto;color:#214635}
+.collection-game-nav a,.collection-game-nav button{box-sizing:border-box;min-height:52px;padding:10px 14px;border:2px solid #416c55;border-radius:14px;background:#f4f5e9;color:#214635;font:700 18px/1.3 system-ui,sans-serif;text-decoration:none;cursor:pointer}
+.collection-game-nav [hidden]{display:none!important}
+.collection-game-nav button:focus-visible,.collection-font-button:focus-visible{outline:4px solid #d8981c;outline-offset:3px}
+.collection-profile{flex-wrap:wrap}
+.collection-profile .collection-font-button{min-width:48px;min-height:48px;padding:6px 10px;border:2px solid #416c55;border-radius:12px;background:#fffdf0;color:#214635;font:700 20px/1.3 system-ui,sans-serif}
+.collection-font-dialog{box-sizing:border-box;width:min(94vw,600px);max-height:90dvh;overflow:auto;padding:22px;border:2px solid #416c55;border-radius:20px;background:#fffdf0;color:#214635;font:20px/1.4 system-ui,sans-serif}
+.collection-font-dialog::backdrop{background:#18352eaa}
+.collection-font-dialog button{min-height:52px;font-size:20px}
+.collection-font-dialog .button-zoom,.collection-font-dialog .interface-zoom,.collection-font-dialog .textZoom{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:20px 0;width:100%}
+.collection-managed #settingsButton,.collection-managed #syn-size,.collection-managed #syn-setup-size,.collection-managed #profileSwitch,.collection-managed #playBack:not(.collection-settings),.collection-managed .collection-nav,.collection-managed .questionTools .textZoom{display:none!important}
+.collection-managed #syn-topline{grid-template-columns:1fr}
+@media(max-width:600px){.collection-game-nav{gap:8px}.collection-game-nav a,.collection-game-nav button{font-size:18px;padding:10px 12px}.collection-profile{gap:6px;font-size:17px}.collection-profile a{margin-left:auto;padding:6px}}
+.collection-game-nav #playBack,.collection-game-nav #reset,.collection-game-nav #syn-back,.collection-game-nav #selectGame{margin:0;min-height:52px;font:700 18px/1.3 system-ui,sans-serif;padding:10px 14px}
+.collection-managed #levelButtons small{display:block;font-size:18px;line-height:1.3;margin-top:4px}
+.collection-managed #levelButtons .banner-label{display:flex;flex-direction:column;align-items:center}
+@media(max-width:600px){.collection-managed #synonym-demo .counts{grid-template-columns:1fr}.collection-managed #syn-heading h1{font-size:30px}}
+.collection-managed #restart{display:none!important}
+.collection-font-dialog .zoom-controls{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.collection-managed #game-controls{display:none!important}
+body[data-collection-game="properties"] main>header{display:none}
+.collection-profile{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px}
+.collection-profile a{white-space:nowrap;font-size:16px;margin:0}
+.collection-profile .collection-font-button{justify-self:end}
+.collection-managed [hidden]{display:none!important}
+.collection-managed .collection-profile{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px}

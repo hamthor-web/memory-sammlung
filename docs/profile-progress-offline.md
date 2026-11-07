@@ -21,6 +21,36 @@ keine weiteren Profile. „Verrückt gesucht!“ bleibt ein Einzelspiel.
   ausschließlich zum aktiven Kind. Neue Bilder speichern einen Aufbauplan;
   Bilddateien bzw. eingebettete Grafiken werden nicht pro Zwischenbild dupliziert.
 
+## Gemeinsame Bedienung
+
+Die Spielauswahl zeigt auf dem Handy eine Karte pro Zeile, auf Tablets zwei.
+Alle Karten verwenden „Spielen“. Die sichtbaren Namen sind „Bilder merken“,
+„Ein Wort, zwei Bilder“, „Zwei Wörter, eine Sache“ und „Verrückt gesucht!“.
+Profil-IDs und Speicherzuordnungen bleiben erhalten. Die historische Adresse
+`wortmemory/index.html` leitet auf dieselbe gepflegte Spielversion weiter.
+
+Die Einstellungen folgen der Reihenfolge Spielmodus, Schwierigkeit (wo
+vorhanden), Kartenanzahl und beim Suchspiel Geschichte. Die Stufen heißen
+„Leicht“, „Knifflig“ und „Sehr knifflig“; Paarzahlen nennen auch die Kartenanzahl.
+Der Startbutton heißt überall „Spiel starten“, die Wiederholung „Noch einmal
+spielen“. App-Verwaltung liegt in einem eigenen Fenster, auch aus der
+Namensauswahl erreichbar. „Kind wechseln“ öffnet die gemeinsame Namensauswahl.
+Schriftgrößen- und vorhandene Kartenzoom-Regler öffnen überall über „Aa“.
+
+Jedes Spiel hat eine sichtbare gemeinsame Navigationsleiste: „Alle Spiele“
+führt zur Sammlung, „Einstellungen“ zur Einrichtung dieses Spiels. Laufende
+Runden werden vor dem Wechsel gesichert. Browser-Zurück und die native
+Android-Zurückgeste schließen zunächst ein Fenster, gehen dann zu den
+Einstellungen und schließlich zur Sammlung. Es gibt keinen zusätzlichen
+Touch-Handler, der dieselbe Android-Geste doppelt als Zurück ausführen könnte.
+
+Geschlossene Leseaufgaben bleiben über „Weiterlesen“ erreichbar, geschlossene
+Belohnungsbilder über „Bild ansehen“. Das Schließen überspringt keine Aufgabe
+und vergibt keinen zusätzlichen Punkt. Timer öffnen ein bewusst geschlossenes
+Lesefenster nicht erneut. Eine verpflichtende Spielerübergabe bleibt bis zur
+Bestätigung bestehen. Die gemeinsame Browser-History ersetzt die früher
+getrennte History des Suchspiels.
+
 ## Mehrfach abgeschlossene Fortschrittsgeschichten
 
 Pfau und Baum bewahren jeden vollständig abgeschlossenen Durchgang als eigene
@@ -115,6 +145,8 @@ node tests/progress-store.cjs
 node tests/reward-history.cjs
 node tests/service-worker-update.cjs
 CHROME_BIN=/usr/bin/chromium node tests/browser-memory-four-games.cjs
+CHROME_BIN=/usr/bin/chromium node tests/browser-navigation.cjs
+CHROME_BIN=/usr/bin/chromium node tests/browser-reading-back.cjs
 CHROME_BIN=/usr/bin/chromium node tests/browser-progress.cjs
 CHROME_BIN=/usr/bin/chromium node tests/browser-offline.cjs
 CHROME_BIN=/usr/bin/chromium node tests/browser-reward-resume.cjs

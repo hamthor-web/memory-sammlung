@@ -71,16 +71,10 @@ document.querySelectorAll('[data-level]').forEach(b=>b.onclick=()=>{level=Number
 let reward=new PeacockReward.View(PFAU_ART,$('treeMount'),$('treeCounter'),$('treeDialog'),finish);
 let finishedSaved=false;
 function finish(){if(!reward.state.complete||number!==10)return;finishedSaved=rememberReward();if(finishedSaved)CollectionSession.clear('verrueckt-gesucht');$('result').textContent=`${firstTry} Aufgaben hast du beim ersten Versuch gefunden.`;show('finish');}
-const names=['','Einfach','Etwas schwieriger','Ganz schwierig'];
-// Jede Spielansicht erhält einen eigenen Verlaufseintrag: Android-Zurück und
-// Browser-Wischgeste kehren zur vorherigen Ansicht zurück statt die PWA zu beenden.
-let currentScreen='setup',restoringHistory=false;
-try{history.replaceState({...history.state,vgScreen:'setup'},'');}catch{}
+const names=['','Leicht','Knifflig','Sehr knifflig'];
+let currentScreen='setup';
 function show(name,fromHistory=false){
  if(currentScreen==='play'&&name!=='play')checkpointVG();
- if(!fromHistory&&name!==currentScreen){
-  try{history.pushState({vgScreen:name},'');}catch{}
- }
  currentScreen=name;
  document.body.classList.toggle('playing',name==='play');
  document.body.classList.toggle('view-gallery',name==='gallery');
@@ -107,30 +101,6 @@ function show(name,fromHistory=false){
   if(name==='play')fitBoard();
  });
 }
-window.addEventListener('popstate',e=>{
- const name=e.state?.vgScreen;
- if(['setup','play','finish','gallery'].includes(name))show(name,true);
- else if(currentScreen!=='setup')show('setup',true);
-});
-// Ergänzende Wischgeste innerhalb des Inhalts, auch wenn der Browser
-// keine Zurückgeste bereitstellt. Vertikales Scrollen bleibt ungestört.
-let startSwipe=null;
-document.addEventListener('touchstart',e=>{
- if(e.touches.length!==1)return;
- const t=e.touches[0];
- startSwipe={x:t.clientX,y:t.clientY,time:Date.now()};
-},{passive:true});
-document.addEventListener('touchend',e=>{
- if(!startSwipe||e.changedTouches.length!==1)return;
- const t=e.changedTouches[0],dx=t.clientX-startSwipe.x,dy=t.clientY-startSwipe.y;
- const intent=dx>100&&Math.abs(dy)<Math.min(65,dx*.55)&&Date.now()-startSwipe.time<850;
- startSwipe=null;
- if(!intent)return;
- const dialog=Array.from(document.querySelectorAll('dialog[open]')).at(-1);
- if(dialog){if(dialog.id!=='treeDialog')dialog.close();return;}
- if(currentScreen!=='setup')history.back();
-},{passive:true});
-document.addEventListener('touchcancel',()=>{startSwipe=null;},{passive:true});
 function createReward(){reward=activeRewardId==='blumenwiese'?new FlowerReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='wundereiche'?new WonderOakReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='kinderzimmer'?new BedroomReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='marsmission'?new MarsMissionReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='baumhaus'?new TreehouseReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='unterwasserwelt'?new UnderwaterReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='matschwiese'?new MeadowReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='rakete'?new RocketReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='knurpsel'?new KnurpselReward.View($('treeMount'),$('treeCounter'),$('treeDialog'),finish):activeRewardId==='baum'?new TreeReward.View(TREE_ART,$('treeMount'),$('treeCounter'),$('treeDialog'),finish):new PeacockReward.View(PFAU_ART,$('treeMount'),$('treeCounter'),$('treeDialog'),finish);}
 function start(){completionId=crypto.randomUUID();finishedSaved=false;reward.cancel();activeRewardId=chooseRewardId();$('treeContinue').textContent='Weiter';createReward();$('treeMount').replaceChildren();number=0;used=[];errors=0;firstTry=0;reward.reset();show('play');nextRound();}
 function nextRound(restored=null,savedText=null){const restoring=!!restored?.question;if(!restoring)number++;locked=false;if(!restoring)missed=false;$('next').hidden=true;$('feedback').textContent='Tippe auf das passende Bild.';
@@ -142,7 +112,7 @@ function nextRound(restored=null,savedText=null){const restoring=!!restored?.que
  fitBoard();if(window.requestAnimationFrame)window.requestAnimationFrame(fitBoard);
  $('question').focus({preventScroll:true});checkpointVG();
 }
-async function choose(c,box){if(locked)return;if(c.id===round.answer){locked=true;box.classList.add('correct');if(!missed)firstTry++;$('feedback').textContent='Richtig! Du hast genau hingesehen.';$('next').textContent=number===10?'Runde beenden →':'Nächste Aufgabe →';document.querySelectorAll('.answer').forEach(b=>b.setAttribute('aria-disabled','true'));const active=reward;const award=reward.award(round.question.id);checkpointVG();const completed=await award;if(active!==reward||currentScreen!=='play')return;if(completed&&number<10){nextRound();window.scrollTo({top:0,behavior:'instant'});}$('progressBar').style.width=`${reward.state.progress*10}%`;}else{missed=true;errors++;box.classList.remove('wrong');void box.offsetWidth;box.classList.add('wrong');$('feedback').textContent=level===3?'Schau noch einmal: Was wird ausgeschlossen?':'Schau noch einmal auf die Merkmale in der Frage.';setTimeout(()=>box.classList.remove('wrong'),450);checkpointVG();}}
+async function choose(c,box){if(locked)return;if(c.id===round.answer){locked=true;box.classList.add('correct');if(!missed)firstTry++;$('feedback').textContent='Richtig! Du hast genau hingesehen.';$('next').textContent='Weiter';document.querySelectorAll('.answer').forEach(b=>b.setAttribute('aria-disabled','true'));const active=reward;const award=reward.award(round.question.id);checkpointVG();const completed=await award;if(active!==reward||currentScreen!=='play')return;if(completed&&number<10){nextRound();window.scrollTo({top:0,behavior:'instant'});}$('progressBar').style.width=`${reward.state.progress*10}%`;}else{missed=true;errors++;box.classList.remove('wrong');void box.offsetWidth;box.classList.add('wrong');$('feedback').textContent=level===3?'Schau noch einmal: Was wird ausgeschlossen?':'Schau noch einmal auf die Merkmale in der Frage.';setTimeout(()=>box.classList.remove('wrong'),450);checkpointVG();}}
 function openZoom(c){$('zoomImage').src=c.image;$('zoomImage').alt=c.motif;$('zoomLabel').textContent=c.motif;$('zoom').showModal();document.body.classList.add('zoomOpen');}
 $('zoom').addEventListener('close',()=>document.body.classList.remove('zoomOpen'));$('closeZoom').onclick=()=>$('zoom').close();$('zoom').onclick=e=>{if(e.target===$('zoom'))$('zoom').close();};
 function launchGame(){
@@ -195,6 +165,7 @@ const setupZoomKey='verrueckt-gesucht-startschrift-v1';
 let setupScale=1;
 try{const saved=Number(localStorage.getItem(setupZoomKey));if(Number.isFinite(saved)&&saved>=0.85&&saved<=1.6)setupScale=saved;}catch{}
 function setSetupScale(next){
+ setTextScale(next);
  setupScale=Math.round(Math.max(.85,Math.min(1.6,next))*100)/100;
  const offset=Math.round((setupScale-1)*22);
  document.documentElement.style.setProperty('--setup-extra',offset+'px');
@@ -332,3 +303,5 @@ function rewardScene(model,step){
  for(const info of model.round.slice(0,step)){const sprite=view.createSprite(info);view.settleSprite(sprite);sprite.style.animation='none';sprite.style.opacity='1';}
  return picture;
 }
+
+window.CollectionGameNavigation={isSetup:()=>currentScreen==='setup',settings:()=>show('setup'),fontControls:()=>$('setupTextReset').closest('.textZoom'),canReopen:id=>id==='treeDialog'&&currentScreen==='play'&&locked};

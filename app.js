@@ -55,7 +55,7 @@ function reset(){
  for(const option of $('count').options)option.disabled=+option.value>eligible.length;
  if(wanted>eligible.length){wanted=eligible.length>=12?12:6;$('count').value=String(wanted);}
  field=E.selectRound(pool,wanted,level);found=new Set();used=new Set();history=new Set();question=null;wrongId=null;correctId=null;totalQuestions=field.length+2;stage='study';
- $('levelHint').textContent=level===1?'Eine Eigenschaft suchen. Alle 30 Karten sind im Pool.':level===2?`Zwei Eigenschaften verbinden. ${eligible.length} passende Karten aus dem Pool.`:`Kombinationen und Ausschlüsse. ${eligible.length} passende Karten aus dem Pool.`;
+ $('levelHint').textContent=level===1?'Suche ein Bild mit einer passenden Eigenschaft.':level===2?'Suche ein Bild, zu dem beide Hinweise passen.':'Lies alle Hinweise. Achte auch auf „nicht“. Hier kannst du 6 oder 12 Bilder wählen.';
  $('message').textContent='Schau dir die Bilder an. Du hast so viel Zeit, wie du möchtest.';syncBigSettings();render();showDuo();
 }
 function previewCard(c){
@@ -79,6 +79,7 @@ function renderQuestion(){
  question.yes.forEach((p,i)=>{if(i)node.append(i===question.yes.length-1?' und ':', ');property(p);});if(question.no.length){node.append(', aber nicht ');question.no.forEach((p,i)=>{if(i)node.append(' oder ');property(p);});}node.append('?');
 }
 function render(){
+ document.querySelector('.study-help').hidden=stage!=='study';
  $('progress').textContent=`${found.size} von ${field.length} gefunden · ${totalQuestions-used.size} Fragekarten übrig`;$('phase').textContent={study:'Anschauen',choose:'Frage wählen',answer:'Bild finden',wrong:'Noch einmal antippen',handoff:'Weitergeben',success:'In Ruhe lesen',reward:'Animation',finish:'Alle gefunden'}[stage];
  $('ready').hidden=stage!=='study';$('readPrompt').hidden=stage!=='success';$('questionZone').hidden=stage==='study'||stage==='finish';$('cards').classList.toggle('large',field.length>6);
  const oldCards=[...$('cards').children];
@@ -88,7 +89,7 @@ function render(){
  const available=Array.from({length:totalQuestions},(_,i)=>i).filter(i=>!used.has(i));const width=Math.min(700,Math.max(250,$('fan').clientWidth||window.innerWidth-28));const cardWidth=window.innerWidth<=650?104:120;const spacing=Math.min(55,(width-cardWidth)/Math.max(1,available.length-1));
  $('fan').replaceChildren(...available.map((i,position)=>{const b=document.createElement('button');b.className='question-card';b.dataset.question=i;b.style.setProperty('--angle',`${(position-(available.length-1)/2)*Math.min(6,45/Math.max(1,available.length-1))}deg`);b.style.setProperty('--x',`${(position-(available.length-1)/2)*spacing}px`);b.style.zIndex=String(position+1);const backImage=document.createElement('img');backImage.src='assets/backs/question-mark.png';backImage.alt='';backImage.draggable=false;b.append(backImage);b.setAttribute('aria-label',`Fragekarte ${i+1}`);b.disabled=stage!=='choose';b.onclick=()=>choose(i);return b;}));
  $('fanLabel').textContent=stage==='choose'?'Wähle hier zuerst deine Fragekarte.':stage==='wrong'?'Tippe unten die offene Bildkarte noch einmal an.':stage==='success'?'Lies den Text und tippe die Karte noch einmal an.':'Lies die Frage und suche unten das passende Bild.';
- $('fan').hidden=stage!=='choose';
+ $('fan').hidden=stage!=='choose';$('fanLabel').hidden=stage!=='choose';
  $('wrongContinue').hidden=stage!=='wrong';$('wrongContinue').textContent=duo?'Weiter – '+names[1-turn]+' ist dran':'Noch einmal versuchen';
  checkpoint();
 }
@@ -178,3 +179,5 @@ function restoreRound(state){
 }
 $('wrongContinue').onclick=()=>{const card=field.find(c=>c.id===wrongId);if(card)answer(card);};
 CollectionSession.track('eigenschaften',roundSnapshot);
+
+window.CollectionGameNavigation={isSetup:()=>!$('start').hidden,settings:()=>reset(),canReopen:id=>(id==='successReading'&&stage==='success')||(id==='reward'&&stage==='reward')};

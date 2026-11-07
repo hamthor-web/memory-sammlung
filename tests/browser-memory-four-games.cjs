@@ -14,17 +14,20 @@ for(const viewport of [{width:390,height:844},{width:844,height:390},{width:768,
     await page.locator('#name').fill('Testkind');
     await page.locator('#newProfile button').click();
   }
-  // Profile dialog exposes update and installation before a child profile exists.
+  // Management stays available without putting installation actions inside the name chooser.
   await page.goto(base+'index.html');
   await page.evaluate(()=>localStorage.removeItem('fuehlmemory-profiles-v1'));
   await page.reload();
   assert.equal(await page.locator('#login').evaluate(el=>el.open),true);
+  assert.equal(await page.locator('#update').isVisible(),false);
+  await page.locator('#manageAppFromLogin').click();
   assert.equal(await page.locator('#update').isVisible(),true);
   assert.equal(await page.locator('#install').isVisible(),true);
   assert.equal(await page.locator('#profiles button').count(),0);
   await page.locator('#update').click();
   await page.locator('#updateStatus').waitFor();
   assert.equal(await page.locator('#updateStatus').isVisible(),true);
+  await page.locator('#appManagement').getByRole('button',{name:'Schließen',exact:true}).click();
   await page.locator('#name').fill('Testkind');
   await page.locator('#newProfile button').click();
   await page.goto(base+'index.html?menu=1');
@@ -43,9 +46,9 @@ for(const viewport of [{width:390,height:844},{width:844,height:390},{width:768,
   assert(shield.height>=dims[2].height-8,'Shield is too small: '+JSON.stringify(shield));
 
 
-  assert(dims[3].label.includes('Los geht'),JSON.stringify(dims[3]));
-  assert(Math.abs(dims[2].bottom-dims[3].bottom)<=6,JSON.stringify({viewport,buttons:dims}));
-  assert(Math.abs(dims[0].bottom-dims[1].bottom)<=6,JSON.stringify({viewport,buttons:dims}));
+  assert(dims.every(button=>button.label==='Spielen'),JSON.stringify(dims));
+  if(viewport.width<=600||viewport.height<=500){assert(dims[1].y>dims[0].y&&dims[1].x===dims[0].x,JSON.stringify(dims));}
+  else{assert(Math.abs(dims[2].bottom-dims[3].bottom)<=6,JSON.stringify({viewport,buttons:dims}));assert(Math.abs(dims[0].bottom-dims[1].bottom)<=6,JSON.stringify({viewport,buttons:dims}));}
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
   assert(overflow<=3,'Menu horizontal overflow '+overflow+' '+JSON.stringify(viewport));
   for(const href of entries){
@@ -67,18 +70,18 @@ for(const viewport of [{width:390,height:844},{width:844,height:390},{width:768,
   await page.goto(base+'verrueckt-gesucht/index.html');
   assert(await page.locator('#openGallery').isVisible());
   const order=await page.evaluate(()=>{
-    const ids=['rewardChoice','size','start','openGallery'];
+    const ids=['size','rewardChoice','start','openGallery'];
     return ids.map(id=>document.getElementById(id).compareDocumentPosition(document.getElementById('start')));
   });
   const relative=await page.evaluate(()=>{
-   const ids=['rewardChoice','size','start','openGallery'];
+   const ids=['size','rewardChoice','start','openGallery'];
    const nodes=ids.map(id=>document.getElementById(id));
    return nodes[0].compareDocumentPosition(nodes[1])&Node.DOCUMENT_POSITION_FOLLOWING &&
       nodes[1].compareDocumentPosition(nodes[2])&Node.DOCUMENT_POSITION_FOLLOWING &&
       nodes[2].compareDocumentPosition(nodes[3])&Node.DOCUMENT_POSITION_FOLLOWING;
   });
   assert(relative,'Selection/gallery order');
-  assert.equal(await page.locator('#openGallery').textContent(),'Meine Fortschrittsbilder noch einmal ansehen');
+  assert.equal(await page.locator('#openGallery').textContent(),'Meine Bilder ansehen');
   assert.equal(await page.locator('.install-panel').isVisible(),false);
   console.log('PASS viewport '+viewport.width+'x'+viewport.height+': 4 games, menu alignment, four intro transitions and back gestures.');
   await context.close();
