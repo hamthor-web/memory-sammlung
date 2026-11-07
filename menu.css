@@ -767,3 +767,71 @@ footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
   font-size:clamp(16px,4.2vw,21px)!important;
  }
 }
+
+/* 07.11.2026 - Verrueckt-Schild: Originalbild unverzerrt.
+   Kein fehlerhaftes Aufteilen in mehrere SVG-Ansichten. */
+.games .game-verrueckt > a.play-verrueckt {
+ --verr-end-height:clamp(55px, 12vw, 82px);
+ position:relative!important;
+ isolation:isolate!important;
+ display:flex!important;
+ justify-content:center!important;
+ align-items:center!important;
+ width:100%!important;
+ min-height:95px!important;
+ height:auto!important;
+ box-sizing:border-box!important;
+ border:3px solid #c2bca0!important;
+ border-image:none!important;
+ border-radius:999px!important;
+ background:#f4eddb!important;
+ background-image:none!important;
+ padding:12px calc(var(--verr-end-height) * .42) 12px calc(var(--verr-end-height) * .96)!important;
+ overflow:hidden!important;
+}
+.games .game-verrueckt > a.play-verrueckt::before,
+.games .game-verrueckt > a.play-verrueckt::after {
+ display:block!important;
+ content:""!important;
+ position:absolute!important;
+ top:50%!important;
+ transform:translateY(-50%)!important;
+ height:var(--verr-end-height)!important;
+ background-image:url("verrueckt-gesucht/assets/buttons/los-gehts-v1.svg")!important;
+ background-size:auto 100%!important;
+ background-repeat:no-repeat!important;
+ border:0!important;
+ border-image:none!important;
+ z-index:0!important;
+ pointer-events:none!important;
+}
+.games .game-verrueckt > a.play-verrueckt::before {
+ left:0!important;
+ right:auto!important;
+ width:calc(var(--verr-end-height) * .96)!important;
+ background-position:left center!important;
+}
+.games .game-verrueckt > a.play-verrueckt::after {
+ right:0!important;
+ left:auto!important;
+ width:calc(var(--verr-end-height) * .42)!important;
+ background-position:right center!important;
+}
+.games .game-verrueckt .verrueckt-button-label {
+ position:relative!important;
+ z-index:1!important;
+ padding:0!important;
+ color:#23452c!important;
+ font-size:clamp(19px,2.65vw,28px)!important;
+}
+@media(max-width:700px){
+ .games .game-verrueckt > a.play-verrueckt {
+  --verr-end-height:clamp(44px, 11vw, 58px);
+  background:#f4eddb!important;
+  background-image:none!important;
+  padding:12px calc(var(--verr-end-height) * .4) 12px calc(var(--verr-end-height) * .92)!important;
+ }
+ .games .game-verrueckt .verrueckt-button-label {
+  font-size:clamp(16px,4.2vw,21px)!important;
+ }
+}
