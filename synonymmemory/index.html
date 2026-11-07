@@ -12,7 +12,13 @@
 <section id="syn-preview" hidden><div class="large-word single-word" id="syn-firstword"></div><p>Schau dir das Wort an. Wähle danach eine zweite Karte.</p><button id="syn-second" class="primary start">Zweite Karte</button></section>
 <section id="syn-decision" hidden><div id="syn-largecards" class="large-cards" aria-label="Aufgedeckte Karten, groß"></div><div class="ask"><h2>Passt das zusammen?</h2><div id="syn-selected" class="decision-words" aria-label="Die beiden aufgedeckten Wörter"><div class="decision-word" id="syn-word1"></div><div class="decision-word" id="syn-word2"></div></div><p id="syn-feedback" class="notice" role="status"></p><div class="answer-buttons"><button id="syn-yes" class="primary">Ja</button><button id="syn-no">Nein</button></div></div></section>
 <section id="syn-reveal" hidden aria-label="Bilder vergleichen"><div id="syn-images" class="compare"></div><button id="syn-next" class="primary start">Weiter</button></section>
+<section id="syn-celebration" hidden aria-label="Jubelanimation"><video id="syn-jubel" playsinline preload="auto" muted aria-label="Zwei Würstchen jubeln und laufen Hand in Hand aus dem Bild"><source src="../assets/animations/Memory_Jubel_Zwei_Woerter_Eine_Bedeutung.mp4" type="video/mp4"></video><button type="button" id="syn-skip-jubel" class="primary start">Weiter zum Ergebnis</button></section>
 <section id="syn-end" hidden><p id="syn-end-text"></p><button id="syn-again" class="primary start">Noch einmal spielen</button></section>
 </dialog>
 <dialog id="syn-settings" aria-labelledby="syn-settings-title"><h2 id="syn-settings-title">Größe einstellen</h2><div class="controls"><label for="syn-font">Schrift <output id="syn-font-value">100 %</output><input id="syn-font" type="range" min="100" max="180" step="10" value="100"></label><label for="syn-field">Spielfeld <output id="syn-field-value">100 %</output><input id="syn-field" type="range" min="80" max="170" step="10" value="100"></label></div><p>Bei 100 % passen alle Karten in die Übersicht. Größere Karten können Scrollen erfordern.</p><button id="syn-settings-done" class="primary start">Fertig</button></dialog>
-</main><script src="../profile-store.js"></script><script src="data.js"></script><script src="app.js"></script><script src="../collection-navigation.js"></script></body></html>
+</main><style>
+#synonym-demo #syn-celebration{text-align:center}
+#synonym-demo #syn-jubel{display:block;width:100%;max-width:min(78vw,760px);max-height:min(62dvh,520px);object-fit:contain;margin:0 auto 12px;background:#fff}
+#synonym-demo #syn-skip-jubel{min-height:60px;font-size:calc(22px * var(--fontzoom,1));margin:0 auto}
+@media(max-height:480px) and (orientation:landscape){#synonym-demo #syn-jubel{max-height:43dvh}}
+</style><script src="../profile-store.js"></script><script src="data.js"></script><script src="app.js"></script><script src="../collection-navigation.js"></script></body></html>
