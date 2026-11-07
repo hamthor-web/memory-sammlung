@@ -1,134 +1,125 @@
-/* Separate Bild- und Schaltflaechen-Ebenen NUR auf der gemeinsamen
-   Spielauswahl. Die beiden linken Schilder und die Spiele bleiben unberuehrt.
-   Originalgrafiken werden niemals horizontal/vertikal unterschiedlich skaliert.
-   Der neutrale Papierbereich ist der Hintergrund, Dekorationen sind eigene Ebenen. */
+/* Zwei-Ebenen-Buttons auf der gemeinsamen Spielauswahl.
+   Die beiden linken Buttons bleiben unveraendert.
+   Papier ist flexibel, hochgeladene Dekorationen bleiben proportional. */
 
 .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button,
 .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
-  position:relative!important;
-  isolation:isolate!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  box-sizing:border-box!important;
-  width:100%!important;
-  height:auto!important;
-  min-height:100px!important;
-  margin:0!important;
-  border:0!important;
-  border-image:none!important;
-  border-radius:999px!important;
-  background-color:#f1e7cf!important;
-  background-repeat:no-repeat!important;
-  background-position:center center!important;
-  background-size:auto 100%!important;
-  box-shadow:none!important;
-  text-decoration:none!important;
-  overflow:hidden!important;
-  transform:none!important;
+ position:relative!important;
+ isolation:isolate!important;
+ display:flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ box-sizing:border-box!important;
+ width:100%!important;
+ height:auto!important;
+ min-height:100px!important;
+ margin:0!important;
+ border:3px solid #b8d9e5!important;
+ border-image:none!important;
+ border-radius:999px!important;
+ background:#f5eacf!important;
+ background-image:radial-gradient(ellipse at 42% 24%,#fff8e8 0%,transparent 70%),linear-gradient(110deg,#efdfbe,#fbefd8 50%,#f3e5c8)!important;
+ background-size:100% 100%!important;
+ background-position:center!important;
+ background-repeat:no-repeat!important;
+ box-shadow:none!important;
+ text-decoration:none!important;
+ overflow:hidden!important;
 }
 
 .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
-  --deco-size:clamp(56px,9vw,90px);
-  background-image:radial-gradient(ellipse at 35% 30%,#fff6e2 0%,transparent 68%),linear-gradient(110deg,#eee0c2 0%,#fbf0db 48%,#f3e6ce 100%)!important;
-  padding:12px calc(var(--deco-size)*1.08) 12px calc(var(--deco-size)*.78)!important;
+ --card-deco:clamp(70px,9vw,92px);
+ padding:12px calc(var(--card-deco)*.93 + 9px) 12px 10px!important;
 }
 .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
-  --deco-size:clamp(68px,10vw,94px);
-  background-image:radial-gradient(ellipse at 35% 30%,#fff6e2 0%,transparent 68%),linear-gradient(110deg,#eee0c2 0%,#fbf0db 48%,#f3e6ce 100%)!important;
-  padding:12px 12px 12px calc(var(--deco-size)*.86)!important;
+ --sausage-deco:clamp(80px,10vw,100px);
+ border-color:#c9c2a5!important;
+ padding:12px 10px 12px calc(var(--sausage-deco)*.49 + 12px)!important;
 }
 
+/* Wirklich getrennte, transparente Dekorationsbilder.
+   width proportional zur Hoehe; keine nicht-proportionale Streckung. */
 .games .game > a.two-layer-word .button-art,
 .games .game > a.two-layer-crazy .button-art {
-  position:absolute!important;
-  top:50%!important;
-  display:block!important;
-  height:var(--deco-size)!important;
-  transform:translateY(-50%)!important;
-  background-size:auto 100%!important;
-  background-repeat:no-repeat!important;
-  pointer-events:none!important;
-  z-index:1!important;
-  border:0!important;
-}
-.games .game > a.two-layer-word .word-art-left {
-  left:0!important;
-  width:calc(var(--deco-size)*.78)!important;
-  background-image:url("assets/buttons/btn-memory.png")!important;
-  background-position:left center!important;
-  -webkit-mask-image:linear-gradient(to right,#000 80%,transparent 100%);
-  mask-image:linear-gradient(to right,#000 80%,transparent 100%);
+ position:absolute!important;
+ top:50%!important;
+ display:block!important;
+ transform:translateY(-50%)!important;
+ background-repeat:no-repeat!important;
+ background-size:contain!important;
+ pointer-events:none!important;
+ z-index:1!important;
+ border:0!important;
 }
 .games .game > a.two-layer-word .word-art-right {
-  right:0!important;
-  width:calc(var(--deco-size)*1.08)!important;
-  background-image:url("assets/buttons/btn-memory.png")!important;
-  background-position:right center!important;
-  -webkit-mask-image:linear-gradient(to left,#000 82%,transparent 100%);
-  mask-image:linear-gradient(to left,#000 82%,transparent 100%);
+ right:4px!important;
+ width:calc(var(--card-deco)*95/98)!important;
+ height:var(--card-deco)!important;
+ background-image:url("assets/buttons/cards-overlay-standalone.svg")!important;
+ background-position:center!important;
 }
 .games .game > a.two-layer-crazy .crazy-art-left {
-  left:0!important;
-  width:calc(var(--deco-size)*.86)!important;
-  background-image:url("verrueckt-gesucht/assets/buttons/los-gehts-v1.svg")!important;
-  background-position:left center!important;
-  -webkit-mask-image:linear-gradient(to right,#000 82%,transparent 100%);
-  mask-image:linear-gradient(to right,#000 82%,transparent 100%);
+ left:5px!important;
+ width:calc(var(--sausage-deco)*76/157)!important;
+ height:var(--sausage-deco)!important;
+ background-image:url("assets/buttons/wuerstchen-overlay-standalone.svg")!important;
+ background-position:center!important;
 }
 
-/* Die frueheren border-image-Pseudoelemente des verrueckten Schilds
-   duerfen keine zweite, verformte Grafik mehr darueberlegen. */
+/* Nie die alten kompletten Schildgrafiken zusaetzlich einblenden. */
 .games .game-verrueckt > a.two-layer-crazy::before,
 .games .game-verrueckt > a.two-layer-crazy::after {
-  content:none!important;
-  display:none!important;
-  border:0!important;
-  border-image:none!important;
+ content:none!important;
+ display:none!important;
+ border-image:none!important;
 }
+
 .games .game > a.two-layer-word .banner-label,
 .games .game > a.two-layer-crazy .verrueckt-button-label {
-  z-index:2!important;
-  position:relative!important;
-  margin:0!important;
-  padding:0!important;
-  top:auto!important;
-  font-weight:900!important;
-  font-size:clamp(19px,2.7vw,27px)!important;
-  line-height:1.15!important;
-  text-align:center!important;
-  overflow-wrap:normal!important;
-  word-break:normal!important;
-  hyphens:none!important;
-  color:#244b36!important;
-  text-shadow:0 1px 2px #fff!important;
+ position:relative!important;
+ z-index:2!important;
+ display:block!important;
+ margin:0!important;
+ padding:0!important;
+ top:auto!important;
+ font-size:clamp(20px,2.8vw,28px)!important;
+ font-weight:900!important;
+ line-height:1.14!important;
+ text-align:center!important;
+ color:#244834!important;
+ text-shadow:0 1px 2px #fff!important;
+ overflow-wrap:normal!important;
+ word-break:normal!important;
+ hyphens:none!important;
 }
+
+/* Die Spielauswahl bleibt zweispaltig, die Motive werden im Hochformat
+   proportional kleiner; die Papierflaeche bleibt genauso hoch. */
 @media(max-width:700px){
-  .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
-    --deco-size:clamp(48px,12.8vw,64px);
-    padding:8px calc(var(--deco-size)*.98) 8px calc(var(--deco-size)*.75)!important;
-  }
-  .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
-    --deco-size:clamp(60px,17vw,80px);
-    padding:8px 9px 8px calc(var(--deco-size)*.85)!important;
-  }
-  .games .game > a.two-layer-word .banner-label,
-  .games .game > a.two-layer-crazy .verrueckt-button-label {
-    font-size:clamp(17px,4.4vw,22px)!important;
-  }
+ .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
+  --card-deco:clamp(52px,14vw,70px);
+  padding:8px calc(var(--card-deco)*.93 + 6px) 8px 5px!important;
+ }
+ .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+  --sausage-deco:clamp(68px,19vw,86px);
+  padding:8px 5px 8px calc(var(--sausage-deco)*.49 + 7px)!important;
+ }
+ .games .game > a.two-layer-word .banner-label,
+ .games .game > a.two-layer-crazy .verrueckt-button-label {
+  font-size:clamp(17px,4.3vw,22px)!important;
+ }
 }
 @media(max-width:390px){
-  .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
-    --deco-size:46px;
-    padding-inline:32px 44px!important;
-  }
-  .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
-    --deco-size:58px;
-    padding-left:50px!important;
-    padding-right:4px!important;
-  }
-  .games .game > a.two-layer-word .banner-label,
-  .games .game > a.two-layer-crazy .verrueckt-button-label {
-    font-size:17px!important;
-  }
+ .games .game-paper:not(.game-synonyms) > a.two-layer-word.banner-button {
+  --card-deco:50px;
+  padding-right:54px!important;
+ }
+ .games .game-verrueckt > a.two-layer-crazy.play-verrueckt {
+  --sausage-deco:70px;
+  padding-left:40px!important;
+ }
+ .games .game > a.two-layer-word .banner-label,
+ .games .game > a.two-layer-crazy .verrueckt-button-label {
+  font-size:17px!important;
+ }
 }
