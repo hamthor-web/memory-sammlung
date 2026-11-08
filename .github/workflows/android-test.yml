@@ -3,6 +3,11 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
+      diagnose_install:
+        description: 'Install the exact prepared APK on Android 17, without changing the release'
+        required: false
+        type: boolean
+        default: false
       prepared_apk:
         description: 'Optional transfer manifest of an already locally signed APK (no signing key)'
         required: false
@@ -73,7 +78,7 @@ jobs:
         with:
           name: memory-lesen-android-test
           path: test-apk
-      - name: Attach test APK to private draft
+      - name: Prepare exact test APK
         env:
           GH_TOKEN: ${{ github.token }}
           PREPARED_APK: ${{ inputs.prepared_apk }}
@@ -85,5 +90,49 @@ jobs:
           fi
           sha256sum Memory-Lesen-0.1.0-test.apk > Memory-Lesen-0.1.0-test.apk.sha256
           cp docs/android-installation.md START-HIER.md
+      - uses: actions/setup-java@v4
+        if: inputs.diagnose_install
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+        if: inputs.diagnose_install
+        with:
+          cmdline-tools-version: '13114758'
+          packages: 'platform-tools emulator system-images;android-37.0;aosp_atd;x86_64'
+      - name: Install on Android 17
+        if: inputs.diagnose_install
+        run: |
+          test -e /dev/kvm
+          sudo chmod a+rw /dev/kvm
+          echo no | avdmanager create avd --force -n memory_android17 -k 'system-images;android-37.0;aosp_atd;x86_64'
+          emulator -avd memory_android17 -no-window -no-audio -no-snapshot -no-boot-anim -no-metrics -gpu swiftshader -memory 2048 -cores 2 -port 5580 > android17-emulator.log 2>&1 &
+          adb -s emulator-5580 wait-for-device
+          for attempt in $(seq 1 120); do
+            if [ "$(adb -s emulator-5580 shell getprop sys.boot_completed | tr -d '\r')" = 1 ]; then break; fi
+            sleep 3
+          done
+          test "$(adb -s emulator-5580 shell getprop sys.boot_completed | tr -d '\r')" = 1
+          adb -s emulator-5580 shell getprop ro.build.version.release
+          adb -s emulator-5580 install -r Memory-Lesen-0.1.0-test.apk | tee android17-install.txt
+          adb -s emulator-5580 shell pm path de.heikeamthor.lesespiele.test
+          adb -s emulator-5580 shell am start -W -n de.heikeamthor.lesespiele.test/de.heikeamthor.lesespiele.MainActivity | tee android17-launch.txt
+          sleep 10
+          adb -s emulator-5580 shell pidof de.heikeamthor.lesespiele.test
+          adb -s emulator-5580 logcat -d > android17-logcat.txt
+          adb -s emulator-5580 exec-out screencap -p > android17-screen.png
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.diagnose_install
+        with:
+          name: android17-installation
+          path: |
+            android17-*.txt
+            android17-*.log
+            android17-screen.png
+      - name: Attach test APK to private draft
+        if: ${{ !inputs.diagnose_install }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
           gh release edit android-test-0.1.0 --repo "$GITHUB_REPOSITORY" --draft=true --target "$GITHUB_SHA"
           gh release upload android-test-0.1.0 --repo "$GITHUB_REPOSITORY" --clobber Memory-Lesen-0.1.0-test.apk Memory-Lesen-0.1.0-test.apk.sha256 START-HIER.md
