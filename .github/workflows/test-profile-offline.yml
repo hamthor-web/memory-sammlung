@@ -42,6 +42,7 @@ jobs:
           node verify-pwa.cjs
           node tests/progress-store.cjs
           node tests/backup-store.cjs
+          node tests/profile-store.cjs
           node tests/reward-history.cjs
           node tests/service-worker-update.cjs
       - name: Require the checked-in offline manifest to match the application

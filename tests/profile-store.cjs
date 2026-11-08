@@ -1,0 +1,9 @@
+const assert=require('node:assert/strict'),Profiles=require('../profile-store.js');
+const p=(id,name)=>({id,name,level:1,count:6});let raw=JSON.stringify({activeId:'anna',profiles:[p('anna','Anna')]});const storage={getItem:()=>raw,setItem:(key,value)=>{raw=value;}};
+const old=Profiles.createStore(storage,()=> 'new');
+raw=JSON.stringify({activeId:'anna',profiles:[p('anna','Anna'),p('restored','Ben')]});old.settings(2,12);assert.deepEqual(JSON.parse(raw).profiles.map(p=>p.id),['anna','restored']);assert.equal(JSON.parse(raw).profiles[0].level,2);assert.equal(old.list().length,2);assert.throws(()=>old.create('ben'),/gibt es schon/);
+const stale=Profiles.createStore(storage);raw=JSON.stringify({activeId:'restored',profiles:JSON.parse(raw).profiles});stale.settings(3,18);assert.equal(JSON.parse(raw).profiles[1].level,1,'stale settings must not change another child');assert.equal(stale.active().id,'restored');
+const beforeCreate=Profiles.createStore(storage,()=> 'new');raw=JSON.stringify({activeId:'restored',profiles:[...JSON.parse(raw).profiles,p('third','Clara')]});beforeCreate.create('David');assert.deepEqual(JSON.parse(raw).profiles.map(p=>p.name),['Anna','Ben','Clara','David']);
+const temporary=Profiles.createStore({getItem:()=>null,setItem(){throw Error('Quota');}},()=> 'temporary');assert.equal(temporary.create('Sitzung').name,'Sitzung');assert.equal(temporary.active().name,'Sitzung');assert.equal(temporary.isPersistent(),false);assert.equal(temporary.list().length,1);
+const denied=Profiles.createStore({getItem(){throw Error('Denied');},setItem(){throw Error('Denied');}},()=> 'denied');assert.equal(denied.create('Ohne Speicher').name,'Ohne Speicher');assert.equal(denied.active().name,'Ohne Speicher');assert.equal(denied.isPersistent(),false);
+console.log('PASS restored profiles survive stale windows, duplicate names refresh, active-child protection and failed-write session profiles');
