@@ -1,6 +1,6 @@
 # Abschlussprüfung vor dem Android-Bau
 
-Stand: 8. November 2026. Geprüft wird der lokale Produktionsbestand `dist/`, nicht eine native Android-App. Ein fehlerfreier Browserdurchlauf beweist keine Fehlerfreiheit auf allen Geräten.
+Stand: 8. November 2026. Inzwischen ist ein Android-Projekt mit einer kompilierten Test-APK vorhanden. Build, Android-Lint und die Browserprüfungen der nativen Schnittstelle sind geprüft; echte Geräte-/Speicheranbietertests stehen noch aus. Aktuelle Anleitung: [Android-Testversion](android-test.md). Die folgenden Abschnitte dokumentieren außerdem die vorangegangenen Webprüfungen.
 
 ## Behobene und geprüfte Punkte
 
@@ -64,7 +64,7 @@ Vor öffentlicher Veröffentlichung besonders wichtig:
 - Sicherung und Wiederherstellung sind inzwischen implementiert: manueller JSON-Export und geprüfter, ergänzender Import ohne Überschreiben bestehender Profile. Die Datei kann künftig auch für die manuelle Übernahme vom Browser in die native App verwendet werden. Die nativen Datei- und Freigabedialoge bleiben zu testen. Details: [Sicherungsdateien](backups.md).
 - Öffentliche Datenschutzerklärung finalisieren und Erreichbarkeit prüfen. Ihr Inhalt konnte beim automatischen Abruf nicht verifiziert werden. Der hier im Chat bearbeitete Entwurf enthielt noch eine offene Entscheidung zu Canva Website Insights. Store-Datensicherheitsangaben und tatsächliche App-/SDK-Funktionen müssen zusammenpassen.
 - Die Angaben zur Kinderzielgruppe und zur Altersfreigabe ausfüllen und die Familienrichtlinie berücksichtigen. Das vorhandene Spiel benötigt für seine Kernfunktionen keine Werbung, Tracking- oder Cloud-Konten.
-- Den im Suchspiel unter „Für die Begleitung“ verbliebenen Satz „Die Mädchenkarten sind weiterhin Entwürfe“ vor einer Store-Fassung inhaltlich klären. Die Fragenmatrix ist ein Begleit-/Entwicklungswerkzeug; deren Export auf Android prüfen oder aus der Store-Oberfläche nehmen.
+- Der veraltete Entwurfshinweis zu Mädchenkarten ist entfernt. Der technische Fragenmatrix-Download bleibt auf der Website verfügbar und ist in der nativen Oberfläche ausgeblendet.
 - Beobachtungstest mit Kindern und Geräte-/Update-Abnahme durchführen.
 
 Offiziell abgeglichene Store-Vorgaben:
@@ -81,3 +81,7 @@ Es wurde bei dieser Prüfung noch kein Android-Projekt erstellt und nichts an di
 „App verwalten“ bietet jetzt Sicherungsdownload und Importvorschau. Alle Profile, vier laufende Spielrunden, elf Geschichten, Bildversionen, Abschlusszähler und ältere zugeordnete oder noch nicht zugeordnete Bilder sind enthalten. Bestehende Profile werden nicht ersetzt; wiederholter Import desselben Inhalts erzeugt keine zusätzlichen Kopien. Prüfsumme, Strukturprüfung, HTML-Bereinigung, Speicherfehler-Rücknahme und Bereinigung unterbrochener Importe sind getestet. Wortmemory speichert jetzt auch die Zuordnung bereits gesammelter Paare zu den beiden Kindern.
 
 Die Funktion ist für Browser/PWA geprüft. Beim Android-Bau müssen Downloads, Datei-Auswahl, lokale App-Updates und die Wiederherstellung auf einem zweiten echten Gerät geprüft und bei Bedarf über native Datei-APIs angebunden werden.
+
+## Android-Testpaket umgesetzt
+
+Capacitor-Projekt mit lokalem Webbestand, Ziel-API 36, gesonderter Test-Kennung, Android-Dateidialogen, nativer Zurück-/Hintergrundanbindung und Launcher-Icons ist ergänzt. Keine Play-Store-Veröffentlichung erfolgt. Die endgültige Abnahme auf echten Geräten, OneDrive/anderen Dokumentanbietern und mit späteren Updates bleibt offen.

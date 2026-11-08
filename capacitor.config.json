@@ -1,0 +1,19 @@
+{
+  "appId": "de.heikeamthor.lesespiele",
+  "appName": "Memory & Lesen",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false,
+    "minWebViewVersion": 105
+  },
+  "loggingBehavior": "none",
+  "plugins": {
+    "SystemBars": {
+      "insetsHandling": "native"
+    }
+  }
+}

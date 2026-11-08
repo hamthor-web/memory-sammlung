@@ -60,6 +60,7 @@ jobs:
           node tests/browser-navigation.cjs
           node tests/browser-app-info.cjs
           node tests/browser-backup.cjs
+          node tests/browser-native-shell.cjs
           node tests/browser-reading-back.cjs
       - name: Check profiles, rules, handovers and round recovery
         run: node tests/browser-progress.cjs

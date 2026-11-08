@@ -112,3 +112,7 @@ Unter **App verwalten → Sicherung speichern** lassen sich alle Kinderprofile, 
 Auf demselben oder einem anderen Gerät **App verwalten → Sicherung auswählen** öffnen, die Vorschau prüfen und **Profile hinzufügen** wählen. Vorhandene Profile bleiben erhalten; bei Namensgleichheit entsteht beispielsweise „Anna (Sicherung)“. Bereits vorhandene oder bereits importierte unveränderte Profile werden nicht doppelt angelegt. Anschließend **Zu den Spielen** wählen.
 
 Dies ist eine manuelle Dateiübertragung ohne Cloud-Dienst. Das tatsächliche Speichern auf ein anderes Gerät oder einen externen Datenträger muss selbst veranlasst werden. Details und technische Grenzen: [Sicherungsdateien](docs/backups.md).
+
+## Android-Testversion
+
+Das Android-Projekt verwendet den lokalen Produktionsbestand und native System-Dateidialoge für Sicherungen. Build, Test-Signierung und die Abnahme auf dem Handy sind unter [Android-Testversion](docs/android-test.md) beschrieben. Es wurde noch nichts in den Play Store hochgeladen.

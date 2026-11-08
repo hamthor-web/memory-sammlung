@@ -43,15 +43,15 @@
  async function download(){
   if(busy||restored)return;reset();lock(true);tell('Die Sicherung wird vorbereitet …');
   try{CollectionSession.flush();const text=await Backup.create(localStorage),document=await Backup.parse(text);if(!document.profiles.length&&!document.unassignedRewards)throw Error('Es sind noch keine Profile oder Bilder zum Sichern vorhanden.');
-   const url=URL.createObjectURL(new Blob([text],{type:'application/json'})),link=$('backupDownloadLink');downloadURL=url;link.href=url;link.hidden=false;link.download='Memory-Lesen-Sicherung-'+new Date().toLocaleDateString('sv-SE')+'.json';link.click();
-   tell('Die Sicherungsdatei wurde zum Speichern geöffnet. Prüfe bitte im Download-Ordner oder im Speicherdialog deines Geräts, ob sie gespeichert wurde.');
+   const filename='Memory-Lesen-Sicherung-'+new Date().toLocaleDateString('sv-SE')+'.json';
+   if(window.CollectionNative){const result=await CollectionNative.saveBackup(text,filename);tell(result.cancelled?'Speichern abgebrochen. Deine Spieldaten bleiben erhalten.':'Die Sicherungsdatei wurde am gewählten Speicherort gespeichert.');}
+   else{const url=URL.createObjectURL(new Blob([text],{type:'application/json'})),link=$('backupDownloadLink');downloadURL=url;link.href=url;link.hidden=false;link.download=filename;link.click();tell('Die Sicherungsdatei wurde zum Speichern geöffnet. Prüfe bitte im Download-Ordner oder im Speicherdialog deines Geräts, ob sie gespeichert wurde.');}
   }catch(error){tell(error.message||'Die Sicherung konnte nicht erstellt werden.',true);}finally{lock(false);}
  }
  $('exportBackup').onclick=download;
- $('chooseBackup').onclick=()=>input.click();
- input.onchange=async()=>{
-  if(busy||restored)return;const file=input.files[0];reset(false);if(!file)return;$('backupFileName').textContent=file.name;const run=generation;lock(true);tell('Die Sicherung wird geprüft …');
-  try{if(file.size>Backup.MAX_BYTES)throw Error('Die Sicherungsdatei darf höchstens 32 MB groß sein.');const document=await Backup.parse(await file.text());const next=await Backup.prepare(localStorage,document,{sanitizeHTML:safeHTML});if(run!==generation)return;plan=next;
+ async function inspect(text,name,size){
+  if(busy||restored)return;reset(false);$('backupFileName').textContent=name;const run=generation;lock(true);tell('Die Sicherung wird geprüft …');
+  try{if(size>Backup.MAX_BYTES)throw Error('Die Sicherungsdatei darf höchstens 32 MB groß sein.');const document=await Backup.parse(text);const next=await Backup.prepare(localStorage,document,{sanitizeHTML:safeHTML});if(run!==generation)return;plan=next;
    $('backupDate').textContent='Gesichert am '+new Date(next.createdAt).toLocaleString('de-DE');
    for(const item of next.added){const node=window.document.createElement('li'),r=item.progress.rewards||{finished:{}},entries=Object.values(r.finished),pictures=entries.reduce((n,e)=>n+MemoryProgress.versionsFor(e).length,0),rounds=Object.keys(item.progress.rounds||{}).length;
     node.textContent=(item.sourceName===item.profile.name?item.profile.name:item.sourceName+' → '+item.profile.name)+': '+pictures+' '+(pictures===1?'Fortschrittsbild':'Fortschrittsbilder')+', '+rounds+' '+(rounds===1?'laufende Runde':'laufende Runden');$('backupProfiles').append(node);
@@ -61,6 +61,20 @@
    $('backupCleanNotice').hidden=!removedParts;$('backupCleanNotice').textContent='Nicht unterstützte Bestandteile älterer Bildinhalte wurden entfernt. Prüfe die Bilder nach der Wiederherstellung. Die Original-Sicherungsdatei bleibt unverändert.';
    $('backupPreview').hidden=false;$('restoreBackup').hidden=!next.added.length;$('backupPreviewTitle').tabIndex=-1;$('backupPreviewTitle').focus();tell(next.added.length?'Die Datei ist geprüft. Prüfe die Übersicht und tippe dann auf „Profile hinzufügen“.':'Diese Sicherung ist bereits vorhanden. Es wurde nichts verändert.');
   }catch(error){tell(error.message||'Die Datei konnte nicht geprüft werden.',true);input.value='';}finally{lock(false);}
+
+ }
+ $('chooseBackup').onclick=async()=>{
+  if(!window.CollectionNative){input.click();return;}
+  if(busy||restored)return;reset();lock(true);tell('Bitte eine Sicherungsdatei auswählen …');
+  let selected;
+  try{selected=await CollectionNative.openBackup();}catch(error){tell(error.message||'Die Datei konnte nicht geöffnet werden.',true);return;}finally{lock(false);}
+  if(selected.cancelled){tell('Dateiauswahl abgebrochen. Es wurde nichts verändert.');return;}
+  await inspect(selected.text,selected.name,new TextEncoder().encode(selected.text).byteLength);
+ };
+ input.onchange=async()=>{
+  if(busy||restored)return;const file=input.files[0];if(!file)return;
+  if(file.size>Backup.MAX_BYTES){reset();tell('Die Sicherungsdatei darf höchstens 32 MB groß sein.',true);return;}
+  try{await inspect(await file.text(),file.name,file.size);}catch(error){tell('Die Datei konnte nicht gelesen werden.',true);}
  };
  $('cancelBackup').onclick=()=>{reset();tell('Wiederherstellung abgebrochen. Es wurde nichts verändert.');};
  $('restoreBackup').onclick=async()=>{

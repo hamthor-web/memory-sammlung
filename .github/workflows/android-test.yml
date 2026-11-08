@@ -1,0 +1,39 @@
+name: Android test APK
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['android/**', 'capacitor.config.json', 'package*.json', '**.js', '**.html', '**.css', 'assets/**', '.github/workflows/android-test.yml']
+permissions:
+  contents: read
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Prepare Android SDK
+        run: sdkmanager 'platforms;android-36' 'build-tools;35.0.0'
+      - name: Copy local production assets
+        run: npm run android:sync
+      - name: Build and lint test version
+        working-directory: android
+        run: ./gradlew --no-daemon assembleDebug lintDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: memory-lesen-android-test
+          path: |
+            android/app/build/outputs/apk/debug/app-debug.apk
+            android/app/build/reports/lint-results-debug.html
+          retention-days: 14
