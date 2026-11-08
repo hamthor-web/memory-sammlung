@@ -39,3 +39,7 @@ Die Test-APK ist keine signierte Play-Store-Fassung. Produktionssignierung und e
 7. Ein späteres Test-Update mit derselben Signierung installieren und prüfen, dass alle Daten erhalten bleiben.
 
 Die Browserprüfung der nativen Schnittstelle verwendet einen simulierten Android-Bridge. Sie ersetzt die oben genannten Geräte-/Anbietertests nicht. Ein echter OneDrive-Speicherort kann nur auf einem Gerät mit entsprechendem Anbieter geprüft werden.
+
+## Bereitstellung für Handy-Tests
+
+Der manuell gestartete Workflow „Android test APK“ verwendet den geschützten Repository-Secret `ANDROID_TEST_KEYSTORE` für eine gleichbleibende Test-Signierung. Nach erfolgreichem Build lädt er APK, Prüfsumme und Installationshilfe in den privaten Release-Entwurf `android-test-0.1.0`. Es erfolgt keine automatische öffentliche Freigabe und kein Play-Store-Upload. Der Signierschlüssel selbst gehört weder in den Quellcode noch in die Release-Dateien. Fork-Prüfungen ohne diesen Secret können weiterhin mit einer kurzlebigen Debug-Signierung bauen; solche Artefakte nicht für fortlaufende Handy-Updates verwenden.
