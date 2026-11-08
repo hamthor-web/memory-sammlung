@@ -7,7 +7,7 @@ function productionFiles(){
  function add(file){file=file.replace(/\\/g,'/');if(file==='sw.js'||selected.has(file)||!fs.existsSync(path.join(root,file))||!fs.statSync(path.join(root,file)).isFile())return;selected.add(file);queue.push(file);}
  function reference(value,base){if(/^(?:data:|https?:|mailto:|#|javascript:)/.test(value)||value.includes('${'))return;try{const url=new URL(value,new URL(base,origin));if(url.origin===new URL(origin).origin)add(decodeURIComponent(url.pathname.slice(1)));}catch{}}
  for(const file of entries)add(file);
- add('offline-files.js');add('wortmemory/test-zweispieler-2026-11-06.html');add('verrueckt-gesucht/sw.js');
+ add('vendor/DOMPurify.LICENSE');add('offline-files.js');add('wortmemory/test-zweispieler-2026-11-06.html');add('verrueckt-gesucht/sw.js');
  // Cached older game pages can still request their former icon/manifest addresses.
  for(const file of ['wortmemory/icon-192.png','wortmemory/icon-180.png','verrueckt-gesucht/manifest.webmanifest'])add(file);
  for(const file of fs.readdirSync(path.join(root,'verrueckt-gesucht')))if(/^(?:app|style)-release-.*\.(?:js|css)$/.test(file))add('verrueckt-gesucht/'+file);

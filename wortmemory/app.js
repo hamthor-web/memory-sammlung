@@ -281,7 +281,7 @@ function showQuiz(pair) {
   const panel=document.getElementById('panel');
   panel.innerHTML=`
     <h2>Welches Bild passt zu diesem Satz?</h2>
-    <div class="quiztext">${q.text}</div>
+    <div class="quiztext">${CollectionSession.escape(q.text)}</div>
     <div class="choices" id="choices"></div>
     <div class="feedback" id="feedback"></div>`;
   let answered=false;
@@ -329,7 +329,7 @@ function showCollectedPairs(playerIndex) {
          </div>
        </article>`).join('')
     : '<p>Du hast diesmal kein Paar gesammelt.</p>';
-  panel.innerHTML=`<h2>${name}: Meine gefundenen Paare</h2>
+  panel.innerHTML=`<h2>${CollectionSession.escape(name)}: Meine gefundenen Paare</h2>
     <p class="quiztext">${pairs.length} von ${currentPairs.length} Paaren</p>
     <div class="collection-grid">${gallery}</div>
     <div class="finish-actions"><button class="primary" id="galleryBack">Zur Ergebnisübersicht</button></div>`;
@@ -375,7 +375,7 @@ function showFinish() {
   busy=true;CollectionSession.clear('wortmemory');
   const panel=document.getElementById('panel');
   const twoResult=playerMode===2
-    ? `<p class="quiztext">${CollectionSession.escape(playerNames[0])}: ${playerScores[0]} Paare<br>${CollectionSession.escape(playerNames[1])}: ${playerScores[1]} Paare</p><p class="quiztext">${playerScores[0]===playerScores[1]?'Unentschieden!':(CollectionSession.escape(playerNames[playerScores[0]>playerScores[1]?0:1])+' hat die meisten Paare gefunden!')}</p>`
+    ? `<p class="quiztext">${CollectionSession.escape(playerNames[0])}: ${CollectionSession.escape(playerScores[0])} Paare<br>${CollectionSession.escape(playerNames[1])}: ${CollectionSession.escape(playerScores[1])} Paare</p><p class="quiztext">${playerScores[0]===playerScores[1]?'Unentschieden!':(CollectionSession.escape(playerNames[playerScores[0]>playerScores[1]?0:1])+' hat die meisten Paare gefunden!')}</p>`
     : '';
   panel.innerHTML=`
     <h2>Super! Alle Wortpaare sind gefunden.</h2>
@@ -432,11 +432,11 @@ function wordSnapshot(){
  if(!currentPairs.length||document.getElementById('grid').hidden)return null;
  if(found===currentPairs.length&&!pendingQuiz)return null;
  const elements=[...document.querySelectorAll('#grid .card')];
- return {pairIds:currentPairs.map(p=>p.id),deck:elements.map(el=>({pairId:el.dataset.pair,side:el.dataset.side})),matched:elements.filter(el=>el.classList.contains('matched')).map(el=>el.dataset.pair),flipped:elements.map((el,i)=>el.classList.contains('flipped')?i:-1).filter(i=>i>=0),pendingPair:pendingQuiz?.pair.id||null,question:pendingQuiz?.question||null,first:first?elements.indexOf(first.el):null,second:second?elements.indexOf(second.el):null,mismatchActive,comparisonActive,handoffPending,desiredCount,playerMode,activePlayer,playerScores,playerNames,found,boardZoom,controlZoom};
+ return {pairIds:currentPairs.map(p=>p.id),deck:elements.map(el=>({pairId:el.dataset.pair,side:el.dataset.side})),matched:elements.filter(el=>el.classList.contains('matched')).map(el=>el.dataset.pair),flipped:elements.map((el,i)=>el.classList.contains('flipped')?i:-1).filter(i=>i>=0),pendingPair:pendingQuiz?.pair.id||null,question:pendingQuiz?.question||null,first:first?elements.indexOf(first.el):null,second:second?elements.indexOf(second.el):null,mismatchActive,comparisonActive,handoffPending,desiredCount,playerMode,activePlayer,playerScores,playerNames,collectedPairIds:collectedPairs.map(pairs=>pairs.map(pair=>pair.id)),found,boardZoom,controlZoom};
 }
 function wordCheckpoint(){const state=wordSnapshot();if(state)CollectionSession.save('wortmemory',state);else if(currentPairs.length&&found===currentPairs.length)CollectionSession.clear('wortmemory');}
 function restoreWordState(s){
- playerMode=s.playerMode;activePlayer=s.activePlayer;playerScores=s.playerScores;playerNames=s.playerNames;desiredCount=s.desiredCount;found=s.found;handoffPending=s.handoffPending;
+ playerMode=s.playerMode;activePlayer=s.activePlayer;playerScores=s.playerScores;playerNames=s.playerNames;collectedPairs=(s.collectedPairIds||[[],[]]).map(ids=>ids.map(id=>PAIRS.find(pair=>pair.id===id)).filter(Boolean));desiredCount=s.desiredCount;found=s.found;handoffPending=s.handoffPending;
  const elements=[...document.querySelectorAll('#grid .card')];
  const entry=i=>{const el=elements[i],pair=PAIRS.find(p=>p.id===el.dataset.pair),side=el.dataset.side;return {el,c:{pair,pairId:pair.id,side,data:pair[side]}};};
  elements.forEach((el,i)=>{if(s.matched.includes(el.dataset.pair))el.classList.add('matched');if(s.flipped.includes(i))el.classList.add('flipped');});

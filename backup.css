@@ -1,0 +1,19 @@
+#backupManagement{margin-top:24px;padding-top:20px;border-top:2px solid #b9cfc4;font:19px/1.45 system-ui,sans-serif;color:#173c2a}
+#backupManagement h3{font-size:23px;line-height:1.3;margin:0 0 12px}
+#backupManagement h4{font-size:21px;margin:12px 0}
+#backupManagement button,#backupDownloadLink{box-sizing:border-box;display:block;width:100%;min-height:52px;margin:12px 0;padding:12px;border:2px solid #24776b;border-radius:12px;background:#fffdf0;color:#173c2a;font:700 19px/1.3 system-ui,sans-serif;text-align:center;cursor:pointer}
+#backupManagement input[type=file]{box-sizing:border-box;width:100%;max-width:100%;font:16px/1.4 system-ui,sans-serif;overflow:hidden;padding:6px 0}
+#backupManagement .backup-note{font-size:16px}
+#backupManagement [hidden]{display:none!important}
+#backupManagement #backupPreview{padding:12px;border:2px solid #24776b;border-radius:12px;background:#edf4e9}
+#backupManagement #backupProfiles{padding-left:24px;overflow-wrap:anywhere}
+#backupManagement button:disabled{opacity:.55;cursor:default}
+#backupManagement #backupStatus:empty{display:none}
+#backupManagement #backupStatus[role=alert]{font-weight:700;color:#8d2e12}
+#backupManagement #restoreBackup{background:#24776b;color:white}
+#backupManagement button:focus-visible,#backupManagement input:focus-visible{outline:3px solid #173c2a;outline-offset:3px}
+
+#backupFileName{overflow-wrap:anywhere;font-size:16px}
+#backupFileName:empty{display:none}
+
+#backupDownloadLink{text-decoration:underline}
