@@ -37,8 +37,8 @@ Das 512-Pixel-Icon dient als Grundlage für den Play-Store-Eintrag. Ein adaptive
 
 - Paketkennung, Anzeigename, Versionsfolge, Signierung/Upload-Schlüssel und sichere Schlüsselaufbewahrung festlegen; ein signiertes AAB erstellen. Das dann geltende Target-SDK erfüllen.
 - Über internen Play-Test eine echte Neuinstallation ohne Netz sowie ein Update mit vorhandenen Kinderprofilen, Bildern und unterbrochenen Runden prüfen.
-- Entscheiden, ob vorhandene Web-Spielstände übertragen werden sollen. Browser und native App haben getrennte Speicher. Dafür ist eine ausdrückliche Export-/Importfunktion nötig; aktuell gibt es keine automatische Übernahme.
-- Eine Sicherungs-/Wiederherstellungsfunktion für wertvolle Kinderbilder ist vor breiter Nutzung empfehlenswert. Lokaler Speicher allein schützt nicht vor Deinstallation, Löschen der App-Daten oder Geräteverlust.
+- Entscheiden, ob vorhandene Web-Spielstände übertragen werden sollen. Browser und native App haben getrennte Speicher. Dafür gibt es jetzt die manuelle Export-/Importfunktion unter „App verwalten“; eine automatische Übernahme findet weiterhin nicht statt.
+- Die Sicherungs-/Wiederherstellungsfunktion ist ergänzt. Das Speichern und Auswählen der Dateien muss in der nativen App auf echten Geräten geprüft werden. Eine außerhalb der App gespeicherte Datei schützt vor Verlust der lokalen App-Daten.
 - Datenschutzerklärung, Daten-Sicherheitsangaben, Zielgruppe/Kinderangaben, Altersfreigabe und Store-Bilder passend zur tatsächlichen App ausfüllen. Derzeitige Laufzeitressourcen sind lokal; künftig eingebaute SDKs gesondert berücksichtigen.
 - Kurzen Beobachtungstest mit Kindern der zweiten Klasse durchführen: Einstieg, Regelverständnis, Spielerwechsel, Fehlerkorrektur, Weiterlesen und Rückkehr zur Sammlung. Automatische Tests beurteilen nicht, ob die Begriffe und Aufgaben für jedes Kind verständlich sind.
 
@@ -61,7 +61,7 @@ Offen für den Android-Bau:
 
 Vor öffentlicher Veröffentlichung besonders wichtig:
 
-- Sicherung und Wiederherstellung der Kinderprofile und Bilder ergänzen. Bisher gibt es keinen Export/Import dieser Daten und keine automatische Übernahme vom Browser in die native App. Das ist eine Produktempfehlung zum Schutz der Fortschritte, keine pauschale Behauptung einer Store-Pflicht.
+- Sicherung und Wiederherstellung sind inzwischen implementiert: manueller JSON-Export und geprüfter, ergänzender Import ohne Überschreiben bestehender Profile. Die Datei kann künftig auch für die manuelle Übernahme vom Browser in die native App verwendet werden. Die nativen Datei- und Freigabedialoge bleiben zu testen. Details: [Sicherungsdateien](backups.md).
 - Öffentliche Datenschutzerklärung finalisieren und Erreichbarkeit prüfen. Ihr Inhalt konnte beim automatischen Abruf nicht verifiziert werden. Der hier im Chat bearbeitete Entwurf enthielt noch eine offene Entscheidung zu Canva Website Insights. Store-Datensicherheitsangaben und tatsächliche App-/SDK-Funktionen müssen zusammenpassen.
 - Die Angaben zur Kinderzielgruppe und zur Altersfreigabe ausfüllen und die Familienrichtlinie berücksichtigen. Das vorhandene Spiel benötigt für seine Kernfunktionen keine Werbung, Tracking- oder Cloud-Konten.
 - Den im Suchspiel unter „Für die Begleitung“ verbliebenen Satz „Die Mädchenkarten sind weiterhin Entwürfe“ vor einer Store-Fassung inhaltlich klären. Die Fragenmatrix ist ein Begleit-/Entwicklungswerkzeug; deren Export auf Android prüfen oder aus der Store-Oberfläche nehmen.
@@ -75,3 +75,9 @@ Offiziell abgeglichene Store-Vorgaben:
 - Bei eingebundenem nativem Code die 16-KB-Seitengrößen-Kompatibilität berücksichtigen: [Android Developers](https://developer.android.com/guide/practices/page-sizes).
 
 Es wurde bei dieser Prüfung noch kein Android-Projekt erstellt und nichts an die Play Console übermittelt.
+
+## Ergänzung: Sicherung und Wiederherstellung
+
+„App verwalten“ bietet jetzt Sicherungsdownload und Importvorschau. Alle Profile, vier laufende Spielrunden, elf Geschichten, Bildversionen, Abschlusszähler und ältere zugeordnete oder noch nicht zugeordnete Bilder sind enthalten. Bestehende Profile werden nicht ersetzt; wiederholter Import desselben Inhalts erzeugt keine zusätzlichen Kopien. Prüfsumme, Strukturprüfung, HTML-Bereinigung, Speicherfehler-Rücknahme und Bereinigung unterbrochener Importe sind getestet. Wortmemory speichert jetzt auch die Zuordnung bereits gesammelter Paare zu den beiden Kindern.
+
+Die Funktion ist für Browser/PWA geprüft. Beim Android-Bau müssen Downloads, Datei-Auswahl, lokale App-Updates und die Wiederherstellung auf einem zweiten echten Gerät geprüft und bei Bedarf über native Datei-APIs angebunden werden.

@@ -41,6 +41,7 @@ jobs:
           node verify.cjs
           node verify-pwa.cjs
           node tests/progress-store.cjs
+          node tests/backup-store.cjs
           node tests/reward-history.cjs
           node tests/service-worker-update.cjs
       - name: Require the checked-in offline manifest to match the application
@@ -57,6 +58,7 @@ jobs:
         run: |
           node tests/browser-navigation.cjs
           node tests/browser-app-info.cjs
+          node tests/browser-backup.cjs
           node tests/browser-reading-back.cjs
       - name: Check profiles, rules, handovers and round recovery
         run: node tests/browser-progress.cjs

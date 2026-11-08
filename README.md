@@ -104,3 +104,11 @@ Karten, Rückseiten und Animationen stammen aus den bereitgestellten Materialien
 ## Produktionspaket
 
 `node scripts/build-production.cjs` erstellt `dist/` mit ausschließlich den benötigten Spieldateien (etwa 113 MB). Tests, Dokumentation und Entwicklungsskripte werden nicht mitverpackt. Die Bereinigung, Bildprüfung und Kompatibilität älterer Fortschrittsbilder sind unter [Produktionsbestand](docs/production-assets.md) dokumentiert.
+
+## Sicherung und Wiederherstellung
+
+Unter **App verwalten → Sicherung speichern** lassen sich alle Kinderprofile, laufenden Runden und Fortschrittsbilder als JSON-Datei sichern. Die Datei enthält auch die verschiedenen Bildversionen und die Wiederholungszähler. Bitte den erfolgreichen Download beziehungsweise das Speichern auf dem Gerät prüfen und die Datei privat aufbewahren.
+
+Auf demselben oder einem anderen Gerät **App verwalten → Sicherung auswählen** öffnen, die Vorschau prüfen und **Profile hinzufügen** wählen. Vorhandene Profile bleiben erhalten; bei Namensgleichheit entsteht beispielsweise „Anna (Sicherung)“. Bereits vorhandene oder bereits importierte unveränderte Profile werden nicht doppelt angelegt. Anschließend **Zu den Spielen** wählen.
+
+Dies ist eine manuelle Dateiübertragung ohne Cloud-Dienst. Das tatsächliche Speichern auf ein anderes Gerät oder einen externen Datenträger muss selbst veranlasst werden. Details und technische Grenzen: [Sicherungsdateien](docs/backups.md).
