@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Memory &amp; Lesen</string>
+    <string name="title_activity_main">Memory &amp; Lesen</string>
+    <string name="package_name">de.heikeamthor.lesespiele</string>
+    <string name="custom_url_scheme">de.heikeamthor.lesespiele</string>
+</resources>

@@ -1,3 +1,7 @@
 /dist/
 /node_modules/
 /questions.json
+
+*.jks
+*.keystore
+/android/local.properties

@@ -8,7 +8,7 @@ async function visiblePixels(file){const {data,info}=await sharp(file).toColours
  const retained=new Set(productionFiles()),aliases={...previous.aliases},images=[...(previous.images||[])],removed=[...(previous.removed||[])];let beforeBytes=0;
  function walk(dir){return fs.readdirSync(path.join(root,dir),{withFileTypes:true}).flatMap(ent=>ent.isDirectory()?(['.git','dist','node_modules'].includes(ent.name)?[]:walk(path.posix.join(dir,ent.name))):[path.posix.join(dir,ent.name)]);}
  const artwork=[...walk('assets'),...walk('wortmemory/assets'),...walk('verrueckt-gesucht/assets'),...fs.readdirSync(path.join(root,'wortmemory')).filter(p=>/\.(?:png|jpe?g|webp)$/.test(p)).map(p=>'wortmemory/'+p),...fs.readdirSync(root).filter(p=>/\.(?:png|jpe?g|webp)$/.test(p))];
- for(const file of artwork){const size=fs.statSync(path.join(root,file)).size;beforeBytes+=size;if(!retained.has(file)&&/\.(?:png|webp|jpe?g|svg|mp4)$/.test(file)){removed.push({path:file,bytes:size,sha256:hash(fs.readFileSync(path.join(root,file)))});fs.unlinkSync(path.join(root,file));}}
+ for(const file of artwork){if(file==='App Icon Fröhlicher Memory-Karten-Kronenheld.png')continue;const size=fs.statSync(path.join(root,file)).size;beforeBytes+=size;if(!retained.has(file)&&/\.(?:png|webp|jpe?g|svg|mp4)$/.test(file)){removed.push({path:file,bytes:size,sha256:hash(fs.readFileSync(path.join(root,file)))});fs.unlinkSync(path.join(root,file));}}
  const candidates=[...retained].filter(file=>file.endsWith('.png')&&!/(?:^|\/)icon[^/]*\.png$/.test(file));
  let cursor=0;
  await Promise.all(Array.from({length:3},async()=>{while(cursor<candidates.length){const source=candidates[cursor++],input=path.join(root,source),meta=await sharp(input).metadata();if(meta.pages>1||meta.depth!=='uchar')continue;

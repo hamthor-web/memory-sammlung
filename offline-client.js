@@ -1,5 +1,6 @@
 (function(){
  'use strict';
+ if(window.CollectionNative)return;
  if(!('serviceWorker' in navigator)||location.protocol==='file:')return;
  const script=document.currentScript.src,workerURL=new URL('sw.js',script),scope=new URL('./',script).href;
  const inMenu=location.pathname===new URL('index.html',script).pathname||location.pathname===new URL('./',script).pathname;
