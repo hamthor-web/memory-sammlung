@@ -42,4 +42,8 @@ Die Browserprüfung der nativen Schnittstelle verwendet einen simulierten Androi
 
 ## Bereitstellung für Handy-Tests
 
-Der manuell gestartete Workflow „Android test APK“ verwendet den geschützten Repository-Secret `ANDROID_TEST_KEYSTORE` für eine gleichbleibende Test-Signierung. Nach erfolgreichem Build lädt er APK, Prüfsumme und Installationshilfe in den privaten Release-Entwurf `android-test-0.1.0`. Es erfolgt keine automatische öffentliche Freigabe und kein Play-Store-Upload. Der Signierschlüssel selbst gehört weder in den Quellcode noch in die Release-Dateien. Fork-Prüfungen ohne diesen Secret können weiterhin mit einer kurzlebigen Debug-Signierung bauen; solche Artefakte nicht für fortlaufende Handy-Updates verwenden.
+Der manuell gestartete Workflow „Android test APK“ baut zunächst unabhängig eine Vergleichs-APK und prüft sie. Für die eigentliche Bereitstellung kann er eine bereits lokal signierte APK über einen geprüften Transfer übernehmen. Dabei werden nur APK-Daten, Prüfsummen und Referenzen auf temporäre Repository-Objekte übertragen, keine Signierschlüssel. Die enthaltenen Web-Dateien und die Capacitor-Konfiguration müssen bytegleich zum unabhängigen Build sein.
+
+Alternativ kann die Kontoinhaberin den Repository-Secret `ANDROID_TEST_KEYSTORE` für eine dauerhafte Test-Signierung hinterlegen. Die derzeitige GitHub-Anbindung darf diesen Secret nicht selbst schreiben. Ohne vorbereitete, lokal signierte APK oder eingerichteten Testschlüssel erfolgt keine Auslieferung einer kurzlebig signierten CI-APK.
+
+Nach erfolgreicher Prüfung lädt der Workflow APK, Prüfsumme und Installationshilfe in den privaten Release-Entwurf `android-test-0.1.0`. Es erfolgt keine automatische öffentliche Freigabe und kein Play-Store-Upload. Der Signierschlüssel selbst gehört weder in den Quellcode noch in die Release-Dateien. Die bereitgestellten ersten Handy-APKs verwenden den außerhalb des Repositories aufbewahrten lokalen Testschlüssel.

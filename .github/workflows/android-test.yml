@@ -2,6 +2,11 @@ name: Android test APK
 on:
   pull_request:
   workflow_dispatch:
+    inputs:
+      prepared_apk:
+        description: 'Optional transfer manifest of an already locally signed APK (no signing key)'
+        required: false
+        type: string
   push:
     branches: [main]
     paths: ['android/**', 'capacitor.config.json', 'package*.json', '**.js', '**.html', '**.css', 'assets/**', '.github/workflows/android-test.yml']
@@ -23,18 +28,23 @@ jobs:
           java-version: '21'
       - name: Install locked dependencies
         run: npm ci
+      - uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: '13114758'
+          packages: 'platform-tools'
       - name: Prepare Android SDK
         run: sdkmanager 'platforms;android-36' 'build-tools;35.0.0'
       - name: Restore stable test signing key
         env:
           TEST_KEYSTORE: ${{ secrets.ANDROID_TEST_KEYSTORE }}
           EVENT_NAME: ${{ github.event_name }}
+          PREPARED_APK: ${{ inputs.prepared_apk }}
         run: |
           if [ -n "$TEST_KEYSTORE" ]; then
             printf '%s' "$TEST_KEYSTORE" | base64 --decode > "$RUNNER_TEMP/memory-test.jks"
             chmod 600 "$RUNNER_TEMP/memory-test.jks"
             echo "MEMORY_TEST_KEYSTORE=$RUNNER_TEMP/memory-test.jks" >> "$GITHUB_ENV"
-          elif [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+          elif [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -z "$PREPARED_APK" ]; then
             echo 'The stable test signing key is required for delivery.'
             exit 1
           fi
@@ -66,8 +76,13 @@ jobs:
       - name: Attach test APK to private draft
         env:
           GH_TOKEN: ${{ github.token }}
+          PREPARED_APK: ${{ inputs.prepared_apk }}
         run: |
-          cp test-apk/outputs/apk/debug/app-debug.apk Memory-Lesen-0.1.0-test.apk
+          if [ -n "$PREPARED_APK" ]; then
+            python3 scripts/restore-test-apk.py
+          else
+            cp test-apk/outputs/apk/debug/app-debug.apk Memory-Lesen-0.1.0-test.apk
+          fi
           sha256sum Memory-Lesen-0.1.0-test.apk > Memory-Lesen-0.1.0-test.apk.sha256
           cp docs/android-installation.md START-HIER.md
           gh release edit android-test-0.1.0 --repo "$GITHUB_REPOSITORY" --draft=true --target "$GITHUB_SHA"
