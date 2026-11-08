@@ -37,6 +37,7 @@ jobs:
       - name: Check logic, data migration and safe updates
         run: |
           node tests/production-package.cjs
+          node tests/app-identity.cjs
           node verify.cjs
           node verify-pwa.cjs
           node tests/progress-store.cjs
