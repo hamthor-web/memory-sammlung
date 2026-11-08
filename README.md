@@ -4,7 +4,7 @@ Dieses Repository enthält den gemeinsamen Einstieg [index.html](index.html) mit
 
 | Spiel | Einstieg | Umfang |
 |---|---|---|
-| **Bilder merken** | [eigenschaften.html](eigenschaften.html) | 30 Bildkarten, drei Schwierigkeitsstufen; Runden mit 6/12/18 Karten, abhängig von den geeigneten Karten der Stufe |
+| **Eigenschaften merken und finden** | [eigenschaften.html](eigenschaften.html) | 30 Bildkarten, drei Schwierigkeitsstufen; Runden mit 6/12/18 Karten, abhängig von den geeigneten Karten der Stufe |
 | **Ein Wort, zwei Bilder** | [wortmemory/index.html](wortmemory/index.html) | 20 Wortpaare mit 40 Bildbedeutungen und 80 Fragesätzen; Auswahl von 6/8/10/12 Paaren |
 
 | **Zwei Wörter, eine Sache** | [synonymmemory/index.html](synonymmemory/index.html) | Wortpaare mit ergänzendem Bildvergleich |
@@ -22,7 +22,7 @@ Aktueller Pflegeort beider Spiele ist **hamthor-web/memory-sammlung**. Das älte
 
 Die separate [Spielesammlung-fuer-Lesefreude-](https://github.com/hamthor-web/Spielesammlung-fuer-Lesefreude-) enthält die sieben Spiele der großen App. Die beiden Memory-Spiele gehören nicht automatisch zu deren Spielumfang.
 
-## Bilder merken
+## Eigenschaften merken und finden
 
 Das Kind betrachtet zunächst alle Bildkarten ohne feste Lernzeit. Mit **Ich bin bereit!** werden die Karten verdeckt. Danach wählt es eine Fragekarte und sucht eine passende Bildkarte.
 
