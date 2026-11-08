@@ -32,6 +32,8 @@ Globale gerätespezifische Schriftvorlieben werden nicht als eigenständige Ger�
 - Änderungen der Profilliste nach der Vorschau führen zum Abbruch mit erneuter Dateiauswahl. Gleichzeitige Importbestätigungen werden bei verfügbarer Web-Locks-API serialisiert.
 - Ein voller lokaler App-Speicher kann den Import verhindern; eine Datei allein vergrößert das Speicherkontingent nicht. Die bisher gespeicherten Daten bleiben erhalten.
 
+Bereits geöffnete Fenster lesen Änderungen an der Profilliste vor dem Speichern erneut ein. So bleiben hinzugefügte Profile auch erhalten, wenn ein älteres Fenster später Spieleinstellungen speichert. Hat zwischenzeitlich das aktive Kind gewechselt, werden alte Spieleinstellungen nicht auf das neue Kind übertragen.
+
 ## Prüfung
 
 `node tests/backup-store.cjs` prüft vollständige und wiederholte Sicherungen, alte Galeriezuordnungen, unveränderte bestehende Daten, Namenskonflikte, Dateibeschädigung, Speicherfehler an jedem Schreibschritt und Prozessabbruch vor/nach dem Übernehmen der Profilliste.
