@@ -24,7 +24,7 @@ keine weiteren Profile. „Verrückt gesucht!“ bleibt ein Einzelspiel.
 ## Gemeinsame Bedienung
 
 Die Spielauswahl zeigt auf dem Handy eine Karte pro Zeile, auf Tablets zwei.
-Alle Karten verwenden „Spielen“. Die sichtbaren Namen sind „Bilder merken“,
+Alle Karten verwenden „Spielen“. Die sichtbaren Namen sind „Eigenschaften merken und finden“,
 „Ein Wort, zwei Bilder“, „Zwei Wörter, eine Sache“ und „Verrückt gesucht!“.
 Profil-IDs und Speicherzuordnungen bleiben erhalten. Der gepflegte Einstieg ist
 `wortmemory/index.html`; die frühere datierte Testadresse leitet dorthin weiter.
