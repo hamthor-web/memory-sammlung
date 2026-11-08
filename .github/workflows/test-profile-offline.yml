@@ -56,6 +56,7 @@ jobs:
       - name: Check consistent mobile navigation and reading windows
         run: |
           node tests/browser-navigation.cjs
+          node tests/browser-app-info.cjs
           node tests/browser-reading-back.cjs
       - name: Check profiles, rules, handovers and round recovery
         run: node tests/browser-progress.cjs

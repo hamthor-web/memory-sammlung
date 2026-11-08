@@ -1,0 +1,17 @@
+/* Small visual symbol, generous touch target, available without a child profile. */
+.has-app-info{position:relative;padding-right:56px}
+#appInfoButton.app-info-button{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;min-width:44px;height:44px;min-height:44px;margin:0;padding:0;border:2px solid #24776b;border-radius:50%;background:#fffdf0;color:#173c2a;font:700 26px/1 Georgia,serif;cursor:pointer}
+.has-app-info>#appInfoButton{position:absolute;right:0;top:0}
+.collection-game-nav>#appInfoButton{margin-left:auto}
+#appInfoButton:focus-visible,#appInfo a:focus-visible{outline:3px solid #173c2a;outline-offset:4px}
+#appInfo{box-sizing:border-box;width:min(94vw,560px);max-width:calc(100vw - 20px);max-height:calc(100dvh - 24px);overflow:auto;margin:auto;padding:24px;border:2px solid #24776b;border-radius:20px;background:#fffdf2;color:#173c2a;font:20px/1.5 system-ui,sans-serif;text-align:left}
+#appInfo::backdrop{background:#18352eaa}
+#appInfo h2{margin:0 0 16px;font-size:26px;line-height:1.25}
+#appInfo .app-info-links{display:grid;gap:10px}
+#appInfo .app-info-links a{display:block;min-height:48px;padding:12px;border:1px solid #24776b;border-radius:12px;color:#173c2a;background:#fffdf0;text-decoration:underline;font-weight:650;overflow-wrap:anywhere}
+#appInfo a span{font-size:.85em;font-weight:400}
+#appInfo .app-info-email{overflow-wrap:anywhere;font-size:18px}
+#appInfo .app-info-note{font-size:17px}
+#appInfoClose,#appInfoFromLogin{box-sizing:border-box;min-height:48px;width:100%;padding:12px;border:2px solid #24776b;border-radius:12px;background:#fffdf0;color:#173c2a;font:700 19px/1.4 system-ui,sans-serif;cursor:pointer}
+#appInfoFromLogin{margin-top:12px}
+@media(max-width:600px){#appInfo{padding:18px}.has-app-info{padding-right:52px}}
