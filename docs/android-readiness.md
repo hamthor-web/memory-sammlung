@@ -10,7 +10,7 @@ Stand: 8. November 2026. Geprüft wird der lokale Produktionsbestand `dist/`, ni
 - Alte Suchspiel-Seiten starten mit dem aktuellen Code ohne den früheren Fehler beim Registrieren von Klickaktionen.
 - Zurück schließt zunächst Fenster, öffnet danach die Einstellungen und führt schließlich zur Spielauswahl. Unterbrochene Lesefenster lassen sich wieder öffnen.
 - Wortmemory verwendet den regulären Einstieg `wortmemory/index.html`; frühere URLs bleiben erreichbar.
-- Produktionspaket etwa 113 MB statt zuvor etwa 199 MB; 80 verlustfreie Bildkonvertierungen und 48 entfernte ungenutzte Dateien.
+- Produktionspaket mit dem neuen Icon etwa 114 MB statt zuvor etwa 199 MB; 80 verlustfreie Bildkonvertierungen und 48 entfernte ungenutzte Dateien.
 - Zusätzlich korrigiert: Alle fünf Einstiegsseiten verweisen auf dasselbe App-Manifest und dieselben gemeinsamen Icons. Wortmemory hatte bisher kein Manifest, das Suchspiel ein eigenes mit abweichender App-Identität. Alte Manifest- und Icon-Adressen bleiben für zwischengespeicherte Seiten im Offline-Paket.
 - Einstellungen und Spielauswahl wurden zusätzlich bei 320, 360, 390 und 768 Pixel Breite auf horizontalen Überlauf kontrolliert.
 
