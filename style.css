@@ -323,3 +323,14 @@ body.start-layout #game[hidden]{display:none!important}
  .success-reading{width:96vw;max-height:96dvh;}
  #successReadImage{max-height:60dvh;}
 }
+
+/* Keep enlarged setting labels inside narrow phone screens. */
+#start .big-setting legend {
+ max-width:100%;
+ overflow-wrap:anywhere;
+ hyphens:auto;
+}
+#start .setting-buttons .banner-label {
+ overflow-wrap:anywhere;
+ hyphens:auto;
+}
