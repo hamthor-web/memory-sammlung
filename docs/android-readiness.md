@@ -10,7 +10,7 @@ Stand: 8. November 2026. Geprüft wird der lokale Produktionsbestand `dist/`, ni
 - Alte Suchspiel-Seiten starten mit dem aktuellen Code ohne den früheren Fehler beim Registrieren von Klickaktionen.
 - Zurück schließt zunächst Fenster, öffnet danach die Einstellungen und führt schließlich zur Spielauswahl. Unterbrochene Lesefenster lassen sich wieder öffnen.
 - Wortmemory verwendet den regulären Einstieg `wortmemory/index.html`; frühere URLs bleiben erreichbar.
-- Produktionspaket etwa 113 MB statt zuvor etwa 199 MB; 80 verlustfreie Bildkonvertierungen und 48 entfernte ungenutzte Dateien.
+- Produktionspaket mit dem neuen Icon etwa 114 MB statt zuvor etwa 199 MB; 80 verlustfreie Bildkonvertierungen und 48 entfernte ungenutzte Dateien.
 - Zusätzlich korrigiert: Alle fünf Einstiegsseiten verweisen auf dasselbe App-Manifest und dieselben gemeinsamen Icons. Wortmemory hatte bisher kein Manifest, das Suchspiel ein eigenes mit abweichender App-Identität. Alte Manifest- und Icon-Adressen bleiben für zwischengespeicherte Seiten im Offline-Paket.
 - Einstellungen und Spielauswahl wurden zusätzlich bei 320, 360, 390 und 768 Pixel Breite auf horizontalen Überlauf kontrolliert.
 
@@ -18,9 +18,11 @@ Automatische Prüfungen: Daten-/Fragenlogik, Profiltrennung, Speicherfehler, Wie
 
 ## Icon
 
-Das im Chat gezeigte Wunschmotiv liegt dem Arbeitsverzeichnis noch nicht als Originaldatei vor. Die Grafik wurde daher noch nicht ausgetauscht. Keine Nachzeichnung oder nur ähnliche Grafik einsetzen.
+Das gewünschte Originalmotiv `App Icon Fröhlicher Memory-Karten-Kronenheld.png` wurde aus dem Repository übernommen und ohne Zuschnitt oder Nachzeichnung auf 192, 512 und für ältere Apple-Verweise 180 Pixel skaliert. Alle aktuellen Seiten und das App-Manifest verwenden das gemeinsame Motiv; frühere Icon-Adressen wurden ebenfalls aktualisiert. Versionierte Icon-Adressen ermöglichen das Aktualisieren zwischengespeicherter Icons. Das Original bleibt unverändert und wird nicht zusätzlich ins Produktions-/Offline-Paket aufgenommen.
 
-Mit der Originaldatei erzeugt `node scripts/prepare-app-icons.cjs /pfad/original.png` ohne Zuschnitt die benötigten PNG-Größen und aktualisiert auch frühere Icon-Adressen. Das Entwicklungswerkzeug benötigt Sharp. Danach Produktionspaket und Offline-Manifest neu bauen. Das 512-Pixel-Icon dient als Grundlage für den Play-Store-Eintrag; ein adaptives Android-Icon braucht zusätzlich eine passende Vordergrund-/Hintergrundaufteilung und Prüfung der Sicherheitszone. Das bestehende vollständige Motiv nicht ungeprüft als `maskable` deklarieren.
+Erneute Erzeugung: `node scripts/prepare-app-icons.cjs 'App Icon Fröhlicher Memory-Karten-Kronenheld.png'` (benötigt Sharp), danach `node scripts/build-production.cjs`.
+
+Das 512-Pixel-Icon dient als Grundlage für den Play-Store-Eintrag. Ein adaptives Android-Icon braucht zusätzlich eine passende Vordergrund-/Hintergrundaufteilung und Prüfung der Sicherheitszone. Das vollständige Motiv wird deshalb als `any`, nicht ungeprüft als `maskable` angeboten.
 
 ## Vor dem ersten Android-Testpaket
 
