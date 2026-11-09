@@ -17,6 +17,8 @@ function productionFiles(){
  for(const name of fs.readdirSync(path.join(root,'synonymmemory/wonder-assets')))if(/\.(?:png|webp|jpe?g)$/.test(name))add('synonymmemory/wonder-assets/'+name);
  // Old saved gallery HTML may reference any original search-game artwork.
  for(const name of fs.readdirSync(path.join(root,'verrueckt-gesucht/assets')))if(/\.(?:png|webp|jpe?g|svg)$/.test(name))add('verrueckt-gesucht/assets/'+name);
+ function treeFiles(dir){for(const entry of fs.readdirSync(path.join(root,dir),{withFileTypes:true})){const file=dir+'/'+entry.name;if(entry.isDirectory())treeFiles(file);else add(file);}}
+ treeFiles('wortmemory/trees');
  const context=vm.createContext({});
  for(const file of ['cards.js','verrueckt-gesucht/data.js','verrueckt-gesucht/engine.js','verrueckt-gesucht/tree-art.js','verrueckt-gesucht/pfau-art.js','verrueckt-gesucht/tree.js','verrueckt-gesucht/knurpsel.js','verrueckt-gesucht/rakete.js','verrueckt-gesucht/baumhaus.js','verrueckt-gesucht/blumenwiese.js','verrueckt-gesucht/kinderzimmer.js','verrueckt-gesucht/marsmission.js','verrueckt-gesucht/matschwiese.js','verrueckt-gesucht/unterwasserwelt.js','verrueckt-gesucht/wundereiche.js'])vm.runInContext(fs.readFileSync(path.join(root,file),'utf8'),context);
  function strings(value,base){if(typeof value==='string')reference(value,base);else if(Array.isArray(value))value.forEach(v=>strings(v,base));else if(value&&typeof value==='object')Object.values(value).forEach(v=>strings(v,base));}

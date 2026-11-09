@@ -1,0 +1,79 @@
+{
+  "before": 25785139,
+  "after": 18704822,
+  "visiblePixelsAndAlphaUnchanged": true,
+  "images": [
+    {
+      "source": "wortmemory/trees/herbst/aeffchen-knotenseil-sauber.png",
+      "target": "wortmemory/trees/herbst/aeffchen-knotenseil-sauber.webp",
+      "sourceBytes": 862868,
+      "targetBytes": 600536,
+      "sha256": "b65bbb32937246c96197b492f0bf52a5a322a8c13c5de369fb6329f29b2cd3c2"
+    },
+    {
+      "source": "wortmemory/trees/herbst/baum.png",
+      "target": "wortmemory/trees/herbst/baum.webp",
+      "sourceBytes": 2734291,
+      "targetBytes": 2092152,
+      "sha256": "fa31eef39ef331f367dc781e05cc79d7ba4afc068e46ddab7134897e29fef7ce"
+    },
+    {
+      "source": "wortmemory/trees/herbst/herbstzauber.png",
+      "target": "wortmemory/trees/herbst/herbstzauber.webp",
+      "sourceBytes": 3059752,
+      "targetBytes": 1848776,
+      "sha256": "5b50cee0a95ea81b631c603f8c486cc05bc737ff162c8a82611068bb58043cf8"
+    },
+    {
+      "source": "wortmemory/trees/mond/assets/mondbaum.png",
+      "target": "wortmemory/trees/mond/assets/mondbaum.webp",
+      "sourceBytes": 2747739,
+      "targetBytes": 2038646,
+      "sha256": "2b05c672a502fb20d3bc33d2b2da43639be5ea466e6a6539a2dd74d64044a0a6"
+    },
+    {
+      "source": "wortmemory/trees/mond/assets/ueberraschungen.png",
+      "target": "wortmemory/trees/mond/assets/ueberraschungen.webp",
+      "sourceBytes": 1641054,
+      "targetBytes": 1252786,
+      "sha256": "d0203b2333bc22b095707cfedf26001ed753c5b866fa9ab3045b3a995367f321"
+    },
+    {
+      "source": "wortmemory/trees/rosa/assets/bluetenbaum.png",
+      "target": "wortmemory/trees/rosa/assets/bluetenbaum.webp",
+      "sourceBytes": 2819167,
+      "targetBytes": 2156356,
+      "sha256": "a219be1e6efcd08660ea65ad19a3a2cde4e91d0fd02005456a3106783db3643b"
+    },
+    {
+      "source": "wortmemory/trees/rosa/assets/zauberdinge.png",
+      "target": "wortmemory/trees/rosa/assets/zauberdinge.webp",
+      "sourceBytes": 2476832,
+      "targetBytes": 1658002,
+      "sha256": "4ee4fe2b889506b3bc16fddadf1b114068aedde2ac20eb86d05f317055e72000"
+    },
+    {
+      "source": "wortmemory/trees/zauber/assets/oak-base-painted-v2.png",
+      "target": "wortmemory/trees/zauber/assets/oak-base-painted-v2.webp",
+      "sourceBytes": 3166142,
+      "targetBytes": 2467730,
+      "sha256": "d7bdaffe9d24822f6818d4eb081d93f18649b964b61c8405a4ff1b1423cb1170"
+    },
+    {
+      "source": "wortmemory/trees/zauber/assets/oak-decorations-painted-v2.png",
+      "target": "wortmemory/trees/zauber/assets/oak-decorations-painted-v2.webp",
+      "sourceBytes": 957171,
+      "targetBytes": 705634,
+      "sha256": "9a5b857de56f6c340462f35d647970361c27ace791b088b82998a50e6e11dd9e"
+    },
+    {
+      "source": "wortmemory/trees/zauber/assets/squirrel-climb-four-poses-v3.png",
+      "target": "wortmemory/trees/zauber/assets/squirrel-climb-four-poses-v3.webp",
+      "sourceBytes": 1895298,
+      "targetBytes": 1260458,
+      "sha256": "7204c13d997db8485b4b337e416a3a935ce3f23dbe0a79786044b80d8cdab256"
+    }
+  ],
+  "excludedUnusedReference": "oak-finished-reference-v2.webp",
+  "includedBytes": 16081076
+}
