@@ -1,6 +1,6 @@
 const {chromium}=require('playwright'),assert=require('node:assert/strict');
 (async()=>{const browser=await chromium.launch({executablePath:process.env.CHROME_BIN||'/usr/bin/chromium',args:['--no-sandbox']});try{
- const context=await browser.newContext({viewport:{width:768,height:1400},serviceWorkers:'block'});
+ const context=await browser.newContext({viewport:{width:768,height:1400},hasTouch:true,serviceWorkers:'block'});
  await context.addInitScript(()=>{localStorage.setItem('fuehlmemory-profiles-v1',JSON.stringify({profiles:[{id:'assembly',name:'Test',level:1,count:6}],activeId:'assembly'}));});
  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('http://127.0.0.1:8765/eigenschaften.html');
  await page.evaluate(()=>{const id=PROPERTY_PUZZLES[0].id;localStorage.setItem('memory-progress-v1:assembly',JSON.stringify({propertyPuzzles:{version:1,selected:id,pieces:{[id]:6},receipts:{}}}));PropertyPuzzles.refresh();});

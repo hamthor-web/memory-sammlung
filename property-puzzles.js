@@ -72,6 +72,7 @@
    if(interactive&&n){mark();save();}
   }
   requestAnimationFrame(initialize);
+  if(interactive)svg.addEventListener('touchstart',e=>{if(e.target.closest('.puzzle-piece'))e.preventDefault();},{passive:false});
   svg.onpointerdown=e=>{if(e.target!==svg||selected===null)return;const v=point(e),i=selected,b=nodes[i].box;drop(i,v.x-b.width/2,v.y-b.height/2,group(i));nodes[i].g.classList.remove('puzzle-selected');selected=null;};
   return wrap;
  }
