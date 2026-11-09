@@ -55,6 +55,8 @@ jobs:
         run: |
           python3 -m http.server 8765 --directory dist --bind 127.0.0.1 > /tmp/memory-profile-server.log 2>&1 &
           sleep 2
+      - name: Check per-child Wunderwesen collection and responsive display
+        run: node tests/browser-wonder-clearing.cjs
       - name: Recover an interrupted update without losing local profiles
         run: node tests/browser-update-recovery.cjs
       - name: Check existing puzzle layouts after cut correction
@@ -72,8 +74,6 @@ jobs:
           node tests/browser-reading-back.cjs
       - name: Check profiles, rules, handovers and round recovery
         run: node tests/browser-progress.cjs
-      - name: Check per-child Wunderwesen collection and responsive display
-        run: node tests/browser-wonder-clearing.cjs
       - name: Start with cached old HTML and current game code
         run: node tests/browser-cached-gallery.cjs
       - name: Check saved artwork versions and repeat counts
