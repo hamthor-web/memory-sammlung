@@ -32,6 +32,14 @@ try{
  await page.locator('#modeTwo').click();assert(await page.locator('#puzzleSetup').isHidden());await complete(1);assert.match(await page.locator('#duoFinish').innerText(),/Anna: 6 Karten/);assert.equal(await page.locator('#puzzleReward .puzzle-picture').count(),0);assert.equal(await page.evaluate(()=>Object.keys(JSON.parse(localStorage.getItem('memory-progress-v1:anna')).propertyPuzzles.receipts).length),completed);
  await page.evaluate(()=>{CollectionSession.flush();const p=MemoryProfiles.createStore(localStorage).select('ben');applyProfile(p);});assert(await page.locator('#puzzleResume').isDisabled());await page.locator('#modeSolo').click();assert(await page.locator('#puzzleResume').isDisabled());
  await page.screenshot({path:`${process.env.PUZZLE_SCREENSHOTS||'/tmp'}/puzzle-menu.png`,fullPage:true});
+ await page.locator('#startGame').click();
+ const initialWidth=(await page.locator('#cards .card').first().boundingBox()).width;
+ await page.locator('#collectionFont').click();await page.locator('#fieldZoomIn').click();await page.locator('#collectionFontDialog').getByRole('button',{name:'Fertig',exact:true}).click();
+ const enlargedWidth=(await page.locator('#cards .card').first().boundingBox()).width;assert(enlargedWidth>initialWidth+1,'field zoom enlarges cards');
+ await page.locator('#collectionFont').click();await page.locator('#buttonZoomIn').click();await page.locator('#collectionFontDialog').getByRole('button',{name:'Fertig',exact:true}).click();
+ assert(Math.abs((await page.locator('#cards .card').first().boundingBox()).width-enlargedWidth)<1,'font zoom preserves card size');
+ await page.locator('#reset').click();
+
  for(const [width,height]of [[393,852],[852,393],[768,1024],[1024,768]]){
   await page.setViewportSize({width,height});await page.evaluate(()=>{document.documentElement.style.setProperty('--button-zoom','2');document.getElementById('fieldZoomIn').click();});
   await page.locator('#puzzleManual').click();await page.screenshot({path:`${process.env.PUZZLE_SCREENSHOTS||'/tmp'}/puzzle-qa-${width}.png`,fullPage:true});
