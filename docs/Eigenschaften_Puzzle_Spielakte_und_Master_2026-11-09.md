@@ -88,3 +88,14 @@ Heike meldet: Aktualisierung wegen langer Ladezeit abgebrochen; erneute Aktualis
 Ergänzt: eigenständige Seite `aktualisieren.html`, erreichbar über direkten Link und künftig über „App verwalten“. Sie fordert eine neue Installation an, zeigt die geladenen Dateien, bietet bei Fehler oder ausbleibendem Fortschritt erneut einen aktiven Versuch und öffnet nach vollständiger Installation die Spielauswahl. Keine Löschung von Kinderprofilen, Spielständen oder Sicherungen. Der alte aktive Stand bleibt bis zur vollständigen Installation bestehen. Teilweise geladene Dateien derselben per Fingerprint bezeichneten Version werden beim erneuten Versuch weiterverwendet; jede Datei besitzt eine Zeitgrenze. Der normale Aktualisierungsbutton wird nach spätestens 15 Sekunden wieder bedienbar.
 
 Masterstatus: Puzzle-Funktion bereits veröffentlicht; Wiederherstellung abgebrochener Offline-Aktualisierungen ergänzt. Lokale Logikprüfung für abgebrochenen Download, Wiederaufnahme nur der fehlenden Datei und Erhalt der aktiven Version bestanden. Produktionspaketprüfung bestanden. Gezielte Browserprüfung bestanden: absichtlich unterbrochener Download, aktiver erneuter Versuch, vollständige Installation, automatische Rückkehr zur Spielauswahl und unveränderte lokale Testdaten. Prüflauf: https://github.com/hamthor-web/memory-sammlung/actions/runs/42649849303. Abnahme auf Heikes betroffenem Gerät offen.
+
+
+## Nachbesserung nach erneutem Hängen – 09.11.2026
+
+Heike meldet nach etwa 15 Minuten weiterhin nur eine Aktualisierungsanzeige ohne Dateizähler. Die genaue Ursache auf ihrem Gerät lässt sich daraus noch nicht bestimmen. Der bisherige Downloadumfang bei jeder neuen Version betrug rund 116 MB.
+
+Neue technische Fassung: Für jede Produktionsdatei wird eine SHA-256-Prüfsumme erzeugt. Der neue Service Worker prüft vorhandene Dateien früherer Versionen und übernimmt sie nur bei identischer Prüfsumme. Veränderte und fehlende Dateien werden neu geladen. Alte aktive Version und Profil-/Legestände bleiben bis zur vollständigen Installation erhalten.
+
+Neue Reparaturadresse `aktualisierung-retten.html`, sichtbar bezeichnet als „Aktualisierung retten · Version 2“: eigener Dateizähler, verstrichene Sekunden und erneuter Versuch nach 45 Sekunden ohne Fortschritt. Der bisherige Reparaturpfad erhält ebenfalls diese Fassung; der neue Pfad vermeidet eine zwischengespeicherte alte Reparaturseite. Auch die Aktivierungsphase besitzt jetzt eine Zeitgrenze für eine bedienbare Rückmeldung.
+
+Masterstatus: Wiederverwendung unveränderter Dateien über Versionswechsel ergänzt. Lokale Prüfungen bestätigen Wiederaufnahme, Übernahme identischer Altdaten, Neuladen geänderter Dateien und vollständige Offline-Dateiliste. Browserprüfung sowie Rückmeldung von Heikes betroffenem Gerät stehen bei Erstellung dieses Nachtrags noch aus.

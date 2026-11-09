@@ -1,7 +1,7 @@
 /* Explicit application roots plus their static and data-driven dependencies. */
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const root=path.resolve(__dirname,'..'),origin='https://production.invalid/';
-const entries=['index.html','aktualisieren.html','eigenschaften.html','wortmemory/index.html','synonymmemory/index.html','verrueckt-gesucht/index.html'];
+const entries=['index.html','aktualisieren.html','aktualisierung-retten.html','eigenschaften.html','wortmemory/index.html','synonymmemory/index.html','verrueckt-gesucht/index.html'];
 function productionFiles(){
  const selected=new Set(),queue=[];
  function add(file){file=file.replace(/\\/g,'/');if(file==='sw.js'||selected.has(file)||!fs.existsSync(path.join(root,file))||!fs.statSync(path.join(root,file)).isFile())return;selected.add(file);queue.push(file);}

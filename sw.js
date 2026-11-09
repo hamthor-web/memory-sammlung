@@ -7,10 +7,19 @@ const files=self.OFFLINE_FILES;
 const aliases=self.OFFLINE_ALIASES||{};
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);let cursor=0,completed=0;
+ const previous=[];for(const name of await caches.keys())if(name.startsWith(PREFIX)&&name!==CACHE)previous.push(await caches.open(name));
+ async function reuse(request,file){
+  const expected=self.OFFLINE_HASHES?.[file];if(!expected)return false;
+  for(const old of previous){const response=await old.match(request);if(!response?.ok)continue;
+   const digest=await crypto.subtle.digest('SHA-256',await response.clone().arrayBuffer());
+   const actual=Array.from(new Uint8Array(digest),n=>n.toString(16).padStart(2,'0')).join('');
+   if(actual===expected){await cache.put(request,response);return true;}
+  }return false;
+ }
  const report=async()=>{for(const client of await self.clients.matchAll({includeUncontrolled:true}))client.postMessage({type:'COLLECTION_DOWNLOAD',completed,total:files.length});};
  await Promise.all(Array.from({length:4},async()=>{while(cursor<files.length){const file=files[cursor++];const request=new Request(new URL(file,self.registration.scope),{cache:'reload'});
  // A fingerprint identifies one complete release. Resume only its own files.
- if(!await cache.match(request)){
+ if(!await cache.match(request)&&!await reuse(request,file)){
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),45000);
   try{const response=await fetch(request,{signal:controller.signal});if(!response.ok)throw Error('Offline-Datei fehlt: '+file);await cache.put(request,response);}finally{clearTimeout(timer);}
  }
