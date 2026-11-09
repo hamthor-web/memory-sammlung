@@ -17,7 +17,7 @@ try{
   }
   await page.locator('#finish').waitFor({state:'visible'});console.log('PASS complete level',level,'duo',await page.evaluate(()=>duo));
  }
- await complete(1);await page.screenshot({path:`${process.env.PUZZLE_SCREENSHOTS||'/tmp'}/puzzle-reward.png`,fullPage:true});assert.match(await page.locator('#puzzleReward').innerText(),/1 von 6/);assert.equal(await page.locator('#puzzleReward .puzzle-new').count(),1);
+ await complete(1);await page.waitForTimeout(1700);await page.screenshot({path:`${process.env.PUZZLE_SCREENSHOTS||'/tmp'}/puzzle-reward.png`,fullPage:true});assert.match(await page.locator('#puzzleReward').innerText(),/1 von 6/);assert.equal(await page.locator('#puzzleReward .puzzle-new').count(),1);
  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('memory-progress-v1:anna')).propertyPuzzles.pieces[PROPERTY_PUZZLES[0].id]),1);
  await page.locator('#puzzleMenu').click();assert(await page.locator('#puzzleResume').isEnabled());
  await page.locator('#startGame').click();await page.reload();await page.getByRole('button',{name:'Weiterspielen',exact:true}).click();

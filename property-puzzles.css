@@ -12,7 +12,7 @@
 @keyframes puzzle-reveal{0%,25%{opacity:0}70%{opacity:1;filter:brightness(1.8)}100%{opacity:1;filter:none}}
 .puzzle-dialog{width:min(1000px,calc(100vw - 24px));max-height:90dvh;overflow:auto;border:0;border-radius:22px;padding:20px;background:#fffdf4;color:#244b46}
 .puzzle-dialog::backdrop{background:#163a2ac9}.puzzle-dialog h2{font-size:calc(1.4rem * var(--button-zoom))}
-.puzzle-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px;margin:18px 0}
+.puzzle-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,calc(220px * var(--button-zoom))),1fr));gap:16px;margin:18px 0}
 .puzzle-choice{display:flex;flex-direction:column;gap:12px;text-align:center;align-items:stretch;min-width:0}
 .puzzle-choice .puzzle-picture{height:200px}.puzzle-choice strong,.puzzle-choice span{font-size:inherit}.puzzle-choice:disabled{opacity:1;background:#eee;color:#555}
 .puzzle-choice[aria-pressed=true]{outline:3px solid #24776b}.puzzle-unsolved .puzzle-picture{filter:grayscale(1)}

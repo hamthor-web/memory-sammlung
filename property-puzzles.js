@@ -43,6 +43,7 @@
    grid.append(card);
   }
   if(!$('puzzleDialog').open)$('puzzleDialog').showModal();
+  $('puzzleDialog').scrollTop=0;$('puzzleDialogTitle').tabIndex=-1;$('puzzleDialogTitle').focus({preventScroll:true});
  }
  function openImage(id){$('puzzleImageTitle').textContent=byId(id).title;$('puzzleImageMount').replaceChildren(picture(id,6));$('puzzleImageDialog').showModal();}
  function begin(){
