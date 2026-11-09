@@ -34,6 +34,7 @@
    // Join matching edges wherever the child lays them, without a hidden target grid.
    let snap=null;for(const j of members)for(let k=0;k<n;k++){if(members.includes(k)||!neighbors(j,k))continue;const sx=positions[k].x-nodes[k].box.x+nodes[j].box.x-positions[j].x,sy=positions[k].y-nodes[k].box.y+nodes[j].box.y-positions[j].y,d=Math.hypot(sx,sy);if(d<Math.min(p.width,p.height)*.10&&(!snap||d<snap.d))snap={x:sx,y:sy,d};}
    if(snap)members.forEach(k=>{positions[k].x+=snap.x;positions[k].y+=snap.y;});
+   members=group(i);
    // Keep the complete connected group reachable on the tabletop.
    const minX=Math.min(...members.map(k=>positions[k].x)),minY=Math.min(...members.map(k=>positions[k].y)),maxX=Math.max(...members.map(k=>positions[k].x+nodes[k].box.width)),maxY=Math.max(...members.map(k=>positions[k].y+nodes[k].box.height));
    const cx=minX<0?-minX:maxX>p.width*1.8?p.width*1.8-maxX:0,cy=minY<0?-minY:maxY>p.height*1.8?p.height*1.8-maxY:0;members.forEach(k=>{positions[k].x+=cx;positions[k].y+=cy;});
