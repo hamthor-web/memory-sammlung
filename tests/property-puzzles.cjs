@@ -25,6 +25,7 @@ console.log('PASS 1/2/3 pieces, aborted/duo exclusions, profile isolation, idemp
  const backup=require('../backup-store.js');
  storage.removeItem=k=>map.delete(k);
  storage.setItem('fuehlmemory-profiles-v1',JSON.stringify({profiles:[{id:'anna',name:'Anna',level:1,count:6},{id:'ben',name:'Ben',level:1,count:6}],activeId:'anna'}));
+ store.layout('anna','a',[{x:90,y:180,placed:false},{x:270,y:180,placed:true}]);
  const document=await backup.parse(await backup.create(storage));
  const restored=new Map(),target={getItem:k=>restored.get(k)||null,setItem:(k,v)=>restored.set(k,v),removeItem:k=>restored.delete(k)};
  let n=0;const plan=await backup.prepare(target,document,{makeId:()=>`00000000-0000-4000-8000-${String(++n).padStart(12,'0')}`});backup.apply(target,plan);

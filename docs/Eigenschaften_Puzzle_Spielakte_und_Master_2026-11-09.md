@@ -1,6 +1,6 @@
 # Eigenschaften-Memory – Puzzle-Belohnung
 
-Stand: 09.11.2026 · Projekt Lesespiele – Entwicklung und Verwaltung.
+Stand: 09.11.2026 · Korrektur zum selbstständigen Puzzeln siehe letzter Abschnitt. Projekt Lesespiele – Entwicklung und Verwaltung.
 Repository: https://github.com/hamthor-web/memory-sammlung
 Spiel: Eigenschaften merken und finden (`eigenschaften.html`).
 
@@ -67,3 +67,9 @@ Nach dem Rundenabschluss ist das Puzzle direkt bedienbar. Im Menü führt „Puz
 ### Masterübersicht – neuer maßgeblicher Eintrag
 
 Eigenschaften-Memory: Puzzle-Belohnung mit acht Motiven à sechs Teilen. **Jetzt selbst zusammensetzbares Puzzle mit ungeordneten Originalteilen auf leerer Fläche ohne Vorlage oder Zielkonturen.** Freie Kantenverbindungen, gemeinsam verschiebbare Teilgruppen, gespeicherter Legestand je Kind, eigene Puzzlegrößenregelung. Belohnungsregeln und frühere Fortschritte bleiben erhalten. Prüfung und Veröffentlichung: siehe abschließender Prüfnachtrag dieses Abschnitts.
+
+### Abschließender Prüfstand der Korrektur
+
+Gezielter Browserlauf bestanden: https://github.com/hamthor-web/memory-sammlung/actions/runs/42641596183 (Code `363ecd841d4af218d1ef21a6f5c66eae8c81994e`). Geprüft wurden vollständig leere Flächen ohne Bild-/Konturelemente, sechs ungeordnet liegende Originalteile, Zusammensetzen mit echten Maus- und Touch-Eingaben, Wiederherstellung nach Neuladen, Fertigmeldung nach Verbindung und die vier Formate 393×852, 852×393, 768×1024 und 1024×768 mit 200 % Schrift- und Spielfeldgröße. Die bestehenden Puzzleprüfungen für alle Belohnungsstufen, Knurpsel, Abbruch/Fortsetzung, Profilwechsel und Zweispielerausschluss sind ebenfalls bestanden. Bildschirmansichten wurden visuell gesichtet.
+
+Vollständiger Sammlungstest des identischen Produktionsstands bestanden: https://github.com/hamthor-web/memory-sammlung/actions/runs/42641282407 (Produktionscode `879c5665a23986cc0ee823dc4b9bd1a765899a7f`; nachfolgend nur Touch-Testablauf und Dokumentation ergänzt). Er umfasst alle vier Spiele, Navigation, Lesefenster, Profile, Sicherungen, Fortsetzungen, sämtliche elf Fortschrittsgeschichten und den ersten Offline-Einstieg. Lokale Prüfungen einschließlich Sicherung/Wiederherstellung des Legestands, Produktionspaket und Offline-Dateiliste bestanden. Fingerprint: `v74-745c486f43323848`, 465 Produktionsdateien. Der geprüfte Stand wird in die Hauptversion übernommen. Eine Prüfung auf Heikes echten Geräten bleibt ergänzend offen.
