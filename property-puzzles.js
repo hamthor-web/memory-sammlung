@@ -65,7 +65,7 @@
   svg.onpointerdown=e=>{if(e.target!==svg||selected===null)return;const v=point(e),i=selected,b=nodes[i].box;drop(i,v.x-b.width/2,v.y-b.height/2,group(i));nodes[i].g.classList.remove('puzzle-selected');selected=null;};
   return wrap;
  }
- function openAssembly(id){$('puzzleImageTitle').textContent=byId(id).title;$('puzzleImageMount').replaceChildren(picture(id,count(state(),id),6,true));$('puzzleImageDialog').showModal();}
+ function openAssembly(id){$('puzzleImageTitle').textContent=byId(id).title;$('puzzleImageMount').replaceChildren(picture(id,count(state(),id),6,true));$('puzzleImageDialog').showModal();$('puzzleImageDialog').scrollTop=0;$('puzzleImageTitle').tabIndex=-1;$('puzzleImageTitle').focus({preventScroll:true});}
  function refresh(){
   const s=state(),id=s.selected,active=byId(id);$('puzzleSetup').hidden=duo;
   $('puzzleResume').disabled=!partial(s).length;
