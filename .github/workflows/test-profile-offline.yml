@@ -43,6 +43,7 @@ jobs:
           node tests/progress-store.cjs
           node tests/backup-store.cjs
           node tests/profile-store.cjs
+          node tests/wonder-clearing-store.cjs
           node tests/reward-history.cjs
           node tests/service-worker-update.cjs
           node tests/puzzle-cut-coverage.cjs
@@ -71,6 +72,8 @@ jobs:
           node tests/browser-reading-back.cjs
       - name: Check profiles, rules, handovers and round recovery
         run: node tests/browser-progress.cjs
+      - name: Check per-child Wunderwesen collection and responsive display
+        run: node tests/browser-wonder-clearing.cjs
       - name: Start with cached old HTML and current game code
         run: node tests/browser-cached-gallery.cjs
       - name: Check saved artwork versions and repeat counts

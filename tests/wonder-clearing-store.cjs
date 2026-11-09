@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict'),Wonder=require('../synonymmemory/wonder-store.js'),Progress=require('../progress-store.js'),Backup=require('../backup-store.js');
+(async()=>{const data=new Map(),storage={getItem:k=>data.get(k)||null,setItem:(k,v)=>data.set(k,v),removeItem:k=>data.delete(k)};
+const profiles={profiles:[{id:'anna',name:'Anna',level:1,count:6},{id:'ben',name:'Ben',level:1,count:6}],activeId:'anna'};storage.setItem('fuehlmemory-profiles-v1',JSON.stringify(profiles));
+const store=Wonder.createStore(storage),progress=Progress.createStore(storage);progress.saveRound('anna','synonymmemory',{deck:[{id:0,word:'Sofa'}],found:[],open:[],names:['Anna','Ben'],scores:[0,0]});
+assert.equal(store.load('anna').state.count,0);assert(store.award('anna','round-1').added);assert.equal(store.award('anna','round-1').added,false);assert.equal(store.load('ben').state.count,0);assert.equal(progress.loadRound('anna','synonymmemory').deck[0].word,'Sofa');progress.clearRound('anna','synonymmemory');assert.equal(store.load('anna').state.count,1);
+for(let i=2;i<=10;i++)assert(store.award('anna','round-'+i).added);assert.equal(store.award('anna','round-11').added,false);assert.equal(store.load('anna').state.count,10);assert.equal(store.load('ben').state.count,0);
+const backup=await Backup.create(storage),parsed=await Backup.parse(backup);assert.equal(parsed.profiles.find(p=>p.id==='anna').progress.wonderClearing.count,10);
+const before=data.get('memory-progress-v1:ben');const denied=Wonder.createStore({getItem:storage.getItem,setItem(){throw Error('Quota')}});assert.equal(denied.award('ben','new').ok,false);assert.equal(data.get('memory-progress-v1:ben'),before);
+storage.setItem('memory-progress-v1:ben','broken');assert.equal(store.load('ben').ok,false);assert.equal(store.award('ben','new').ok,false);assert.equal(storage.getItem('memory-progress-v1:ben'),'broken');
+console.log('PASS per-child clearing, idempotent rounds, ten-creature cap, round persistence, backup and non-destructive storage failures');})().catch(e=>{console.error(e);process.exit(1)});

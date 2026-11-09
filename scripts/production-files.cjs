@@ -13,6 +13,8 @@ function productionFiles(){
  for(const file of fs.readdirSync(path.join(root,'verrueckt-gesucht')))if(/^(?:app|style)-release-.*\.(?:js|css)$/.test(file))add('verrueckt-gesucht/'+file);
  // Every animation is selectable; paths are assembled dynamically by the games.
  for(const dir of ['assets/animations','assets/intro'])for(const name of fs.readdirSync(path.join(root,dir)))if(/\.(?:mp4|webp)$/.test(name))add(dir+'/'+name);
+ // The clearing assembles creature filenames dynamically. Cache all ten approved sprites.
+ for(const name of fs.readdirSync(path.join(root,'synonymmemory/wonder-assets')))if(/\.(?:png|webp|jpe?g)$/.test(name))add('synonymmemory/wonder-assets/'+name);
  // Old saved gallery HTML may reference any original search-game artwork.
  for(const name of fs.readdirSync(path.join(root,'verrueckt-gesucht/assets')))if(/\.(?:png|webp|jpe?g|svg)$/.test(name))add('verrueckt-gesucht/assets/'+name);
  const context=vm.createContext({});
