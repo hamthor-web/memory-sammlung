@@ -6,7 +6,7 @@ try{
  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto('http://127.0.0.1:8765/eigenschaften.html');
  assert(await page.locator('#puzzleResume').isDisabled());
- await page.locator('#puzzleManual').click();assert.equal(await page.locator('#puzzleChoices button').count(),7);await page.locator('#puzzleChoices button').first().click();
+ await page.locator('#puzzleManual').click();assert.equal(await page.locator('#puzzleChoices button').count(),8);await page.locator('#puzzleChoices button').first().click();
  const id=await page.evaluate(()=>CollectionSession.progress&&JSON.parse(localStorage.getItem('memory-progress-v1:anna')).propertyPuzzles.selected);
  async function complete(level){
   await page.locator(`#levelButtons button[data-value="${level}"]`).click();await page.locator('#startGame').click();await page.locator('#ready').click();
@@ -47,5 +47,10 @@ try{
   assert(await page.evaluate(()=>[...document.querySelectorAll('#puzzleChoices button')].every(b=>b.getBoundingClientRect().width>=44)));
   await page.locator('#puzzleDialogClose').click();
  }
+ await page.setViewportSize({width:393,height:852});await page.evaluate(()=>document.getElementById('buttonZoomValue').click());
+ await page.locator('#puzzleManual').click();await page.locator('#puzzleChoices button').filter({hasText:'Knurpsel'}).click();
+ await complete(3);assert.match(await page.locator('#puzzleReward').innerText(),/Knurpsel.*3 von 6/);
+ await page.waitForTimeout(1700);await page.locator('#puzzleReward').screenshot({path:`${process.env.PUZZLE_SCREENSHOTS||'/tmp'}/puzzle-knurpsel.png`});
+ await page.locator('#puzzleMenu').click();await complete(3);assert.match(await page.locator('#puzzleReward').innerText(),/Knurpsel.*6 von 6/);
  assert.deepEqual(errors,[]);console.log('PASS complete solo levels 1/2/3, interruption/resume, final checkpoint, gallery, profile switch, duo scoring, four formats at enlarged text');
 }finally{await browser.close();}})().catch(e=>{console.error(e);process.exit(1)});
