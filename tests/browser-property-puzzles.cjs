@@ -11,11 +11,11 @@ try{
  async function complete(level){
   await page.locator(`#levelButtons button[data-value="${level}"]`).click();await page.locator('#startGame').click();await page.locator('#ready').click();
   while(await page.evaluate(()=>found.size<field.length)){
-   await page.locator('#fan button').first().click();const correct=await page.evaluate(()=>field.find(c=>!found.has(c.id)&&E.matches(c,question)).id);
+   await page.locator('#fan button').last().click();const correct=await page.evaluate(()=>field.find(c=>!found.has(c.id)&&E.matches(c,question)).id);
    await page.locator(`#cards [data-id="${correct}"]`).click();await page.locator('#successReadNext').click();await page.evaluate(()=>{if(stage==='reward')document.getElementById('rewardVideo').onended?.();});
    await page.waitForFunction(()=>stage==='choose'||stage==='finish');
   }
-  await page.locator('#finish').waitFor({state:'visible'});
+  await page.locator('#finish').waitFor({state:'visible'});console.log('PASS complete level',level,'duo',await page.evaluate(()=>duo));
  }
  await complete(1);await page.screenshot({path:`${process.env.PUZZLE_SCREENSHOTS||'/tmp'}/puzzle-reward.png`,fullPage:true});assert.match(await page.locator('#puzzleReward').innerText(),/1 von 6/);assert.equal(await page.locator('#puzzleReward .puzzle-new').count(),1);
  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('memory-progress-v1:anna')).propertyPuzzles.pieces[PROPERTY_PUZZLES[0].id]),1);
