@@ -17,9 +17,8 @@
   const wrap=document.createElement('div');wrap.className='puzzle-table';
   const svg=el('svg',{viewBox:`0 0 ${p.width*1.8} ${p.height*1.8}`,role:'group','aria-label':`${p.title}: ${n} von 6 Teilen gesammelt`});svg.classList.add('puzzle-picture');const viewport=document.createElement('div');viewport.className='puzzle-board-viewport';viewport.append(svg);wrap.append(viewport);
   const defs=el('defs');svg.append(defs);
-  const saved=state().layouts?.[id]||[],slots=[[.05,.05],[1.13,.12],[.1,1.3],[1.08,1.28],[.65,.03],[.65,1.35]];
-  for(let i=slots.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[slots[i],slots[j]]=[slots[j],slots[i]];}
-  const positions=Array.from({length:n},(_,i)=>saved[i]?{...saved[i]}:{x:slots[i][0]*p.width,y:slots[i][1]*p.height,placed:false});
+  const saved=state().layouts?.[id]||[];
+  const positions=Array.from({length:n},(_,i)=>saved[i]?{...saved[i]}:{x:0,y:0,placed:false});
   const status=document.createElement('p');status.className='puzzle-placement-status';status.setAttribute('role','status');
   function announce(){const placed=positions.filter(q=>q.placed).length;status.textContent=placed===6?'Dein Bild ist fertig!':`${placed} von ${n} gesammelten Teilen gelegt.`;}
   function save(){if(child!==owner())return;store.layout(child,id,positions);announce();}
@@ -50,7 +49,18 @@
    nodes.push({g,path,box:null});
   });
   function initialize(){if(!svg.isConnected)return;
-   nodes.forEach((node,i)=>{node.box=node.path.getBBox();positions[i].x=Math.max(0,Math.min(p.width*1.8-node.box.width,positions[i].x));positions[i].y=Math.max(0,Math.min(p.height*1.8-node.box.height,positions[i].y));paint(i);
+   nodes.forEach(node=>node.box=node.path.getBBox());
+   nodes.forEach((node,i)=>{
+    if(!saved[i]){
+     let best=null;const gap=p.width*.025;
+     for(let attempt=0;attempt<180;attempt++){
+      const candidate={x:p.width*.025+Math.random()*Math.max(0,p.width*1.75-node.box.width),y:p.height*.025+Math.random()*Math.max(0,p.height*1.75-node.box.height)};
+      let overlap=0;nodes.forEach((other,k)=>{if(k===i||(!saved[k]&&k>=i))return;overlap+=Math.max(0,Math.min(candidate.x+node.box.width+gap,positions[k].x+other.box.width+gap)-Math.max(candidate.x,positions[k].x))*Math.max(0,Math.min(candidate.y+node.box.height+gap,positions[k].y+other.box.height+gap)-Math.max(candidate.y,positions[k].y));});
+      if(!best||overlap<best.overlap)best={...candidate,overlap};if(!overlap)break;
+     }
+     positions[i].x=best.x;positions[i].y=best.y;
+    }
+    positions[i].x=Math.max(0,Math.min(p.width*1.8-node.box.width,positions[i].x));positions[i].y=Math.max(0,Math.min(p.height*1.8-node.box.height,positions[i].y));paint(i);
     if(!interactive)return;
     const g=node.g;g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label',`Puzzleteil ${i+1}. Mit den Pfeiltasten verschieben.`);
     g.onpointerdown=e=>{if(e.button!==0||child!==owner())return;e.preventDefault();const v=point(e);selected=i;nodes.forEach(t=>t.g.classList.remove('puzzle-selected'));g.classList.add('puzzle-selected');svg.append(g);drag={i,start:v,members:group(i).map(k=>({k,x:positions[k].x,y:positions[k].y})),moved:false};g.setPointerCapture(e.pointerId);};
