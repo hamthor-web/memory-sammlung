@@ -15,7 +15,7 @@
 .puzzle-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,calc(220px * var(--button-zoom))),1fr));gap:16px;margin:18px 0}
 .puzzle-choice{display:flex;flex-direction:column;gap:12px;text-align:center;align-items:stretch;min-width:0}
 .puzzle-choice .puzzle-picture{height:200px}.puzzle-choice strong,.puzzle-choice span{font-size:inherit}.puzzle-choice:disabled{opacity:1;background:#eee;color:#555}
-.puzzle-choice[aria-pressed=true]{outline:3px solid #24776b}.puzzle-unsolved .puzzle-picture{filter:grayscale(1)}
+.puzzle-choice[aria-pressed=true]{outline:3px solid #24776b}.puzzle-unsolved .puzzle-picture{filter:none}
 #puzzleImageMount{max-width:720px;margin:auto}#puzzleReward{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;align-items:start}
 #puzzleReward h3,#puzzleReward p{flex-basis:100%;margin:8px 0;font-size:calc(1.3rem * var(--button-zoom))}
 #puzzleReward figure{flex:1 1 280px;max-width:560px;min-width:0;margin:0}#puzzleReward figcaption{margin:10px 0;font-size:calc(1.1rem * var(--button-zoom))}
@@ -26,3 +26,12 @@
 .zoom-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;margin:10px 0}.zoom-controls strong{font-size:1.15rem}
 @media(max-width:650px){.puzzle-modes{grid-template-columns:1fr}.puzzle-modes button{flex-direction:row;text-align:left;justify-content:flex-start}.puzzle-modes button span{min-width:1.4em;text-align:center}.puzzle-dialog{padding:14px}#finish{padding:18px}}
 @media(prefers-reduced-motion:reduce){.puzzle-new,#puzzleConfetti i{animation:none}#puzzleConfetti{display:none}}
+/* A plain tabletop: only earned pieces are rendered, with no solution underneath. */
+.puzzle-table{min-width:0;width:100%}.puzzle-board-viewport{width:100%;overflow:auto;background:#f5efe3;border-radius:12px}
+.puzzle-table .puzzle-picture{width:calc(100% * var(--field-zoom,1));max-height:none;background:#f5efe3;border-radius:0;touch-action:pan-y}
+.puzzle-piece{cursor:grab;touch-action:none}.puzzle-piece image{pointer-events:none}.puzzle-piece path{pointer-events:all}
+.puzzle-piece:focus-visible path,.puzzle-selected path{stroke:#135d9b;stroke-width:8}.puzzle-piece:active{cursor:grabbing}
+.puzzle-placement-status,.puzzle-table>p{font-size:calc(1.1rem * var(--button-zoom));line-height:1.45}
+#puzzlePreview{width:min(100%,360px)}#puzzlePreview button{width:100%;margin-top:10px}
+.puzzle-choice .puzzle-table .puzzle-picture{height:auto}.puzzle-table .puzzle-new{animation:none}
+#puzzleReward figure{max-width:880px;flex-basis:560px}#finish{overflow:visible}

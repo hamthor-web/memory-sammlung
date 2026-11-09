@@ -1,7 +1,7 @@
 name: Properties puzzle rewards
 on:
   push:
-    branches: [feat/property-puzzle-rewards]
+    branches: [feat/property-puzzle-rewards, feat/property-puzzle-assembly]
   workflow_dispatch:
 permissions:
   contents: read
@@ -37,9 +37,13 @@ jobs:
           python3 -m http.server 8765 --directory dist --bind 127.0.0.1 > /tmp/puzzles-server.log 2>&1 &
           sleep 2
       - name: Play every reward difficulty, resume and check screens
-        run: node tests/browser-property-puzzles.cjs
+        run: |
+          node tests/browser-property-puzzles.cjs
+          node tests/browser-puzzle-assembly.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: puzzle-screenshots
-          path: /tmp/puzzle-*.png
+          path: |
+            /tmp/puzzle-*.png
+            /tmp/assembly-*.png

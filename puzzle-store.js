@@ -23,7 +23,11 @@
     const receipt={grants,total:grants.reduce((sum,g)=>sum+g.added,0)};s.receipts[run.id]=receipt;return receipt;
    });
   }
-  return {load,count,select,award};
+  function layout(id,puzzle,positions){
+   if(!valid.has(puzzle)||!Array.isArray(positions)||positions.length>6)return false;
+   return transaction(id,s=>{s.layouts=s.layouts||{};s.layouts[puzzle]=positions.map(p=>({x:Number(p.x)||0,y:Number(p.y)||0,placed:p.placed===true}));return true;})===true;
+  }
+  return {load,count,select,award,layout};
  }
  const api={createStore};root.PropertyPuzzleStore=api;if(typeof module!=='undefined')module.exports=api;
 })(globalThis);
