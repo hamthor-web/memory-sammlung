@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de"><head><script src="native-shell.js"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#24776b"><meta name="description" content="Eigenschaften merken und passende Bildkarten finden. Mit drei Schwierigkeitsstufen und lokalen Kinderprofilen. Offline spielbar."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Memory &amp; Lesen"><link rel="apple-touch-icon" href="icon-192.png?v=crown-hero-1"><link rel="icon" href="icon-192.png?v=crown-hero-1" type="image/png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><title>Eigenschaften merken und finden · Memory &amp; Lesen</title><link rel="stylesheet" href="button-schilder.css"><link rel="stylesheet" href="collection-navigation.css"><link rel="stylesheet" href="collection-session.css"><link rel="stylesheet" href="app-info.css"></head>
+<html lang="de"><head><script src="native-shell.js"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#24776b"><meta name="description" content="Eigenschaften merken und passende Bildkarten finden. Mit drei Schwierigkeitsstufen und lokalen Kinderprofilen. Offline spielbar."><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Memory &amp; Lesen"><link rel="apple-touch-icon" href="icon-192.png?v=crown-hero-1"><link rel="icon" href="icon-192.png?v=crown-hero-1" type="image/png"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css"><title>Eigenschaften merken und finden · Memory &amp; Lesen</title><link rel="stylesheet" href="button-schilder.css"><link rel="stylesheet" href="collection-navigation.css"><link rel="stylesheet" href="collection-session.css"><link rel="stylesheet" href="app-info.css"><link rel="stylesheet" href="property-puzzles.css"></head>
 <body><script src="profile-store.js"></script><script src="progress-store.js"></script><script src="collection-session.js"></script><main><header><a href="index.html?menu=1">← Spielmenü</a><span>EIGENSCHAFTEN MERKEN UND FINDEN</span><div class="header-actions"><button id="profileSwitch">Kind wechseln</button><button id="install" hidden>App installieren</button> <button id="reset">Zurück zu den Einstellungen</button></div></header><h1>Eigenschaften merken und finden</h1>
 <div class="button-zoom" role="group" aria-label="Größe der Schrift und Schaltflächen">
   <strong>Schriftgröße</strong>
@@ -28,7 +28,12 @@
     <button type="button" data-value="18">18 Karten</button>
   </div></fieldset>
 </div><div class="native-settings" hidden aria-hidden="true"><label>Schwierigkeit <select id="level" aria-label="Schwierigkeit"><option value="1">1 · Eine Eigenschaft</option><option value="2">2 · Zwei Eigenschaften</option><option value="3">3 · Kombination & Ausschluss</option></select></label><label>Bildkarten <select id="count" aria-label="Bildkarten"><option value="6">6 Karten</option><option value="12">12 Karten</option><option value="18">18 Karten</option></select></label></div><p id="levelHint" class="hint"></p>
-<div class="start-action"><button type="button" id="startGame" class="primary">Spiel starten</button></div>
+<section id="puzzleSetup" aria-labelledby="puzzleSetupTitle"><h2 id="puzzleSetupTitle">Dein Puzzle</h2><div class="puzzle-modes" role="group" aria-label="Puzzle auswählen">
+<button id="puzzleManual" type="button" aria-pressed="false"><span aria-hidden="true">🧩</span>Puzzle selbst wählen</button>
+<button id="puzzleRandom" type="button" aria-pressed="false"><span aria-hidden="true">🎲</span>Zufallspuzzle</button>
+<button id="puzzleResume" type="button" aria-pressed="false" disabled><span aria-hidden="true">🖼</span>Puzzle fertigstellen</button></div>
+<p id="puzzleCurrent" role="status"></p><div id="puzzlePreview"></div><button id="puzzleGallery" type="button">Meine Puzzle ansehen</button></section>
+<p id="puzzleSaveWarning" role="alert" hidden></p><div class="start-action"><button type="button" id="startGame" class="primary">Spiel starten</button></div>
 </section>
 <section id="game" hidden>
 <p class="study-help">Schau dir die Bilder in Ruhe an. Merke dir, wo sie liegen. Tippe ein Bild an, um es groß zu lesen.</p>
@@ -48,9 +53,9 @@
   <button type="button" id="readContinue">Weiter</button>
   <span class="read-arrow" aria-hidden="true">↓</span>
 </div>
-<div id="cards" aria-label="Bildkarten"></div>
+<div id="fieldViewport"><div id="cards" aria-label="Bildkarten"></div></div>
 <div class="ready-row"><button id="ready" class="primary">Ich bin bereit!</button></div></section>
-<section id="finish" hidden><div class="stars" aria-hidden="true">✦ · ✧ · ✦</div><h2>Schön, alles gefunden!</h2><div id="duoFinish" hidden></div><button id="again" class="primary">Noch einmal spielen</button></section>
+<section id="finish" hidden><div class="stars" aria-hidden="true">✦ · ✧ · ✦</div><h2 id="finishTitle">Schön, alles gefunden!</h2><div id="puzzleConfetti" aria-hidden="true"></div><div id="puzzleReward" aria-live="polite"></div><div id="duoFinish" hidden></div><button id="puzzleMenu" type="button" class="primary">Zur Spielauswahl</button><button id="again" class="primary">Noch einmal spielen</button></section>
 <footer><span id="offlineStatus" hidden></span><span id="profileStorageNote" role="status"></span></footer></main>
 <dialog id="successReading" class="success-reading" aria-labelledby="successReadTitle" aria-describedby="successReadHint">
   <div class="success-reading-content">
@@ -68,7 +73,10 @@
 </dialog>
 <div id="reward" hidden role="dialog" aria-modal="true" aria-label="Papierkorb-Animation"><div class="animation-box"><video id="rewardVideo" muted playsinline preload="auto"></video><img id="rewardImage" hidden alt="Eine Karte dreht sich neben dem Papierkorb"><p id="videoStatus" hidden></p><button id="playVideo" hidden>Animation starten</button></div></div>
 <dialog id="profileDialog" class="profile-panel" aria-labelledby="profileHeading" aria-describedby="profileDescription"><h2 id="profileHeading">Wer spielt heute?</h2><p id="profileDescription">Tippe auf deinen Namen. Oder trage deinen Namen neu ein.</p><p id="profileRoundNote" class="hint" hidden>Deine Runde wird für dich gespeichert. Du kannst später weiterspielen.</p><div id="profileList" class="profile-list"></div><p id="profileEmpty" class="hint">Trage deinen Namen ein.</p><form id="profileForm"><label for="profileName">Dein Name</label><input id="profileName" name="name" maxlength="32" autocomplete="off" placeholder="Name des Kindes" required><button type="submit">Los geht’s</button></form><p id="profileError" class="profile-error" role="alert"></p><button id="profileClose" type="button" hidden>Zurück zum Spiel</button></dialog>
-<script src="cards.js"></script><script src="engine.js"></script><script src="app.js"></script><script src="profiles.js"></script>
+<div class="zoom-controls" role="group" aria-label="Spielfeldgröße"><strong>Spielfeldgröße</strong><button id="fieldZoomOut" type="button" aria-label="Spielfeld verkleinern">−</button><button id="fieldZoomValue" type="button">100 %</button><button id="fieldZoomIn" type="button" aria-label="Spielfeld vergrößern">+</button></div>
+<dialog id="puzzleDialog" class="puzzle-dialog" aria-labelledby="puzzleDialogTitle"><h2 id="puzzleDialogTitle"></h2><p id="puzzleDialogHint"></p><div id="puzzleChoices" class="puzzle-choices"></div><button id="puzzleDialogClose" type="button">Zurück zur Spielauswahl</button></dialog>
+<dialog id="puzzleImageDialog" class="puzzle-dialog" aria-labelledby="puzzleImageTitle"><h2 id="puzzleImageTitle"></h2><div id="puzzleImageMount"></div><button id="puzzleImageClose" type="button">Zurück zu meinen Puzzles</button></dialog>
+<script src="puzzle-data.js"></script><script src="puzzle-store.js"></script><script src="cards.js"></script><script src="engine.js"></script><script src="app.js"></script><script src="profiles.js"></script><script src="property-puzzles.js"></script>
 <script>
 (function(){
   let zoom=1;

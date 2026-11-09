@@ -1,6 +1,7 @@
 'use strict';
 const $=id=>document.getElementById(id),E=MemoryEngine,pool=MEMORY_CARDS;
 const animations=['Drehende_Karte_12Bilder_3s_weiss.webp','02_drehen_weiss.mp4','03_zwinkern.mp4','04_ausrutschen.mp4'];
+let puzzleRun=null;
 let duo=false,turn=0,points=[0,0],names=['Spieler 1','Spieler 2'];
 function showDuo(){
  const score=$('duoScore');score.hidden=!duo||stage==='finish';
@@ -45,6 +46,8 @@ for(const [control,group] of [['level','levelButtons'],['count','countButtons']]
 }
 function reset(){
  document.body.classList.add('start-layout');
+ puzzleRun=null;
+ $('puzzleReward').replaceChildren();$('puzzleConfetti').replaceChildren();$('finishTitle').textContent='Schön, alles gefunden!';$('puzzleMenu').hidden=duo;$('again').hidden=false;
  turn=0;points=[0,0];
  names=[$('duoName0').value.trim()||'Spieler 1',$('duoName1').value.trim()||'Spieler 2'];
  $('duoFinish').hidden=true;
@@ -57,6 +60,7 @@ function reset(){
  field=E.selectRound(pool,wanted,level);found=new Set();used=new Set();history=new Set();question=null;wrongId=null;correctId=null;totalQuestions=field.length+2;stage='study';
  $('levelHint').textContent=level===1?'Suche ein Bild mit einer passenden Eigenschaft.':level===2?'Suche ein Bild, zu dem beide Hinweise passen.':'Lies alle Hinweise. Achte auch auf „nicht“. Hier kannst du 6 oder 12 Bilder wählen.';
  $('message').textContent='Schau dir die Bilder an. Du hast so viel Zeit, wie du möchtest.';syncBigSettings();render();showDuo();
+ window.PropertyPuzzles?.refresh();
 }
 function previewCard(c){
  if(stage!=='study')return;
@@ -127,14 +131,15 @@ function answer(c){
 function playReward(token){
  stage='reward';question=null;render();const finalJubel=found.size===field.length;const choices=animations.map((_,i)=>i).filter(i=>i!==lastAnimation),index=choices[Math.floor(Math.random()*choices.length)];if(!finalJubel)lastAnimation=index;const animationFile=finalJubel?'Fuehlmemory_Wuerstchen_Jubelanimation.mp4':animations[index];const video=$('rewardVideo'),image=$('rewardImage'),isImage=animationFile.endsWith('.webp');$('reward').hidden=false;$('playVideo').hidden=true;$('videoStatus').hidden=true;video.hidden=isImage;image.hidden=!isImage;let complete=false;
  function done(){if(complete||token!==epoch)return;complete=true;correctId=null;clearTimeout(rewardTimer);video.pause();video.onended=null;video.onerror=null;image.onload=null;image.onerror=null;image.removeAttribute('src');image.hidden=true;$('reward').hidden=true;if(found.size===field.length){
- stage='finish';$('finish').hidden=false;$('message').textContent='';
+ stage='finish';$('game').hidden=true;$('finish').hidden=false;$('message').textContent='';
  if(duo){
   $('duoFinish').hidden=false;
   $('duoFinish').textContent=names[0]+': '+points[0]+' Karten · '+names[1]+': '+points[1]+' Karten · '+(points[0]===points[1]?'Unentschieden!':names[points[0]>points[1]?0:1]+' hat die meisten Karten gefunden.');
- }else $('duoFinish').hidden=true;
+ }else {$('duoFinish').hidden=true;if(window.PropertyPuzzles?.complete(puzzleRun)&&puzzleRun)puzzleRun.rewardSaved=true;$('again').hidden=true;}
+ $('puzzleMenu').hidden=duo;
 }else{
  stage='choose';$('message').textContent=duo?'Richtig! '+names[turn]+' darf noch einmal.':'Wähle deine nächste Fragekarte.';
-}render();if(stage==='finish')$('again').focus();}
+}render();if(stage==='finish')(duo?$('again'):$('puzzleMenu')).focus();}
  if(isImage){image.onload=()=>{if(token===epoch)rewardTimer=setTimeout(done,3000);};image.onerror=()=>{if(token!==epoch)return;$('videoStatus').textContent='Die Animation konnte nicht geladen werden.';$('videoStatus').hidden=false;rewardTimer=setTimeout(done,1200);};image.src='assets/animations/'+animations[index]+'?round='+token+'-'+found.size;return;}
  video.src='assets/animations/'+animationFile;video.currentTime=0;
  video.onended=done;video.onerror=()=>{if(token!==epoch)return;$('videoStatus').textContent='Die Animation konnte nicht geladen werden.';$('videoStatus').hidden=false;rewardTimer=setTimeout(done,1200);};
@@ -143,6 +148,7 @@ function playReward(token){
 $('startGame').onclick=()=>{
  if(!$('game').hidden)return;
  names=[$('duoName0').value.trim()||'Spieler 1',$('duoName1').value.trim()||'Spieler 2'];
+ puzzleRun=window.PropertyPuzzles?.begin()||null;
  document.body.classList.remove('start-layout');
  $('start').hidden=true;
  $('game').hidden=false;
@@ -164,18 +170,18 @@ reset();
 
 function openHandoff(){CollectionSession.handoff('Jetzt ist '+names[turn]+' dran.',()=>{stage='answer';$('message').textContent='Welche Bildkarte passt zur Frage?';render();});}
 function roundSnapshot(){
- if($('game').hidden||stage==='finish')return null;
+ if($('game').hidden&&stage!=='finish')return null;
  let savedStage=stage;
  if(stage==='success'||stage==='reward')savedStage=found.size===field.length?'finish':'choose';
 
- return {field:field.map(c=>c.id),found:[...found],used:[...used],history:[...history],question:savedStage==='choose'?null:question,stage:savedStage,level,count:field.length,duo,turn,points,names,wrongId,correctId:null,totalQuestions};
+ return {puzzleRun,field:field.map(c=>c.id),found:[...found],used:[...used],history:[...history],question:savedStage==='choose'?null:question,stage:savedStage,level,count:field.length,duo,turn,points,names,wrongId,correctId:null,totalQuestions};
 }
-function checkpoint(){if(typeof CollectionSession==='undefined')return;if(stage==='finish'){CollectionSession.clear('eigenschaften');return;}const state=roundSnapshot();if(state)CollectionSession.save('eigenschaften',state);}
+function checkpoint(){if(typeof CollectionSession==='undefined')return;if(stage==='finish'&&(duo||!puzzleRun||puzzleRun.rewardSaved)){CollectionSession.clear('eigenschaften');return;}const state=roundSnapshot();if(state)CollectionSession.save('eigenschaften',state);}
 function restoreRound(state){
  if(!Array.isArray(state.field)||!state.field.length||state.field.some(id=>!pool.some(c=>c.id===id)))throw Error('Ungültige Runde');
- reset();field=state.field.map(id=>pool.find(c=>c.id===id));found=new Set(state.found);used=new Set(state.used);history=new Set(state.history);question=state.question;stage=state.stage;level=state.level;duo=state.duo;turn=state.turn;points=state.points;names=state.names;wrongId=state.wrongId;totalQuestions=state.totalQuestions;
+ reset();puzzleRun=state.puzzleRun||null;field=state.field.map(id=>pool.find(c=>c.id===id));found=new Set(state.found);used=new Set(state.used);history=new Set(state.history);question=state.question;stage=state.stage;level=state.level;duo=state.duo;turn=state.turn;points=state.points;names=state.names;wrongId=state.wrongId;totalQuestions=state.totalQuestions;
  $('level').value=String(level);$('count').value=String(state.count);$('duoName0').value=names[0];$('duoName1').value=names[1];$('modeSolo').setAttribute('aria-pressed',String(!duo));$('modeTwo').setAttribute('aria-pressed',String(duo));
- document.body.classList.remove('start-layout');$('start').hidden=true;$('game').hidden=false;$('message').textContent='Deine Runde geht weiter.';$('cards').replaceChildren();render();if(stage==='finish'){$('game').hidden=true;$('finish').hidden=false;$('duoFinish').hidden=!duo;$('duoFinish').textContent=names[0]+': '+points[0]+' Karten · '+names[1]+': '+points[1]+' Karten · '+(points[0]===points[1]?'Unentschieden!':names[points[0]>points[1]?0:1]+' hat die meisten Karten gefunden.');}if(stage==='handoff')openHandoff();
+ document.body.classList.remove('start-layout');$('start').hidden=true;$('game').hidden=false;$('message').textContent='Deine Runde geht weiter.';$('cards').replaceChildren();render();if(stage==='finish'){if(!duo){if(window.PropertyPuzzles?.complete(puzzleRun)&&puzzleRun)puzzleRun.rewardSaved=true;$('again').hidden=true;}$('puzzleMenu').hidden=duo;$('game').hidden=true;$('finish').hidden=false;$('duoFinish').hidden=!duo;$('duoFinish').textContent=names[0]+': '+points[0]+' Karten · '+names[1]+': '+points[1]+' Karten · '+(points[0]===points[1]?'Unentschieden!':names[points[0]>points[1]?0:1]+' hat die meisten Karten gefunden.');}if(stage==='finish')checkpoint();if(stage==='handoff')openHandoff();
 }
 $('wrongContinue').onclick=()=>{const card=field.find(c=>c.id===wrongId);if(card)answer(card);};
 CollectionSession.track('eigenschaften',roundSnapshot);
