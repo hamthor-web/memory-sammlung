@@ -53,3 +53,17 @@ Eigenschaften-Memory / Fühlmemory: Puzzle-Motivation für Einzelspieler eingeba
 Knurpsel-Ergänzung: Code `eb61e46f5f9e5551138a7a6d0a151686a7fb1119`, Offline-Fingerprint `v74-96055de56337dddc`. Logik-, Sicherungs- und Offlineprüfungen bestanden. Bestandener gezielter Browserlauf inklusive acht Motiven und Knurpsel nach drei bzw. sechs Teilen: https://github.com/hamthor-web/memory-sammlung/actions/runs/42611319896.
 
 Auch der vollständige Sammlungstest mit allen acht Motiven ist bestanden: https://github.com/hamthor-web/memory-sammlung/actions/runs/42611319847. Der erste Knurpsel-Deploy blieb im Veröffentlichungsschritt stehen; ein erneuter Veröffentlichungslauf wird durch diesen Dokumentationsnachtrag angestoßen. Vorhandene Online- und Offline-Fortschritte werden dabei nicht verändert.
+
+## Verbindliche Korrektur 09.11.2026 – Kind setzt das Puzzle selbst zusammen
+
+Heike bestätigt nach Ankunft der Bilder: Die leere Puzzlefläche bleibt vollständig leer. Es gibt dort weder ein graues Vorlagenbild noch Konturen, Raster, Schatten der fehlenden Teile oder andere Zielmarkierungen. Verdiente Originalteile erscheinen ungeordnet auf der Fläche. Das Kind setzt das Puzzle selbst zusammen. Diese Entscheidung ersetzt ausdrücklich die oben beschriebene automatische Platzierung über einer grauen Vorlage und die frühere Einschränkung „kein Drag-and-drop“.
+
+Umgesetzt: Freies Verschieben mit Maus oder Finger; alternativ Teil antippen und anschließend gewünschte Stelle antippen sowie Pfeiltastenbedienung. Passende Nachbarteile rasten an beliebiger Stelle des Tisches zusammen; verbundene Teile werden gemeinsam verschoben. Die Originalkonturen und die Proportionen aller acht Motive bleiben erhalten. Noch nicht verdiente Teile werden überhaupt nicht gezeichnet. Erst sechs tatsächlich verbundene Teile ergeben ein fertiges Bild; sechs gesammelte Teile allein gelten nicht als zusammengesetzt.
+
+Der Legestand einschließlich frei liegender Teile wird pro Kinderprofil in `propertyPuzzles.layouts` gesichert und über die vorhandene Profil-Sicherung mitgenommen. Bereits verdiente Teile und Vergabebelege bleiben erhalten. Bestehende vollständig gesammelte Bilder können erstmals selbst zusammengesetzt werden. Die Regeln für 1/2/3 neue Teile je abgeschlossener Einzelspielrunde, Abbruch und Zweispielermodus bleiben bestehen.
+
+Nach dem Rundenabschluss ist das Puzzle direkt bedienbar. Im Menü führt „Puzzle zusammensetzen“ zum großen Tisch; „Puzzle fertigstellen“ schließt auch Bilder mit sechs gesammelten, aber noch nicht zusammengesetzten Teilen ein. Die Galerie öffnet alle Motive mit vorhandenen Teilen. Puzzlegröße und Schriftgröße bleiben getrennt. Vergrößerte Tische sind im eigenen Bereich scrollbar.
+
+### Masterübersicht – neuer maßgeblicher Eintrag
+
+Eigenschaften-Memory: Puzzle-Belohnung mit acht Motiven à sechs Teilen. **Jetzt selbst zusammensetzbares Puzzle mit ungeordneten Originalteilen auf leerer Fläche ohne Vorlage oder Zielkonturen.** Freie Kantenverbindungen, gemeinsam verschiebbare Teilgruppen, gespeicherter Legestand je Kind, eigene Puzzlegrößenregelung. Belohnungsregeln und frühere Fortschritte bleiben erhalten. Prüfung und Veröffentlichung: siehe abschließender Prüfnachtrag dieses Abschnitts.
