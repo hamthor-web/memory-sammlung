@@ -33,3 +33,15 @@ console.log('PASS 1/2/3 pieces, aborted/duo exclusions, profile isolation, idemp
  const previous=JSON.stringify(imported.load(anna));imported.award(anna,run('r3',3));assert.equal(JSON.stringify(imported.load(anna)),previous);
  console.log('PASS puzzle progress and award receipts survive the existing additive backup restore');
 })().catch(e=>{console.error(e);process.exit(1);});
+
+{
+ const memory=new Map(),storage={getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)},store=createStore(storage,['a']);
+ store.award('anna',{id:'round',puzzle:'a',level:3,complete:true});
+ assert.equal(store.layout('anna','a',[{x:100,y:90,placed:false},{x:200,y:90,placed:true}]),true);
+ assert.equal(store.load('anna').layouts.a[1].x,200);
+ assert.equal(store.load('anna').pieces.a,3);
+ assert.equal(store.load('ben').layouts,undefined);
+ assert.equal(store.layout('anna','invalid',[]),false);
+ assert.equal(store.load('anna').receipts.round.total,3);
+ console.log('PASS puzzle layout persistence, child isolation, and retained awards');
+}

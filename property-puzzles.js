@@ -17,12 +17,13 @@
   const wrap=document.createElement('div');wrap.className='puzzle-table';
   const svg=el('svg',{viewBox:`0 0 ${p.width*1.8} ${p.height*1.8}`,role:'group','aria-label':`${p.title}: ${n} von 6 Teilen gesammelt`});svg.classList.add('puzzle-picture');const viewport=document.createElement('div');viewport.className='puzzle-board-viewport';viewport.append(svg);wrap.append(viewport);
   const defs=el('defs');svg.append(defs);
-  const saved=state().layouts?.[id]||[],slots=[[.05,.05],[1.13,.12],[.1,1.3],[1.08,1.28],[.65,.03],[.65,1.35]].sort(()=>Math.random()-.5);
+  const saved=state().layouts?.[id]||[],slots=[[.05,.05],[1.13,.12],[.1,1.3],[1.08,1.28],[.65,.03],[.65,1.35]];
+  for(let i=slots.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[slots[i],slots[j]]=[slots[j],slots[i]];}
   const positions=Array.from({length:n},(_,i)=>saved[i]?{...saved[i]}:{x:slots[i][0]*p.width,y:slots[i][1]*p.height,placed:false});
   const status=document.createElement('p');status.className='puzzle-placement-status';status.setAttribute('role','status');
   function announce(){const placed=positions.filter(q=>q.placed).length;status.textContent=placed===6?'Dein Bild ist fertig!':`${placed} von ${n} gesammelten Teilen gelegt.`;}
   function save(){if(child!==owner())return;store.layout(child,id,positions);announce();}
-  if(interactive){const hint=document.createElement('p');hint.textContent='Schiebe die Teile zusammen. Du kannst ein Teil auch antippen und danach auf die gewünschte Stelle tippen.';wrap.prepend(hint);wrap.append(status);announce();}
+  if(interactive){const hint=document.createElement('p');hint.textContent='Schiebe die Teile zusammen. Du kannst ein Teil auch antippen und danach auf die gewünschte Stelle tippen.';wrap.prepend(hint);const controls=document.createElement('div');controls.className='zoom-controls';const label=document.createElement('strong');label.textContent='Spielfeldgröße';controls.append(label);for(const [text,delta]of [['−',-.1],['+',.1]]){const b=document.createElement('button');b.type='button';b.textContent=text;b.setAttribute('aria-label',delta<0?'Puzzle verkleinern':'Puzzle vergrößern');b.onclick=()=>zoom(size+delta);controls.append(b);}wrap.prepend(controls);wrap.append(status);announce();}
   let selected=null,drag=null;
   const nodes=[];
   const neighbors=(i,j)=>Math.abs(i-j)===2||(Math.floor(i/2)===Math.floor(j/2)&&Math.abs(i-j)===1);
@@ -87,8 +88,7 @@
   if(!$('puzzleDialog').open)$('puzzleDialog').showModal();
   $('puzzleDialog').scrollTop=0;$('puzzleDialogTitle').tabIndex=-1;$('puzzleDialogTitle').focus({preventScroll:true});
  }
- function openImage(id){$('puzzleImageTitle').textContent=byId(id).title;$('puzzleImageMount').replaceChildren(picture(id,6));$('puzzleImageDialog').showModal();}
- function begin(){
+  function begin(){
   if(duo||!owner())return null;const s=state();let id=s.selected;
   if(mode==='random'||!byId(id)||count(s,id)>=6)id=random(s);
   if(!store.select(owner(),id))return null;refresh();
@@ -109,7 +109,7 @@
  $('puzzleManual').onclick=()=>{mode='choose';refresh();open('choose');};
  $('puzzleRandom').onclick=()=>{if(!owner())return;const id=random(state());if(store.select(owner(),id)){mode='random';refresh();}};
  $('puzzleResume').onclick=()=>{mode='resume';refresh();open('resume');};
- $('puzzleGallery').onclick=()=>open('gallery');$('puzzleDialogClose').onclick=()=>$('puzzleDialog').close();$('puzzleImageClose').onclick=()=>$('puzzleImageDialog').close();
+ $('puzzleGallery').onclick=()=>open('gallery');$('puzzleDialogClose').onclick=()=>$('puzzleDialog').close();$('puzzleImageClose').onclick=()=>{$('puzzleImageDialog').close();refresh();if($('puzzleDialog').open)open(view);};
  $('puzzleMenu').onclick=()=>{reset();window.scrollTo({top:0,behavior:'instant'});};
  let size=1;function zoom(v){size=Math.min(2,Math.max(.8,Math.round(v*10)/10));document.documentElement.style.setProperty('--field-zoom',size);$('fieldZoomValue').textContent=Math.round(size*100)+' %';}
  $('fieldZoomOut').onclick=()=>zoom(size-.1);$('fieldZoomIn').onclick=()=>zoom(size+.1);$('fieldZoomValue').onclick=()=>zoom(1);
