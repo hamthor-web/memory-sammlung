@@ -25,7 +25,7 @@ updateButton.onclick=async()=>{
  if(updating)return;
  if(!window.CollectionOffline){status('Offline-Dienst noch nicht bereit. Bitte kurz warten.');return;}
  updating=true;updateButton.disabled=true;
- try{await CollectionOffline.checkForUpdate();}finally{updating=false;updateButton.disabled=false;}
+ let timer;try{await Promise.race([CollectionOffline.checkForUpdate(),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('timeout')),15000);})]);}catch{status('Die Aktualisierung antwortet nicht. Öffne „Aktualisierung erneut starten“.');}finally{clearTimeout(timer);updating=false;updateButton.disabled=false;}
 };
 
 // Management is reachable without mixing system actions into game choices.
@@ -33,3 +33,4 @@ let management=document.getElementById('appManagement');
 if(!management){management=document.createElement('dialog');management.id='appManagement';management.setAttribute('aria-labelledby','managementTitle');const title=document.createElement('h2');title.id='managementTitle';title.textContent='App verwalten';management.append(title);const actions=document.querySelector('.profile-system-actions');if(actions){actions.querySelector('h3')?.remove();management.append(actions);}const close=document.createElement('button');close.type='button';close.textContent='Schließen';close.onclick=()=>management.close();management.append(close);document.body.append(management);}
 let manageButton=document.getElementById('manageApp');if(!manageButton){manageButton=document.createElement('button');manageButton.id='manageApp';manageButton.type='button';manageButton.textContent='App verwalten';document.querySelector('header').append(manageButton);}manageButton.onclick=()=>management.showModal();
 const manageFromLogin=document.createElement('button');manageFromLogin.id='manageAppFromLogin';manageFromLogin.type='button';manageFromLogin.textContent='App verwalten';manageFromLogin.onclick=()=>management.showModal();dialog.append(manageFromLogin);
+const retryLink=document.createElement('a');retryLink.href='aktualisieren.html';retryLink.textContent='Aktualisierung erneut starten';management.append(retryLink);

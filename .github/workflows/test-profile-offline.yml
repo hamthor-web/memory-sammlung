@@ -53,6 +53,8 @@ jobs:
         run: |
           python3 -m http.server 8765 --directory dist --bind 127.0.0.1 > /tmp/memory-profile-server.log 2>&1 &
           sleep 2
+      - name: Recover an interrupted update without losing local profiles
+        run: node tests/browser-update-recovery.cjs
       - name: Check all menu transitions
         run: node tests/browser-memory-four-games.cjs
       - name: Check consistent mobile navigation and reading windows

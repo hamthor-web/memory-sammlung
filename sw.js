@@ -6,9 +6,17 @@ const CACHE=PREFIX+VERSION;
 const files=self.OFFLINE_FILES;
 const aliases=self.OFFLINE_ALIASES||{};
 self.addEventListener('install',event=>event.waitUntil((async()=>{
- const cache=await caches.open(CACHE);let cursor=0;
- try{await Promise.all(Array.from({length:4},async()=>{while(cursor<files.length){const file=files[cursor++];const request=new Request(new URL(file,self.registration.scope),{cache:'reload'});const response=await fetch(request);if(!response.ok)throw Error('Offline-Datei fehlt: '+file);await cache.put(request,response);}}));}
- catch(error){await caches.delete(CACHE);throw error;}
+ const cache=await caches.open(CACHE);let cursor=0,completed=0;
+ const report=async()=>{for(const client of await self.clients.matchAll({includeUncontrolled:true}))client.postMessage({type:'COLLECTION_DOWNLOAD',completed,total:files.length});};
+ await Promise.all(Array.from({length:4},async()=>{while(cursor<files.length){const file=files[cursor++];const request=new Request(new URL(file,self.registration.scope),{cache:'reload'});
+ // A fingerprint identifies one complete release. Resume only its own files.
+ if(!await cache.match(request)){
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),45000);
+  try{const response=await fetch(request,{signal:controller.signal});if(!response.ok)throw Error('Offline-Datei fehlt: '+file);await cache.put(request,response);}finally{clearTimeout(timer);}
+ }
+ completed++;if(completed%10===0||completed===files.length)await report();
+ }}));
+ // Keep partial downloads for retry; the previous release remains active.
  // No skipWaiting: an existing game must not receive new files mid-round.
 })()));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{

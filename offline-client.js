@@ -19,6 +19,7 @@
   reg.active?.postMessage('CLAIM_COLLECTION');observe(reg.installing);reg.addEventListener('updatefound',()=>observe(reg.installing));
   await verify();if(reg.waiting)note('Eine neue Version ist bereit. Tippe auf „Auf Aktualisierung prüfen“.');return reg;
  }).catch(()=>{status('Offline-Paket konnte nicht geladen werden. Bitte Internetverbindung prüfen.');return null;});
- navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloading){CollectionSession?.flush();location.reload();}else verify();});
+ navigator.serviceWorker.addEventListener('message',event=>{if(event.data?.type==='COLLECTION_DOWNLOAD')note('Aktualisierung: '+event.data.completed+' von '+event.data.total+' Dateien geladen.');});
+ navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloading){window.CollectionSession?.flush();location.reload();}else verify();});
  window.CollectionOffline={ready,verify,async checkForUpdate(){const reg=await ready;if(!reg){note('Aktualisierung nicht möglich. Bitte Internetverbindung prüfen.');return;}activateRequested=true;try{if(reg.waiting){activate();return;}await reg.update();if(reg.waiting)activate();else if(reg.installing)note('Die neue Version wird vollständig geladen. Bitte warten …');else note('Du verwendest die aktuelle Version.');}catch{activateRequested=false;note('Aktualisierung nicht möglich. Die bisherige Version bleibt erhalten.');}}};
 })();

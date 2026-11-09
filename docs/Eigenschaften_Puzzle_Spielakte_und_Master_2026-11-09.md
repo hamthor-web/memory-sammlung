@@ -79,3 +79,12 @@ Vollständiger Sammlungstest des identischen Produktionsstands bestanden: https:
 Die Startpositionen werden nun frei über den gesamten Tisch ausgelost, mit möglichst wenig Überdeckung; es gibt keine festen Ablagereihen. Gespeicherte Teile bleiben an ihrer bisherigen Stelle. Jeder Puzzletisch öffnet oben bei Titel und Größenreglern. Beim Ziehen eines Teils wird die Berührung von der normalen Seiten-Scrollbewegung getrennt, damit vertikale Fingerbewegungen das Ziehen nicht abbrechen.
 
 Auch dieser letzte Produktionsstand wurde im gezielten Browserlauf vollständig bestanden: https://github.com/hamthor-web/memory-sammlung/actions/runs/42642661329, Code `35f26948ea2d502269d3653eeae9e547f468221c`, Offline-Fingerprint `v74-b536726f73a417e7`. Die oben genannten Prüfungen für leere Fläche, Originalteile, Maus/Finger, gespeicherten Legestand, Fertigmeldung, vier Formate und beide Zooms sind dabei erneut bestanden. Spielakte und Masterstatus gelten mit diesen Nachbesserungen. Der Veröffentlichungsauftrag wird über die Hauptversion ausgeführt; GitHub Pages war beim letzten Abruf noch in Bearbeitung.
+
+
+## Aktualisierungsabbruch – 09.11.2026
+
+Heike meldet: Aktualisierung wegen langer Ladezeit abgebrochen; erneute Aktualisierung nicht abrufbar, neuer Puzzle-Stand fehlt auf ihrem Gerät. Die öffentliche Seite enthält bereits den Puzzle-Stand; der lokale Offline-Stand ist damit nicht gleichzusetzen.
+
+Ergänzt: eigenständige Seite `aktualisieren.html`, erreichbar über direkten Link und künftig über „App verwalten“. Sie fordert eine neue Installation an, zeigt die geladenen Dateien, bietet bei Fehler oder ausbleibendem Fortschritt erneut einen aktiven Versuch und öffnet nach vollständiger Installation die Spielauswahl. Keine Löschung von Kinderprofilen, Spielständen oder Sicherungen. Der alte aktive Stand bleibt bis zur vollständigen Installation bestehen. Teilweise geladene Dateien derselben per Fingerprint bezeichneten Version werden beim erneuten Versuch weiterverwendet; jede Datei besitzt eine Zeitgrenze. Der normale Aktualisierungsbutton wird nach spätestens 15 Sekunden wieder bedienbar.
+
+Masterstatus: Puzzle-Funktion bereits veröffentlicht; Wiederherstellung abgebrochener Offline-Aktualisierungen ergänzt. Lokale Logikprüfung für abgebrochenen Download, Wiederaufnahme nur der fehlenden Datei und Erhalt der aktiven Version bestanden. Produktionspaketprüfung bestanden. Browserprüfung wird über den Repository-Prüflauf ausgeführt. Abnahme auf Heikes betroffenem Gerät offen.
