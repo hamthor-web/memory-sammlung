@@ -17,11 +17,14 @@
   const wrap=document.createElement('div');wrap.className='puzzle-table';
   const svg=el('svg',{viewBox:`0 0 ${p.width*1.8} ${p.height*1.8}`,role:'group','aria-label':`${p.title}: ${n} von 6 Teilen gesammelt`});svg.classList.add('puzzle-picture');const viewport=document.createElement('div');viewport.className='puzzle-board-viewport';viewport.append(svg);wrap.append(viewport);
   const defs=el('defs');svg.append(defs);
-  const saved=state().layouts?.[id]||[];
+  const current=state(),saved=(current.layouts?.[id]||[]).map((q,i)=>{
+   const offset=(current.layoutVersions?.[id]||1)<(p.layoutVersion||1)?p.layoutOffsets?.[i]:null;
+   return offset?{...q,x:q.x+offset.x,y:q.y+offset.y}:{...q};
+  });
   const positions=Array.from({length:n},(_,i)=>saved[i]?{...saved[i]}:{x:0,y:0,placed:false});
   const status=document.createElement('p');status.className='puzzle-placement-status';status.setAttribute('role','status');
   function announce(){const placed=positions.filter(q=>q.placed).length;status.textContent=placed===6?'Dein Bild ist fertig!':`${placed} von ${n} gesammelten Teilen gelegt.`;}
-  function save(){if(child!==owner())return;store.layout(child,id,positions);announce();}
+  function save(){if(child!==owner())return;store.layout(child,id,positions,p.layoutVersion||1);announce();}
   if(interactive){const hint=document.createElement('p');hint.textContent='Schiebe die Teile zusammen. Du kannst ein Teil auch antippen und danach auf die gewünschte Stelle tippen.';wrap.prepend(hint);const controls=document.createElement('div');controls.className='zoom-controls';const label=document.createElement('strong');label.textContent='Spielfeldgröße';controls.append(label);for(const [text,delta]of [['−',-.1],['+',.1]]){const b=document.createElement('button');b.type='button';b.textContent=text;b.setAttribute('aria-label',delta<0?'Puzzle verkleinern':'Puzzle vergrößern');b.onclick=()=>zoom(size+delta);controls.append(b);}wrap.prepend(controls);wrap.append(status);announce();}
   let selected=null,drag=null;
   const nodes=[];

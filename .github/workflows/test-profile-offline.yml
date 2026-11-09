@@ -45,6 +45,7 @@ jobs:
           node tests/profile-store.cjs
           node tests/reward-history.cjs
           node tests/service-worker-update.cjs
+          node tests/puzzle-cut-coverage.cjs
       - name: Require the checked-in offline manifest to match the application
         run: |
           node scripts/build-offline.cjs
@@ -55,6 +56,10 @@ jobs:
           sleep 2
       - name: Recover an interrupted update without losing local profiles
         run: node tests/browser-update-recovery.cjs
+      - name: Check existing puzzle layouts after cut correction
+        run: |
+          node tests/browser-knurpsel-migration.cjs
+          node tests/browser-puzzle-assembly.cjs
       - name: Check all menu transitions
         run: node tests/browser-memory-four-games.cjs
       - name: Check consistent mobile navigation and reading windows

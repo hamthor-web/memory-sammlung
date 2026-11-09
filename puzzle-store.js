@@ -23,9 +23,9 @@
     const receipt={grants,total:grants.reduce((sum,g)=>sum+g.added,0)};s.receipts[run.id]=receipt;return receipt;
    });
   }
-  function layout(id,puzzle,positions){
+  function layout(id,puzzle,positions,revision=1){
    if(!valid.has(puzzle)||!Array.isArray(positions)||positions.length>6)return false;
-   return transaction(id,s=>{s.layouts=s.layouts||{};s.layouts[puzzle]=positions.map(p=>({x:Number(p.x)||0,y:Number(p.y)||0,placed:p.placed===true}));return true;})===true;
+   return transaction(id,s=>{s.layouts=s.layouts||{};s.layouts[puzzle]=positions.map(p=>({x:Number(p.x)||0,y:Number(p.y)||0,placed:p.placed===true}));s.layoutVersions=s.layoutVersions||{};s.layoutVersions[puzzle]=revision;return true;})===true;
   }
   return {load,count,select,award,layout};
  }

@@ -99,3 +99,14 @@ Neue technische Fassung: Für jede Produktionsdatei wird eine SHA-256-Prüfsumme
 Neue Reparaturadresse `aktualisierung-retten.html`, sichtbar bezeichnet als „Aktualisierung retten · Version 2“: eigener Dateizähler, verstrichene Sekunden und erneuter Versuch nach 45 Sekunden ohne Fortschritt. Der bisherige Reparaturpfad erhält ebenfalls diese Fassung; der neue Pfad vermeidet eine zwischengespeicherte alte Reparaturseite. Auch die Aktivierungsphase besitzt jetzt eine Zeitgrenze für eine bedienbare Rückmeldung.
 
 Masterstatus: Wiederverwendung unveränderter Dateien über Versionswechsel ergänzt. Lokale Prüfungen bestätigen Wiederaufnahme, Übernahme identischer Altdaten, Neuladen geänderter Dateien und vollständige Offline-Dateiliste. Gezielte Browserprüfung bestanden: Abbruch und erneuter Versuch, neue Version mit vorhandener Altversion, keine erneuten Bild-/Videoanforderungen durch den Service Worker, vier Formate und Erhalt lokaler Testdaten. Prüflauf: https://github.com/hamthor-web/memory-sammlung/actions/runs/42662437520. Rückmeldung von Heikes betroffenem Gerät bleibt offen.
+
+
+## Knurpsel-Schnittkorrektur – 09.11.2026
+
+Heikes Bildschirmfoto zeigt zwei breite Lücken im zusammengesetzten Knurpsel. Prüfung aller acht Motive: Knurpsels Bézierpfade enthielten falsch zugeordnete Kurvenstücke, die Lücken und Überlappungen verursachten. Die sieben anderen Schnittsätze decken ihre vollständigen Bildflächen ohne solche Fehler ab.
+
+Korrigiert sind ausschließlich die fehlerhaften Knurpsel-Schnittkanten. Jedes innere Kantenstück wird nun von beiden Nachbarteilen exakt in umgekehrter Richtung verwendet. Die Bildvorlagen, Motiv-IDs und sechs verdienten Teile bleiben erhalten. Eine einmalige Versionsanpassung des gespeicherten unteren linken Knurpselteils erhält dessen Position im bestehenden verbundenen Bild; gespeicherte Legestände werden weder gelöscht noch zurückgesetzt.
+
+Prüfung: Alle acht Motive wurden zusammengelegt und visuell gesichtet. Unabhängige Rasterprüfung bei 768 Pixel Breite bestätigt bei allen Motiven null Lücken und null flächige Überlappungen; die Bilddateimaße stimmen mit den Schnittflächen überein. Beim bunten Schmetterling ist ein Schachbrettmuster Bestandteil der bestehenden Bildvorlage; die Vorlage wurde nicht verändert.
+
+Masterstatus: Knurpsel-Schnittfehler korrigiert, übrige sieben Schnittsätze geprüft. Geometrieprüfung bestanden; Browserprüfung für bestehende Legestände, Neuladen und Maus-/Touch-Zusammensetzen sowie Veröffentlichung werden im zugehörigen Repository-Prüflauf geprüft. Abnahme auf Heikes Gerät bleibt offen.
