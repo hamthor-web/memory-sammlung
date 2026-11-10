@@ -1,6 +1,6 @@
 # Android-Testversion
 
-Die Test-App heißt „Memory-Sammlung – Test“ und verwendet `de.heikeamthor.lesespiele.test`. Die spätere Store-Fassung hat eine eigene Kennung (`de.heikeamthor.lesespiele`). Beide können nebeneinander installiert werden; ihre Daten werden nicht automatisch geteilt. Fortschritte lassen sich über die Sicherungsdatei übertragen.
+Die Test-App heißt „memoriesammlung – Test“ und verwendet `de.heikeamthor.memoriesammlung.test`. Die spätere Store-Fassung hat eine eigene Kennung (`de.heikeamthor.memoriesammlung`). Beide können nebeneinander installiert werden; ihre Daten werden nicht automatisch geteilt. Fortschritte lassen sich über die Sicherungsdatei übertragen.
 
 ## Technischer Aufbau
 
@@ -51,3 +51,13 @@ Nach erfolgreicher Prüfung lädt der Workflow APK, Prüfsumme und Installations
 ## Fortsetzung vom 10.11.2026
 
 Version 0.2.0, versionCode 2; Paketkennungen bleiben erhalten. Auslieferungsdateien und Release-Entwurf werden aus der Paketversion benannt. Frühere Release-Dateien werden nicht überschrieben. Der Schlüssel der ersten Testfassung ist in dieser Arbeitsumgebung nicht vorhanden; ein reguläres Update mit Erhalt der installierten Daten erfordert diesen Schlüssel. Ein neu erzeugter lokaler Debug-Schlüssel ist kein Ersatz dafür.
+
+## Eigene App-Identität vom 11.11.2026
+
+Auf ausdrücklichen Namenswunsch heißt die App jetzt `memoriesammlung`, auch auf der Startseite, im gemeinsamen Webmanifest und im Infofenster. Version 0.2.1 / versionCode 3 verwendet die eigene Android-Anwendungskennung `de.heikeamthor.memoriesammlung`, die Testfassung `.test`. Die vorherige Anwendungskennung `de.heikeamthor.lesespiele` wird nicht weiterverwendet. Die interne Java-Namespace bleibt aus Kompatibilitätsgründen erhalten; sie ist nicht die Play-Store-Identität.
+
+Eine Android-Installation mit neuer Kennung liegt neben älteren Apps und greift nicht auf deren App-Speicher zu. Bestehende Apps und Daten werden nicht geändert. Fortschritte lassen sich mit der bestehenden exportierbaren Sicherung ergänzend übernehmen. Web-Adresse, Manifest-ID, Kinder-IDs und Speicherkennungen bleiben erhalten.
+
+Abgleich der bestehenden App: Die README des historischen Repositorys `Lesen-entdecken-erzaehlen` verweist auf das aktuelle Android-Projekt in `Spielesammlung-fuer-Lesefreude-/android-app`. Dessen `android/app/build.gradle` und `capacitor.config.json` verwenden beide `de.heikeamthor.lesespiele` für „Lesen, entdecken, erzählen“. Damit verwendete auch unser früheres AAB 0.2.0 dieselbe Kennung. **AAB 0.2.0 nicht für eine neue App in Google Play verwenden.**
+
+Die neue Kennung `de.heikeamthor.memoriesammlung` ist ausdrücklich davon verschieden; Bundletool bestätigt sie im kompilierten AAB 0.2.1. Die Paketprüfung verhindert eine Rückkehr zur Kennung der bestehenden Play-App. Das andere Repository wurde ausschließlich gelesen und nicht geändert. Dies legt noch keinen App-Eintrag in der Google Play Console an. Keine Play-Store-Veröffentlichung.

@@ -1,8 +1,8 @@
 {
   "name": "memory-lesespiele",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
-  "description": "Memory & Lesen – lokale Lernspiele von Heike Amthor",
+  "description": "memoriesammlung – lokale Lernspiele von Heike Amthor",
   "scripts": {
     "build": "node scripts/build-production.cjs",
     "android:sync": "npm run build && cap sync android",
