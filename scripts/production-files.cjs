@@ -15,6 +15,8 @@ function productionFiles(){
  for(const dir of ['assets/animations','assets/intro'])for(const name of fs.readdirSync(path.join(root,dir)))if(/\.(?:mp4|webp)$/.test(name))add(dir+'/'+name);
  // The clearing assembles creature filenames dynamically. Cache all ten approved sprites.
  for(const name of fs.readdirSync(path.join(root,'synonymmemory/wonder-assets')))if(/\.(?:png|webp|jpe?g)$/.test(name))add('synonymmemory/wonder-assets/'+name);
+ function houseAssets(dir){for(const entry of fs.readdirSync(path.join(root,dir),{withFileTypes:true})){const name=dir+'/'+entry.name;if(entry.isDirectory())houseAssets(name);else if(/\.(?:webp|jpg)$/.test(name))add(name);}}
+ houseAssets('synonymmemory/fairy-house/assets');
  // Old saved gallery HTML may reference any original search-game artwork.
  for(const name of fs.readdirSync(path.join(root,'verrueckt-gesucht/assets')))if(/\.(?:png|webp|jpe?g|svg)$/.test(name))add('verrueckt-gesucht/assets/'+name);
  function treeFiles(dir){for(const entry of fs.readdirSync(path.join(root,dir),{withFileTypes:true})){const file=dir+'/'+entry.name;if(entry.isDirectory())treeFiles(file);else add(file);}}

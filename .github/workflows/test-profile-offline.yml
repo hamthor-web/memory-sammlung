@@ -44,6 +44,7 @@ jobs:
           node tests/backup-store.cjs
           node tests/profile-store.cjs
           node tests/wonder-clearing-store.cjs
+          node tests/fairy-house-store.cjs
           node tests/reward-history.cjs
           node tests/service-worker-update.cjs
           node tests/puzzle-cut-coverage.cjs
@@ -57,6 +58,10 @@ jobs:
           sleep 2
       - name: Check per-child Wunderwesen collection and responsive display
         run: node tests/browser-wonder-clearing.cjs
+      - name: Check fairy house growth, stories and per-child recovery
+        run: |
+          node tests/browser-fairy-house.cjs
+          node tests/browser-house-zoom.cjs
       - name: Recover an interrupted update without losing local profiles
         run: node tests/browser-update-recovery.cjs
       - name: Check existing puzzle layouts after cut correction
