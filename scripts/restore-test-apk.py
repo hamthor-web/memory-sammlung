@@ -4,7 +4,9 @@ manifest=json.loads(os.environ['PREPARED_APK'])
 assert isinstance(manifest,dict) and isinstance(manifest['parts'],list) and 1<=len(manifest['parts'])<=64
 assert isinstance(manifest['bytes'],int) and 0<manifest['bytes']<=200*1024*1024
 assert re.fullmatch('[a-f0-9]{64}',manifest['sha256'])
-target=pathlib.Path('Memory-Lesen-0.1.0-test.apk')
+name=os.environ.get('ANDROID_APK_NAME','Memory-Lesen-0.1.0-test.apk')
+assert re.fullmatch(r'Memory-(?:Sammlung|Lesen)-[0-9]+\.[0-9]+\.[0-9]+-test\.apk',name)
+target=pathlib.Path(name)
 with target.open('wb') as out:
  for part in manifest['parts']:
   assert re.fullmatch('[a-f0-9]{40}',part['sha']) and re.fullmatch('[a-f0-9]{64}',part['sha256'])

@@ -1,6 +1,6 @@
 {
   "appId": "de.heikeamthor.lesespiele",
-  "appName": "Memory & Lesen",
+  "appName": "Memory-Sammlung",
   "webDir": "dist",
   "server": {
     "androidScheme": "https"

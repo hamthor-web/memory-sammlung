@@ -1,3 +1,4 @@
+let treeRun=null;
 let desiredCount = 6;
 CollectionSession.requireProfile();
 let handoffPending=false;
@@ -58,6 +59,7 @@ function showSelection() {
   document.querySelectorAll('#selection .count').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
   ['grid','status','game-controls'].forEach(id=>document.getElementById(id).hidden=true);
   document.getElementById('twoPlayerScore').hidden=true;
+  window.WordTrees?.render();
   window.scrollTo(0,0);
   // Keine automatische Fokussierung oder optische Vormarkierung einer Paarzahl.
 }
@@ -165,6 +167,8 @@ function closeCard(el,c) {
 
 function build(saved) {
   saved=saved?.deck?saved:null;
+  if(!saved&&window.WordTrees?.pending()){WordTrees.prompt(WordTrees.pending(),()=>build());return;}
+  treeRun=window.WordTrees?.prepare(saved)||null;
   document.body.classList.remove('choosing-pairs');
   const grid=document.getElementById('grid');
   grid.innerHTML='';
@@ -300,6 +304,7 @@ function showQuiz(pair) {
         later(()=>{
           closeModal();
           pendingQuiz=null;
+          if(found===currentPairs.length&&playerMode===1)window.WordTrees?.grant(treeRun);
           busy=false;wordCheckpoint();
           if(found===currentPairs.length) later(showJubelBeforeFinish,180);
           else {document.getElementById('timing').textContent=playerMode===2?'Richtig! '+playerNames[activePlayer]+' darf noch einmal.':'Finde das nächste Paar.';wordCheckpoint();}
@@ -358,7 +363,7 @@ function showJubelBeforeFinish() {
     finished=true;
     clearTimeout(failsafe);
     video.pause();
-    showFinish();
+    if(playerMode===1&&window.WordTrees)WordTrees.finish(treeRun,showFinish);else showFinish();
   }
   panel.querySelector('#skipWordJubel').onclick=finish;
   video.addEventListener('ended',finish,{once:true});
@@ -399,7 +404,7 @@ function closeModal() {
   document.getElementById('modal').classList.remove('show');
 }
 
-document.getElementById('restart').onclick=build;
+document.getElementById('restart').onclick=()=>build();
 document.getElementById('zoomOut').onclick=()=>applyBoardZoom(boardZoom-.10);
 document.getElementById('zoomIn').onclick=()=>applyBoardZoom(boardZoom+.10);
 document.getElementById('zoomReset').onclick=()=>applyBoardZoom(1);
@@ -430,9 +435,9 @@ document.getElementById('selectGame').onclick=showSelection;
 function wordHandoff(){CollectionSession.handoff('Jetzt ist '+playerNames[activePlayer]+' dran.',()=>{handoffPending=false;busy=false;wordCheckpoint();});}
 function wordSnapshot(){
  if(!currentPairs.length||document.getElementById('grid').hidden)return null;
- if(found===currentPairs.length&&!pendingQuiz)return null;
+ if(found===currentPairs.length&&!pendingQuiz&&(!treeRun||!window.WordTrees?.needsCompletion(treeRun)))return null;
  const elements=[...document.querySelectorAll('#grid .card')];
- return {pairIds:currentPairs.map(p=>p.id),deck:elements.map(el=>({pairId:el.dataset.pair,side:el.dataset.side})),matched:elements.filter(el=>el.classList.contains('matched')).map(el=>el.dataset.pair),flipped:elements.map((el,i)=>el.classList.contains('flipped')?i:-1).filter(i=>i>=0),pendingPair:pendingQuiz?.pair.id||null,question:pendingQuiz?.question||null,first:first?elements.indexOf(first.el):null,second:second?elements.indexOf(second.el):null,mismatchActive,comparisonActive,handoffPending,desiredCount,playerMode,activePlayer,playerScores,playerNames,collectedPairIds:collectedPairs.map(pairs=>pairs.map(pair=>pair.id)),found,boardZoom,controlZoom};
+ return {treeRun,pairIds:currentPairs.map(p=>p.id),deck:elements.map(el=>({pairId:el.dataset.pair,side:el.dataset.side})),matched:elements.filter(el=>el.classList.contains('matched')).map(el=>el.dataset.pair),flipped:elements.map((el,i)=>el.classList.contains('flipped')?i:-1).filter(i=>i>=0),pendingPair:pendingQuiz?.pair.id||null,question:pendingQuiz?.question||null,first:first?elements.indexOf(first.el):null,second:second?elements.indexOf(second.el):null,mismatchActive,comparisonActive,handoffPending,desiredCount,playerMode,activePlayer,playerScores,playerNames,collectedPairIds:collectedPairs.map(pairs=>pairs.map(pair=>pair.id)),found,boardZoom,controlZoom};
 }
 function wordCheckpoint(){const state=wordSnapshot();if(state)CollectionSession.save('wortmemory',state);else if(currentPairs.length&&found===currentPairs.length)CollectionSession.clear('wortmemory');}
 function restoreWordState(s){
@@ -442,10 +447,14 @@ function restoreWordState(s){
  elements.forEach((el,i)=>{if(s.matched.includes(el.dataset.pair))el.classList.add('matched');if(s.flipped.includes(i))el.classList.add('flipped');});
  first=s.first===null?null:entry(s.first);second=s.second===null?null:entry(s.second);mismatchActive=s.mismatchActive;comparisonActive=s.comparisonActive;
  updateProgress();updatePlayers();applyBoardZoom(s.boardZoom);applyControlZoom(s.controlZoom);renderCompareTray();
- if(s.pendingPair){const pair=PAIRS.find(p=>p.id===s.pendingPair);pendingQuiz={pair,entries:elements.map((el,i)=>el.dataset.pair===pair.id?entry(i):null).filter(Boolean),question:s.question};showQuiz(pair);}else if(handoffPending){busy=true;wordHandoff();}else busy=false;
+ if(s.pendingPair){const pair=PAIRS.find(p=>p.id===s.pendingPair);pendingQuiz={pair,entries:elements.map((el,i)=>el.dataset.pair===pair.id?entry(i):null).filter(Boolean),question:s.question};showQuiz(pair);}else if(found===currentPairs.length){busy=true;later(showJubelBeforeFinish,0);}else if(handoffPending){busy=true;wordHandoff();}else busy=false;
 }
 window.CollectionGameNavigation={isSetup:()=>!document.getElementById('selection').hidden,settings:showSelection,canReopen:id=>(id==='modal'&&busy)||(id==='compareTray'&&comparisonActive)};
+function initializeWordMemory(){
 CollectionSession.track('wortmemory',wordSnapshot);
 showSelection();
 const wordProfile=CollectionSession.profile();if(wordProfile)document.getElementById('player1Name').value=wordProfile.name;
 CollectionSession.offerResume('wortmemory',s=>{desiredCount=s.desiredCount;build(s);});
+
+if(window.WordTrees&&!CollectionSession.progress.loadRound(CollectionSession.profile()?.id,'wortmemory')&&WordTrees.pending())WordTrees.prompt(WordTrees.pending(),showFinish);
+}
