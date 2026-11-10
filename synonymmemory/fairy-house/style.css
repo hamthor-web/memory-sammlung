@@ -93,3 +93,5 @@ header{flex-wrap:wrap}header>div{min-width:0;flex:1 1 230px}h1{overflow-wrap:any
 }
 
 #story .story-top{max-height:25dvh;overflow:auto}
+
+#story .story-zoom{grid-template-columns:auto minmax(40px,1fr) auto}#story .story-zoom button{font-size:clamp(17px,calc(17px * var(--text-scale)),22px)}#story .story-zoom label{font-size:clamp(17px,calc(17px * var(--text-scale)),22px);overflow-wrap:anywhere}
