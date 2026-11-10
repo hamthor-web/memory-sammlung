@@ -1,6 +1,6 @@
 # Android-Testversion
 
-Die Test-App heißt „Memory & Lesen – Test“ und verwendet `de.heikeamthor.lesespiele.test`. Die spätere Store-Fassung hat eine eigene Kennung (`de.heikeamthor.lesespiele`). Beide können nebeneinander installiert werden; ihre Daten werden nicht automatisch geteilt. Fortschritte lassen sich über die Sicherungsdatei übertragen.
+Die Test-App heißt „Memory-Sammlung – Test“ und verwendet `de.heikeamthor.lesespiele.test`. Die spätere Store-Fassung hat eine eigene Kennung (`de.heikeamthor.lesespiele`). Beide können nebeneinander installiert werden; ihre Daten werden nicht automatisch geteilt. Fortschritte lassen sich über die Sicherungsdatei übertragen.
 
 ## Technischer Aufbau
 
@@ -46,4 +46,8 @@ Der manuell gestartete Workflow „Android test APK“ baut zunächst unabhängi
 
 Alternativ kann die Kontoinhaberin den Repository-Secret `ANDROID_TEST_KEYSTORE` für eine dauerhafte Test-Signierung hinterlegen. Die derzeitige GitHub-Anbindung darf diesen Secret nicht selbst schreiben. Ohne vorbereitete, lokal signierte APK oder eingerichteten Testschlüssel erfolgt keine Auslieferung einer kurzlebig signierten CI-APK.
 
-Nach erfolgreicher Prüfung lädt der Workflow APK, Prüfsumme und Installationshilfe in den privaten Release-Entwurf `android-test-0.1.0`. Es erfolgt keine automatische öffentliche Freigabe und kein Play-Store-Upload. Der Signierschlüssel selbst gehört weder in den Quellcode noch in die Release-Dateien. Die bereitgestellten ersten Handy-APKs verwenden den außerhalb des Repositories aufbewahrten lokalen Testschlüssel.
+Nach erfolgreicher Prüfung lädt der Workflow APK, Prüfsumme und Installationshilfe in den privaten Release-Entwurf `android-test-<Paketversion>`. Es erfolgt keine automatische öffentliche Freigabe und kein Play-Store-Upload. Der Signierschlüssel selbst gehört weder in den Quellcode noch in die Release-Dateien. Die bereitgestellten ersten Handy-APKs verwenden den außerhalb des Repositories aufbewahrten lokalen Testschlüssel.
+
+## Fortsetzung vom 10.11.2026
+
+Version 0.2.0, versionCode 2; Paketkennungen bleiben erhalten. Auslieferungsdateien und Release-Entwurf werden aus der Paketversion benannt. Frühere Release-Dateien werden nicht überschrieben. Der Schlüssel der ersten Testfassung ist in dieser Arbeitsumgebung nicht vorhanden; ein reguläres Update mit Erhalt der installierten Daten erfordert diesen Schlüssel. Ein neu erzeugter lokaler Debug-Schlüssel ist kein Ersatz dafür.

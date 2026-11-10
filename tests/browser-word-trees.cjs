@@ -6,7 +6,7 @@ const base=process.env.TEST_BASE||'http://127.0.0.1:8765/';
  const context=await browser.newContext({viewport:{width:393,height:780},serviceWorkers:'block',reducedMotion:'reduce'}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await context.addInitScript(()=>{if(!localStorage.getItem('fuehlmemory-profiles-v1'))localStorage.setItem('fuehlmemory-profiles-v1',JSON.stringify({profiles:[{id:'anna',name:'Anna',level:1,count:6},{id:'ben',name:'Ben',level:1,count:6}],activeId:'anna'}));});
  await page.goto(base+'wortmemory/index.html');assert.equal(await page.locator('#treeResume').isDisabled(),true);
- await page.locator('#treeChoose').click();await page.locator('#treeChoices button').filter({hasText:'Mondbaum'}).click();await page.locator('[data-count="6"]').click();await page.locator('#startWordMemory').click();
+ await page.locator('#treeChoose').click();await page.locator('#treeChoices button').filter({hasText:'Mondlichtbaum'}).click();await page.locator('[data-count="6"]').click();await page.locator('#startWordMemory').click();
  const run=await page.evaluate(()=>treeRun);assert.equal(run.tree,'mond');await page.reload();await page.getByRole('button',{name:'Weiterspielen',exact:true}).click();assert.deepEqual(await page.evaluate(()=>treeRun),run);
  for(let n=0;n<6;n++){
   const indexes=await page.evaluate(()=>{const els=[...document.querySelectorAll('#grid .card')],first=els.find(e=>!e.classList.contains('matched'));return els.map((el,i)=>el.dataset.pair===first.dataset.pair?i:-1).filter(i=>i>=0);});
@@ -17,7 +17,7 @@ const base=process.env.TEST_BASE||'http://127.0.0.1:8765/';
  console.log('PASS full six-pair game, quiz, jubel, saved round, unseen reward reload, once-only reveal');
  for(const [width,height] of [[393,780],[780,393],[768,1024],[1024,768]]){
   await page.setViewportSize({width,height});
-  for(const [id,label] of [['herbst','Herbstbaum'],['mond','Mondbaum'],['rosa','Rosa Zauberbaum'],['zauber','Zauberbaum']]){
+  for(const [id,label] of [['herbst','Herbstbaum'],['mond','Mondlichtbaum'],['rosa','Rosa Zauberbaum'],['zauber','Erster Zauberbaum']]){
    await page.evaluate(id=>{const s=WordTreeStore.createStore(localStorage);for(let i=0;i<10;i++){const r=s.award('anna','qa-'+id+i,id);if(r)s.seen('anna',r.run);}},id);
    await page.locator('#treeGallery').click();await page.locator('#treeChoices button').filter({hasText:new RegExp('^'+label+' ·')}).click();await page.locator('#treeClose:enabled').waitFor();art=page.frameLocator('.tree-dialog iframe');const oak=id==='zauber';assert.equal(await art.locator(oak?'.reward.shown':'.item.visible').count(),10);
    await page.screenshot({path:`/tmp/word-trees/${id}-${width}x${height}-normal.png`});

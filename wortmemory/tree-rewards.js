@@ -1,6 +1,6 @@
 (()=>{
  'use strict';
- const catalog=[['herbst','Herbstbaum'],['mond','Mondbaum'],['rosa','Rosa Zauberbaum'],['zauber','Zauberbaum']];
+ const catalog=[['herbst','Herbstbaum'],['mond','Mondlichtbaum'],['rosa','Rosa Zauberbaum'],['zauber','Erster Zauberbaum']];
  const questions=['Bist du schon auf die nächste Überraschung gespannt?','Wer zieht wohl heute in deinen Baum ein?','Was hat sich zwischen den Zweigen versteckt?','Welche kleine Zauberei wartet diesmal auf dich?','Möchtest du entdecken, wie dein Baum weiterwächst?'];
  const owner=CollectionSession.profile()?.id;if(!owner)return;
  let lastQuestion=-1,dialog=null,frame=null,frameInit=null,onExit=null;

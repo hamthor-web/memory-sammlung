@@ -2,4 +2,11 @@ const assert=require('node:assert/strict'),Backup=require('../backup-store.js'),
 const data=new Map(),storage={getItem:k=>data.has(k)?data.get(k):null,setItem:(k,v)=>data.set(k,String(v)),removeItem:k=>data.delete(k)};
 storage.setItem(Backup.PROFILE_KEY,JSON.stringify({profiles:[{id:'anna',name:'Anna',level:1,count:6}],activeId:'anna'}));
 const s=createStore(storage);s.select('anna','rosa');s.award('anna','runde-1','rosa');
-(async()=>{const text=await Backup.create(storage),doc=await Backup.parse(text);assert.equal(doc.profiles[0].progress.wordTrees.counts.rosa,1);assert.equal(doc.profiles[0].progress.wordTrees.pending.run,'runde-1');console.log('PASS tree progress, selection and unseen surprise included in portable profile backup');})().catch(e=>{console.error(e);process.exitCode=1;});
+(async()=>{const text=await Backup.create(storage),doc=await Backup.parse(text);assert.equal(doc.profiles[0].progress.wordTrees.counts.rosa,1);assert.equal(doc.profiles[0].progress.wordTrees.pending.run,'runde-1');const targetData=new Map(),target={getItem:k=>targetData.has(k)?targetData.get(k):null,setItem:(k,v)=>targetData.set(k,String(v)),removeItem:k=>targetData.delete(k)};
+const plan=await Backup.prepare(target,doc,{sanitizeHTML:value=>value,makeId:()=> '00000000-0000-4000-8000-000000000001'});Backup.apply(target,plan);
+const restored=createStore(target),id=plan.added[0].profile.id;
+assert.deepEqual(restored.load(id),s.load('anna'));
+assert.equal(restored.award(id,'runde-1','rosa').after,1);
+assert.equal(restored.seen(id,'runde-1'),true);assert.equal(restored.award(id,'runde-2','rosa').after,2);
+assert.equal(s.load('anna').counts.rosa,1);
+console.log('PASS tree progress, selection and unseen surprise exported, restored under new child ID and continued without duplicate grants');})().catch(e=>{console.error(e);process.exitCode=1;});
