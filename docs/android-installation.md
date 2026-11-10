@@ -16,3 +16,5 @@ Diese APK ist mit einer Test-Signierung versehen. Für weitere Updates dieser Te
 VersionCode: 3. Enthält die vier Belohnungsbäume sowie die aktuelle Wunderwesen-Lichtung und das Märchenhaus. Ein Update einer vorhandenen Test-App benötigt deren bisherigen Signierschlüssel. Nicht deinstallieren, wenn vorhandene Fortschritte erhalten bleiben sollen; vorher eine Sicherungsdatei exportieren.
 
 Seit Version 0.2.1: eigenständige Paketkennung `de.heikeamthor.memoriesammlung.test`. Die neue Test-App wird zusätzlich zu älteren Testfassungen installiert. Vorhandene Fortschritte bleiben in der bisherigen App erhalten und können über deren Sicherungsdatei in die neue App übernommen werden.
+
+Wichtig: Das frühere AAB 0.2.0 verwendete noch `de.heikeamthor.lesespiele`, dieselbe Kennung wie „Lesen, entdecken, erzählen“. Für die eigenständige App ausschließlich die neuen 0.2.1-Dateien mit `de.heikeamthor.memoriesammlung` verwenden.

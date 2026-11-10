@@ -7,6 +7,8 @@ import zipfile
 
 root = pathlib.Path(__file__).resolve().parents[1]
 config = json.loads((root / 'capacitor.config.json').read_text())
+# This ID belongs to the separate, already published Lesen/entdecken app.
+assert config['appId'] != 'de.heikeamthor.lesespiele', 'Do not reuse the published reading app package'
 packages = [
     ('android/app/build/outputs/apk/debug/app-debug.apk', 'assets/'),
     ('android/app/build/outputs/bundle/release/app-release.aab', 'base/assets/'),
