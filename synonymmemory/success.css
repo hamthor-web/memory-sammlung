@@ -2,3 +2,4 @@
 #syn-house-top h2{color:#fff3d9}
 
 #syn-house{display:flex;flex-direction:column;height:100dvh;overflow:hidden}#syn-house-top{display:grid;grid-template-columns:minmax(0,1fr) auto;flex:0 0 auto;padding:6px 10px;gap:10px}#syn-house-top h2{font-size:calc(clamp(18px,2.4vw,24px) * var(--fontzoom,1));line-height:1.25}#syn-house-frame{flex:1 1 0;height:0;min-height:0}#syn-house-close{min-height:54px}
+#synonym-demo #syn-house-owner{color:#fff3d9!important;-webkit-text-fill-color:#fff3d9!important}

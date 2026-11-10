@@ -66,3 +66,11 @@ Heikes Rückmeldung vom 10.11.: Das Bild war auf dem Handy zu groß; untere Scha
 - Dieselbe Korrektur wird in der eigenständigen Märchenhaus-Vorschau veröffentlicht.
 
 Zusätzlicher Browser-Regressionsfall: sechs Handy-/Tabletformate, je zwei Schriftgrößen und drei Bildgrößen, sowohl in der Vorschau als auch eingebettet im Spiel. Er prüft die vollständige Sichtbarkeit aller Schaltflächen und die Trennung von Text- und Bildzoom.
+
+### Übergabe Bildzoom
+
+Funktionsstand auf GitHub: 2437dcd59328a8323ed22fc1438a3b0c6f93f177. Der zusätzliche Zoomtest im Lauf 42891620579 ist bestanden: sechs Bildschirmformate × zwei Schriftgrößen × drei Bildgrößen, jeweils eigenständig und im Spiel eingebettet. Der restliche Lauf prüft danach die übrigen Spiele weiter. Die helle Profilüberschrift wurde zusätzlich gegen die bestehende globale Schriftfarbe abgesichert.
+
+Märchenhaus-Vorschau erfolgreich veröffentlicht: https://maerchenhaus-bluetenfenster.stable-globe-1574.chatgpt.site – Quellcommit 183b7de0c10a32c3150d144933269a2eb9be2d37, Version appgprj_6af24b34aa34819180ccfb3560c0dc87~appgver_1ce3c563d2a08191877d5075256e43da.
+
+Das Spiel selbst ist unter https://hamthor-web.github.io/memory-sammlung/synonymmemory/index.html eingebaut. Die alte eigenständige HTML-/ZIP-Referenz vom 09.11. bildet weiterhin den damaligen Vorschau-Stand ab; für den aktuellen Einbau und Bildzoom sind diese Ergänzung und der GitHub-Stand maßgeblich.
