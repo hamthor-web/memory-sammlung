@@ -31,6 +31,16 @@ const base=process.env.TEST_BASE||'http://127.0.0.1:8765/';
    await page.screenshot({path:`/tmp/word-trees/${id}-${width}x${height}-zoom.png`});await page.locator('#treeClose').click();
   }
  }
- await page.evaluate(()=>{const p=JSON.parse(localStorage.getItem('fuehlmemory-profiles-v1'));p.activeId='ben';localStorage.setItem('fuehlmemory-profiles-v1',JSON.stringify(p));});await page.reload();assert.equal(await page.locator('#treeResume').isDisabled(),true);await page.locator('[data-mode="2"]').click();assert.equal(await page.locator('#treeChoice').isVisible(),false);assert.deepEqual(errors,[]);
+ await page.evaluate(()=>{const p=JSON.parse(localStorage.getItem('fuehlmemory-profiles-v1'));p.activeId='ben';localStorage.setItem('fuehlmemory-profiles-v1',JSON.stringify(p));});await page.reload();assert.equal(await page.locator('#treeResume').isDisabled(),true);
+ await page.emulateMedia({reducedMotion:'no-preference'});await page.setViewportSize({width:393,height:780});
+ for(const id of ['herbst','mond','rosa','zauber']){
+  await page.evaluate(id=>WordTrees.finish({id:'animation-'+id,tree:id},()=>{}),id);
+  await page.locator('#treeWant').click();await page.locator('#treeClose:enabled').waitFor();
+  const art=page.frameLocator('.tree-dialog iframe');assert.equal(await art.locator(id==='zauber'?'.reward.shown':'.item.visible').count(),1);
+  assert.equal(await page.evaluate(()=>WordTrees.pending()),null);
+  await page.locator('#treeClose').click();
+ }
+ console.log('PASS original arrival animations with normal motion in all four trees');
+ await page.locator('[data-mode="2"]').click();assert.equal(await page.locator('#treeChoice').isVisible(),false);assert.deepEqual(errors,[]);
  console.log('PASS four complete trees in four screen formats, both zooms, profile separation and duo exclusion');
 }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});
