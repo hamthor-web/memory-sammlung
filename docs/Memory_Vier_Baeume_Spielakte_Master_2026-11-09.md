@@ -1,5 +1,11 @@
 # Memory-Sammlung – vier Belohnungsbäume: Spielakte und Master-Nachtrag
 
+**Aktueller Fortsetzungsstand vom 10.11.2026:** siehe
+[Wiederherstellung und Android 0.2.0](recovery-2026-11-10.md).
+Die untenstehenden Blockaden und offenen Browserprüfungen beschreiben den historischen
+Stand vom 09.11.; die Grafiken sind inzwischen anhand der Originalprüfsummen
+wiederhergestellt und die Baum-Browserprüfung ist erfolgreich absolviert.
+
 Stand: 09.11.2026. Ziel: **Ein Wort – zwei Bedeutungen**, technische Spielseite `wortmemory/index.html` im Repository `hamthor-web/memory-sammlung`. Nicht mit dem Synonymspiel „1 Sache, 2 Bezeichnungen“ verwechseln.
 
 ## Verbindlicher Auftrag und Ablauf
