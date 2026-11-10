@@ -59,7 +59,9 @@ jobs:
       - name: Check per-child Wunderwesen collection and responsive display
         run: node tests/browser-wonder-clearing.cjs
       - name: Check fairy house growth, stories and per-child recovery
-        run: node tests/browser-fairy-house.cjs
+        run: |
+          node tests/browser-fairy-house.cjs
+          node tests/browser-house-zoom.cjs
       - name: Recover an interrupted update without losing local profiles
         run: node tests/browser-update-recovery.cjs
       - name: Check existing puzzle layouts after cut correction

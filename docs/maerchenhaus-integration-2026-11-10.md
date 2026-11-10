@@ -40,15 +40,29 @@ Rapunzel-Lesezeiten: 10 / 22 / 10 Sekunden, durch Pause verlängerbar. Aschenput
 
 Lokal bestanden: Produktionsinventar (124,6 MB), 511 Offline-Dateien, PWA-Prüfung, Karten-/Fragenlogik, Profile, Fortschritt, Sicherung/Import, Wunderwesen, Belohnungshistorie, sichere Service-Worker-Aktualisierung und Puzzle-Abdeckung. Neuer Speichertest prüft getrennte Kindstände, Abbruch, Doppelvergabe auch zwischen den Welten, Fortsetzung, Auswahl, Hausaufbau, Zehnergrenze, Sicherung, beschädigte Daten und Schreibfehler.
 
-Im Browser geprüft: gespeicherte Runde mit letztem Paar fortgesetzt; Abschlussanimation, Einladung, erster Hausaufbau, gesperrte Folgefenster, Pause und automatische Rückkehr; zweite Runde mit vorhandenem Haus und genau zwei zugänglichen Fenstern. Bildschirmprüfung in Handy- und Tabletformaten, hoch und quer. Zusätzlicher GitHub-Browsertest prüft Abbruch/Wiederaufnahme, Pause über die normale Geschichtsdauer hinaus, wiederholtes Anschauen, zweites Fenster, getrennte Profile und beide Zooms in vier Formaten. Dessen Ergebnis wird nach dem GitHub-Lauf ergänzt. Echte Gerätetests durch Heike stehen noch aus.
+Im Browser geprüft: gespeicherte Runde mit letztem Paar fortgesetzt; Abschlussanimation, Einladung, erster Hausaufbau, gesperrte Folgefenster, Pause und automatische Rückkehr; zweite Runde mit vorhandenem Haus und genau zwei zugänglichen Fenstern. Bildschirmprüfung in Handy- und Tabletformaten, hoch und quer. Zusätzlicher GitHub-Browsertest prüft Abbruch/Wiederaufnahme, Pause über die normale Geschichtsdauer hinaus, wiederholtes Anschauen, zweites Fenster, getrennte Profile und beide Zooms in vier Formaten. Der vollständige GitHub-Regressionslauf 42883766529 zum Einbau-Commit cb6fc372cc758c2126bdfdd6e3befabb2dd99bbe ist bestanden; auch die Veröffentlichung ist erfolgreich. Echte Gerätetests durch Heike stehen noch aus.
 
 ## Masterübersicht – Änderung dieses Arbeitsschritts
 
 | Spiel | Aktueller Bearbeitungsstand |
 | --- | --- |
-| Zwei Wörter, ein Ding | Märchenhaus mit zehn Geschichten in den tatsächlichen Spielablauf integriert; Wahl Haus/Lichtung, Kindfortschritt, Rundenspeicherung und Pause vorhanden. GitHub- und Live-Prüfung folgen auf diesen dokumentierten lokalen Stand. |
+| Zwei Wörter, ein Ding | Märchenhaus mit zehn Geschichten in den tatsächlichen Spielablauf integriert; Wahl Haus/Lichtung, Kindfortschritt, Rundenspeicherung und Pause vorhanden. Einbau auf GitHub veröffentlicht; kompletter automatischer Regressionslauf bestanden. |
 | Ein Wort – zwei Bedeutungen | Zauberbaum-System unverändert. |
 | Eigenschaften-Memory | Puzzle-Auswahl als Vorbild übernommen; Puzzle-Inhalte und -Speicher unverändert. |
 | Verrückt gesucht! | Unverändert. |
 
 Die eigenständige Märchenhaus-Vorschau bleibt als Referenz erhalten. Dieser Einbau betrifft den Web-/Offline-Quellstand der Memory-Sammlung; eine installierte native Android-Fassung benötigt einen gesonderten App-Build.
+
+## Ergänzung: sichtbarer Bildzoom und Handyhöhe
+
+Heikes Rückmeldung vom 10.11.: Das Bild war auf dem Handy zu groß; untere Schaltflächen wurden teilweise aus dem Bildschirm geschoben. Bestätigte Änderung: Bildzoom direkt in jeder geöffneten Geschichte.
+
+- „Bild −“, Regler und „Bild +“ oberhalb des Bildes; 50–200 Prozent in Zehnerschritten.
+- 100 Prozent passt das komplette Bild in den verbleibenden Bildbereich ein. Schrift und Schaltflächen beanspruchen zuerst ihren nötigen Platz.
+- Größere Bilder scrollen innerhalb des Bildbereichs; Pause/Weiter und Wiederholung bleiben außerhalb dieses Bereichs vollständig erreichbar.
+- Im Handy-Querformat stehen Lesetext und Ablauf-Schaltflächen neben dem Bild. Bei sehr großer Schrift ist der Lesetext gesondert scrollbar.
+- Bild- und Schriftzoom bleiben unabhängig; auch Pause, Überblendungen und Kindfortschritt bleiben erhalten.
+- Auch der äußere Märchenhaus-Bildschirm nutzt die tatsächliche Resthöhe, statt dem eingebetteten Bild eine feste Mindesthöhe aufzuzwingen.
+- Dieselbe Korrektur wird in der eigenständigen Märchenhaus-Vorschau veröffentlicht.
+
+Zusätzlicher Browser-Regressionsfall: sechs Handy-/Tabletformate, je zwei Schriftgrößen und drei Bildgrößen, sowohl in der Vorschau als auch eingebettet im Spiel. Er prüft die vollständige Sichtbarkeit aller Schaltflächen und die Trennung von Text- und Bildzoom.
