@@ -82,7 +82,7 @@ jobs:
           PREPARED_APK: ${{ inputs.prepared_apk }}
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          export ANDROID_APK_NAME="Memory-Sammlung-${VERSION}-test.apk"
+          export ANDROID_APK_NAME="memoriesammlung-${VERSION}-test.apk"
           TAG="android-test-${VERSION}"
           if [ -n "$PREPARED_APK" ]; then
             python3 scripts/restore-test-apk.py
@@ -92,6 +92,6 @@ jobs:
           sha256sum "$ANDROID_APK_NAME" > "$ANDROID_APK_NAME.sha256"
           cp docs/android-installation.md START-HIER.md
           if ! gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
-            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --draft --target "$GITHUB_SHA" --title "Memory-Sammlung ${VERSION} – Android-Test" --notes "Lokale Testversion. Keine Play-Store-Veröffentlichung."
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --draft --target "$GITHUB_SHA" --title "memoriesammlung ${VERSION} – Android-Test" --notes "Lokale Testversion. Keine Play-Store-Veröffentlichung."
           fi
           gh release upload "$TAG" --repo "$GITHUB_REPOSITORY" "$ANDROID_APK_NAME" "$ANDROID_APK_NAME.sha256" START-HIER.md

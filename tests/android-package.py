@@ -1,6 +1,8 @@
 """Compare every production file with the offline assets in APK and AAB."""
 import json
+import os
 import pathlib
+import subprocess
 import zipfile
 
 root = pathlib.Path(__file__).resolve().parents[1]
@@ -22,3 +24,12 @@ for name, prefix in packages:
         for key in ['appId', 'appName', 'webDir']:
             assert embedded[key] == config[key], key
     print(f'PASS {name}: {len(files)} production files byte-identical, native app identity preserved')
+
+# Check the installed application's identity, not just its embedded web config.
+aapt = pathlib.Path(os.environ['ANDROID_HOME']) / 'build-tools/35.0.0/aapt'
+badging = subprocess.check_output([str(aapt), 'dump', 'badging', str(root / packages[0][0])], text=True)
+version = json.loads((root / 'package.json').read_text())['version']
+assert f"name='{config['appId']}.test'" in badging
+assert f"versionName='{version}-test'" in badging
+assert f"application-label:'{config['appName']} – Test'" in badging
+print('PASS compiled APK package, launcher name and version match the independent app identity')

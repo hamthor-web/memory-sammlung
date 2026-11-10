@@ -5,7 +5,7 @@ assert isinstance(manifest,dict) and isinstance(manifest['parts'],list) and 1<=l
 assert isinstance(manifest['bytes'],int) and 0<manifest['bytes']<=200*1024*1024
 assert re.fullmatch('[a-f0-9]{64}',manifest['sha256'])
 name=os.environ.get('ANDROID_APK_NAME','Memory-Lesen-0.1.0-test.apk')
-assert re.fullmatch(r'Memory-(?:Sammlung|Lesen)-[0-9]+\.[0-9]+\.[0-9]+-test\.apk',name)
+assert re.fullmatch(r'(?:memoriesammlung|Memory-(?:Sammlung|Lesen))-[0-9]+\.[0-9]+\.[0-9]+-test\.apk',name)
 target=pathlib.Path(name)
 with target.open('wb') as out:
  for part in manifest['parts']:
