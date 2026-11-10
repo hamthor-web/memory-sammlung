@@ -9,7 +9,9 @@ packages = [
     ('android/app/build/outputs/apk/debug/app-debug.apk', 'assets/'),
     ('android/app/build/outputs/bundle/release/app-release.aab', 'base/assets/'),
 ]
-files = [p for p in (root / 'dist').rglob('*') if p.is_file()]
+# GitHub Pages uses this empty hosting marker; Android's asset packager excludes
+# dotfiles. It is not part of the game/offline inventory.
+files = [p for p in (root / 'dist').rglob('*') if p.is_file() and p.name != '.nojekyll']
 assert files
 for name, prefix in packages:
     with zipfile.ZipFile(root / name) as package:
