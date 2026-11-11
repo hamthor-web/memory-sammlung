@@ -28,3 +28,11 @@ Vier Spiele weiterhin integriert und in Entwicklung. Spielanleitungen auf den vi
 ## Ergänzende Liveprüfung nach Veröffentlichung
 
 GitHub-Commit c4d2d4944bc936e9472780a49b22c17d37d3bb94 ist auf main bestätigt; alle acht hochgeladenen Dateien wurden mit dem lokalen Ergebnis abgeglichen. GitHub Pages meldet die Veröffentlichung als erfolgreich. Im separaten Browser konnten anschließend alle vier veröffentlichten Spielseiten geöffnet und die Anleitungen aufgeklappt werden. Auf jeder Seite steht die Anleitung zuletzt im Einstellungsbereich; die Erfolgsbilder-Zugänge liegen darüber. Die berechnete Grundschrift beträgt jeweils 20 px. Die Darstellung von „Verrückt gesucht!“ wurde zusätzlich per Bildschirmansicht kontrolliert. Der frühere lokale Browserfehler verhindert diese Liveprüfung somit nicht mehr. Offen bleiben die Prüfung unterschiedlicher Handy-/Tabletformate und die kombinierte Zoomprüfung. Die Änderung ist veröffentlicht, diese Geräteabnahme wird nicht als abgeschlossen dargestellt.
+
+## Android-Aktualisierung 0.2.2 – Auftrag vom 11.11.2026
+
+Heike hat die Übernahme in die Android-App und die Veröffentlichung auf GitHub ausdrücklich beauftragt. Bereits der automatische Android-Lauf 43083556536 für Commit c4d2d4944bc936e9472780a49b22c17d37d3bb94 baute APK und AAB mit den neuen Anleitungen erfolgreich. Die Paketprüfung bestätigte alle enthaltenen Produktionsdateien bytegleich. Damit war die Änderung technisch bereits in den Android-Paketen enthalten, aber noch unter der vorherigen Versionsnummer 0.2.1.
+
+Die neue, eindeutig bezeichnete Android-Fassung erhält Version 0.2.2 / versionCode 4. package.json, Lockdatei und Android-Konfiguration werden gemeinsam aktualisiert. Die Paketkennungen und das bestehende Speichermodell bleiben erhalten. Der GitHub-Workflow baut APK und AAB, führt Android-Lint sowie den vollständigen Inhaltsabgleich aus und stellt die Pakete im Build-Artefakt bereit. Die installierte native App übernimmt Webänderungen erst mit Installation eines neuen Android-Pakets.
+
+Masterstatus: Spielanleitungen im Web veröffentlicht; Android-Aktualisierung auf 0.2.2 beauftragt und versioniert. Build-Ergebnis wird nach Abschluss ergänzt. Keine Play-Store-Veröffentlichung beauftragt. Die Updatefähigkeit einer vorhandenen Testinstallation hängt weiterhin von derselben Signierung ab; Geräte- und Zoomabnahme bleiben offen.
