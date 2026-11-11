@@ -24,3 +24,7 @@ Die Browserprüfung wurde versucht, aber nicht abgeschlossen: Chromium scheitert
 ## Masterübersicht – aktueller Status
 
 Vier Spiele weiterhin integriert und in Entwicklung. Spielanleitungen auf den vier Startseiten vereinheitlicht und an das Ende der Einstellungen gesetzt; Erfolgsbilder darüber. Produktionsprüfung bestanden, visuelle Geräteabnahme der Änderung offen. Kein neues APK/AAB Bestandteil dieses Auftrags. Ältere Projektakten und historische Entwicklungsstände bleiben erhalten.
+
+## Ergänzende Liveprüfung nach Veröffentlichung
+
+GitHub-Commit c4d2d4944bc936e9472780a49b22c17d37d3bb94 ist auf main bestätigt; alle acht hochgeladenen Dateien wurden mit dem lokalen Ergebnis abgeglichen. GitHub Pages meldet die Veröffentlichung als erfolgreich. Im separaten Browser konnten anschließend alle vier veröffentlichten Spielseiten geöffnet und die Anleitungen aufgeklappt werden. Auf jeder Seite steht die Anleitung zuletzt im Einstellungsbereich; die Erfolgsbilder-Zugänge liegen darüber. Die berechnete Grundschrift beträgt jeweils 20 px. Die Darstellung von „Verrückt gesucht!“ wurde zusätzlich per Bildschirmansicht kontrolliert. Der frühere lokale Browserfehler verhindert diese Liveprüfung somit nicht mehr. Offen bleiben die Prüfung unterschiedlicher Handy-/Tabletformate und die kombinierte Zoomprüfung. Die Änderung ist veröffentlicht, diese Geräteabnahme wird nicht als abgeschlossen dargestellt.
