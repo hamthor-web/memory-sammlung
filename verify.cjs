@@ -14,6 +14,6 @@ for(let level=1;level<=3;level++){
  }
  console.log(`Stufe ${level}: ${eligible.length} geeignete Karten, ${rounds} vollständige Runden geprüft.`);
 }
-for(const name of ['Drehende_Karte_12Bilder_3s_weiss.webp','02_drehen_weiss.mp4','03_zwinkern.mp4','04_ausrutschen.mp4'])assert(fs.statSync(path.join(__dirname,'assets/animations',name)).size>0);
+for(const name of ['01_Der_hoefliche_Papierkorb.mp4','02_Der_huepfende_Deckel.mp4','03_Der_kleine_Zaubertrick.mp4','04_Der_freche_Papierkorb.mp4'])assert(fs.statSync(path.join(__dirname,'assets/animations',name)).size>0);
 const manifest=JSON.parse(fs.readFileSync(path.join(__dirname,'manifest.webmanifest'),'utf8'));for(const icon of manifest.icons)assert(fs.existsSync(path.join(__dirname,decodeURIComponent(new URL(icon.src,'https://example.org/').pathname.slice(1)))));
 console.log('Matrix, Originalassets, Icons und Fragenlogik geprüft.');

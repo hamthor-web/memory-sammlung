@@ -32,7 +32,7 @@ Das Kind betrachtet zunächst alle Bildkarten ohne feste Lernzeit. Mit **Ich bin
 - Pro Runde gibt es zwei Fragekarten mehr als Bildkarten; bei sechs Bildern also acht Fragekarten.
 - Eine falsche Bildkarte bleibt offen, bis **dieselbe Karte erneut angetippt** wird. Andere Bildkarten bleiben währenddessen gesperrt.
 - Eine richtige Karte bleibt ohne Zeitlimit zum Lesen sichtbar. Mit „Weiter“ folgt die Papierkorb-/Kartenanimation; anschließend wird sie ausgegraut.
-- Animationen bestehen aus einer animierten WebP-Datei und drei MP4-Dateien. Die unmittelbar zuvor gewählte Animation wird bei der nächsten Auswahl ausgeschlossen.
+- Die vier kurzen Papierkorb-Animationen mit dem Würstchen sind MP4-Dateien (höflicher Papierkorb, hüpfender Deckel, Zaubertrick mit geschwenktem Zauberstab und frecher Papierkorb). Nach „Weiter“ wird zufällig eine davon abgespielt; die unmittelbar zuvor gewählte Animation ist bei der nächsten Auswahl ausgeschlossen. Beim letzten Treffer bleibt die bisherige Jubelanimation als Rundenabschluss erhalten.
 
 ## Ein Wort, zwei Bilder
 

@@ -1,6 +1,6 @@
 'use strict';
 const $=id=>document.getElementById(id),E=MemoryEngine,pool=MEMORY_CARDS;
-const animations=['Drehende_Karte_12Bilder_3s_weiss.webp','02_drehen_weiss.mp4','03_zwinkern.mp4','04_ausrutschen.mp4'];
+const animations=['01_Der_hoefliche_Papierkorb.mp4','02_Der_huepfende_Deckel.mp4','03_Der_kleine_Zaubertrick.mp4','04_Der_freche_Papierkorb.mp4'];
 let puzzleRun=null;
 let duo=false,turn=0,points=[0,0],names=['Spieler 1','Spieler 2'];
 function showDuo(){
@@ -143,7 +143,7 @@ function playReward(token){
  if(isImage){image.onload=()=>{if(token===epoch)rewardTimer=setTimeout(done,3000);};image.onerror=()=>{if(token!==epoch)return;$('videoStatus').textContent='Die Animation konnte nicht geladen werden.';$('videoStatus').hidden=false;rewardTimer=setTimeout(done,1200);};image.src='assets/animations/'+animations[index]+'?round='+token+'-'+found.size;return;}
  video.src='assets/animations/'+animationFile;video.currentTime=0;
  video.onended=done;video.onerror=()=>{if(token!==epoch)return;$('videoStatus').textContent='Die Animation konnte nicht geladen werden.';$('videoStatus').hidden=false;rewardTimer=setTimeout(done,1200);};
- function play(){video.play().then(()=>{if(token!==epoch)return;$('playVideo').hidden=true;rewardTimer=setTimeout(done,finalJubel?5500:3200);}).catch(()=>{if(token!==epoch)return;$('playVideo').hidden=false;$('playVideo').onclick=play;});}play();
+ function play(){video.play().then(()=>{if(token!==epoch)return;$('playVideo').hidden=true;rewardTimer=setTimeout(done,6500);}).catch(()=>{if(token!==epoch)return;$('playVideo').hidden=false;$('playVideo').onclick=play;});}play();
 }
 $('startGame').onclick=()=>{
  if(!$('game').hidden)return;
