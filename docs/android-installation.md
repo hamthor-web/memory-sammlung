@@ -1,3 +1,28 @@
+# Lesen mit Memories – Test-APK mit festem Schlüssel
+
+Aktuelle Datei: **Lesen_mit_Memories_0.2.3_Test.apk**. Sie enthält den geprüften Stand 0.2.3 / Versionscode 5, wurde danach mit dem dauerhaft gesicherten Testschlüssel signiert und ist nicht identisch mit der automatisch signierten CI-APK.
+
+Heike hat am 11.11.2026 erklärt, dass vorhandene Spielstände für diesen Wechsel keine Rolle spielen. Die beiden bereitgestellten älteren APKs 0.2.1 und 0.2.3 besitzen dieselbe Paketkennung, aber unterschiedliche Signaturen. Darum kann die bisherige Installation nicht unmittelbar aktualisiert werden.
+
+1. Die bisherige **Test-App** deinstallieren.
+2. **Lesen_mit_Memories_0.2.3_Test.apk** herunterladen und öffnen.
+3. Falls Android nachfragt, die Installation aus dieser Quelle erlauben.
+4. „Lesen mit Memories – Test“ öffnen.
+
+Ab jetzt alle weiteren Test-Updates mit dem gesicherten Schlüssel signieren. Die technische Paketkennung bleibt de.heikeamthor.memoriesammlung.test. Der öffentliche Zertifikatsfingerabdruck ist in android/test-signing-certificate.sha256 dokumentiert. Die private Schlüsseldatei bleibt außerhalb des Repositories.
+
+Die neue APK wurde mit dem offiziellen Android-apksigner geprüft (v2- und v3-Signatur gültig). Alle 539 geprüften Assets und kompilierten Hauptdateien sind gegenüber dem erfolgreichen Android-Build unverändert. Ein echter Installationsversuch auf Heikes Handy steht noch aus.
+
+## Künftige automatische GitHub-Builds
+
+Für automatisch installierbare Test-APKs muss einmalig der gesicherte Schlüssel als Repository-Secret ANDROID_TEST_KEYSTORE hinterlegt werden. Die private Schlüssel-Sicherung enthält dafür die Base64-Datei und eine Anleitung. Die verwendete GitHub-Anbindung kann dieses Secret nicht selbst anlegen. Bis dahin enthalten GitHub-Build-Artefakte keine APK mit kurzlebigem Schlüssel mehr; AAB und Lintbericht bleiben verfügbar. Alternativ neue Test-APKs lokal mit dem gesicherten Schlüssel nachsignieren.
+
+Diese Testsignierung gehört nicht zur Produktionssignierung von Google Play. Die Release-AAB muss weiterhin mit dem eigenen Uploadschlüssel signiert werden.
+
+---
+
+## Frühere Installationshinweise (Historie)
+
 # Lesen mit Memories – Android-Testversion 0.2.3
 
 1. `app-debug.apk` aus dem GitHub-Artefakt `memoriesammlung-android-test` (Version 0.2.3) auf dem Android-Handy herunterladen und öffnen.

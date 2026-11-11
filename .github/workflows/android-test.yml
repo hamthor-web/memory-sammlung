@@ -47,6 +47,8 @@ jobs:
           elif [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -z "$PREPARED_APK" ]; then
             echo 'The stable test signing key is required for delivery.'
             exit 1
+          else
+            echo '::warning::No stable test key: building for validation only; no installable APK will be published.'
           fi
       - name: Copy local production assets
         run: npm run android:sync
@@ -55,13 +57,28 @@ jobs:
         run: ./gradlew --no-daemon assembleDebug lintDebug bundleRelease
       - name: Verify every offline game file in APK and AAB
         run: python3 tests/android-package.py
+      - name: Require the preserved test certificate for installable APKs
+        if: env.MEMORY_TEST_KEYSTORE != ''
+        run: |
+          EXPECTED=$(cat android/test-signing-certificate.sha256)
+          ACTUAL=$("$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --print-certs android/app/build/outputs/apk/debug/app-debug.apk | sed -n 's/^Signer #1 certificate SHA-256 digest: //p')
+          test "$ACTUAL" = "$EXPECTED" || { echo 'Wrong test signing certificate; refusing APK delivery.'; exit 1; }
+      - name: Stage build outputs without distributing temporary-key APKs
+        working-directory: android/app/build
+        env:
+          PREPARED_APK: ${{ inputs.prepared_apk }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/android-artifact"
+          cp --parents outputs/bundle/release/app-release.aab reports/lint-results-debug.html "$RUNNER_TEMP/android-artifact/"
+          if [ -n "$MEMORY_TEST_KEYSTORE" ] || [ -n "$PREPARED_APK" ]; then
+            cp --parents outputs/apk/debug/app-debug.apk "$RUNNER_TEMP/android-artifact/"
+          else
+            printf '%s\n' 'No installable APK: the permanent test key must be configured as ANDROID_TEST_KEYSTORE. This artifact contains the unsigned Play bundle and the lint report only.' > "$RUNNER_TEMP/android-artifact/README.txt"
+          fi
       - uses: actions/upload-artifact@v4
         with:
-          name: memoriesammlung-android-test
-          path: |
-            android/app/build/outputs/apk/debug/app-debug.apk
-            android/app/build/outputs/bundle/release/app-release.aab
-            android/app/build/reports/lint-results-debug.html
+          name: ${{ (env.MEMORY_TEST_KEYSTORE != '' || inputs.prepared_apk != '') && 'memoriesammlung-android-test' || 'memoriesammlung-android-build-NO-INSTALLABLE-APK' }}
+          path: ${{ runner.temp }}/android-artifact/
           retention-days: 14
 
   deliver:
