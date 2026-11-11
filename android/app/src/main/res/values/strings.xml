@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">memoriesammlung</string>
-    <string name="title_activity_main">memoriesammlung</string>
+    <string name="app_name">Lesen mit Memories</string>
+    <string name="title_activity_main">Lesen mit Memories</string>
     <string name="package_name">de.heikeamthor.memoriesammlung</string>
     <string name="custom_url_scheme">de.heikeamthor.memoriesammlung</string>
 </resources>

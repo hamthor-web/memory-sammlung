@@ -585,3 +585,12 @@ footer {font-size:clamp(1.05rem,2.3vw,1.25rem);line-height:1.5}
 }
 /* The menu already has its own clear child chooser in the header. */
 .collection-profile a{display:none}
+
+/* The full collection name and subtitle remain readable on narrow screens. */
+header > strong { min-width: 0; overflow-wrap: anywhere; }
+.app-tagline {
+  margin: 16px 0 20px;
+  font-size: clamp(20px, 2.8vw, 25px);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}

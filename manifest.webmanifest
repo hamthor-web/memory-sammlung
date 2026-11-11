@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "memoriesammlung",
-  "short_name": "memoriesammlung",
+  "name": "Lesen mit Memories",
+  "short_name": "Lesen mit Memories",
   "lang": "de",
   "start_url": "./",
   "scope": "./",
@@ -21,5 +21,6 @@
       "type": "image/png",
       "purpose": "any"
     }
-  ]
+  ],
+  "description": "Wörter verstehen · Bilder finden · Zusammenhänge entdecken"
 }

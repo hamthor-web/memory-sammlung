@@ -56,6 +56,14 @@ jobs:
         run: |
           python3 -m http.server 8765 --directory dist --bind 127.0.0.1 > /tmp/memory-profile-server.log 2>&1 &
           sleep 2
+      - name: Check collection name on phone and tablet screens
+        run: node tests/browser-branding.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lesen-mit-memories-display-check
+          path: /tmp/branding/*.png
+          retention-days: 14
       - name: Check per-child Wunderwesen collection and responsive display
         run: node tests/browser-wonder-clearing.cjs
       - name: Check fairy house growth, stories and per-child recovery

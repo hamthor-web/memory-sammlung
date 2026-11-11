@@ -1,4 +1,4 @@
-# memoriesammlung – vier Lernspiele
+# Lesen mit Memories – vier Lernspiele
 
 Dieses Repository enthält den gemeinsamen Einstieg [index.html](index.html) mit gemeinsamer Namensauswahl und vier Spielen:
 
@@ -12,7 +12,7 @@ Dieses Repository enthält den gemeinsamen Einstieg [index.html](index.html) mit
 
 Die aktualisierten Regeln für Profile, Wiederaufnahme, Altbildzuordnung und Offlinebetrieb stehen in [Kinderprofile, Spielerwechsel und Offlinebetrieb](docs/profile-progress-offline.md). Die folgenden historischen Detailbeschreibungen werden dadurch ergänzt.
 
-Stand der älteren Detailbeschreibung: 30.10.2026, mit den vorhandenen Quellen abgeglichen. Die aktuelle Oberfläche und das Manifest nennen die Sammlung **memoriesammlung**. Die eigenständige Android-App verwendet `de.heikeamthor.memoriesammlung`; die Testfassung verwendet `de.heikeamthor.memoriesammlung.test`.
+Stand der älteren Detailbeschreibung: 30.10.2026, mit den vorhandenen Quellen abgeglichen. Die aktuelle Oberfläche und das Manifest nennen die Sammlung **Lesen mit Memories**. Die eigenständige Android-App verwendet `de.heikeamthor.memoriesammlung`; die Testfassung verwendet `de.heikeamthor.memoriesammlung.test`.
 
 ## Namen und Pflegeorte
 

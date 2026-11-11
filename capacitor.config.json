@@ -1,6 +1,6 @@
 {
   "appId": "de.heikeamthor.memoriesammlung",
-  "appName": "memoriesammlung",
+  "appName": "Lesen mit Memories",
   "webDir": "dist",
   "server": {
     "androidScheme": "https"
