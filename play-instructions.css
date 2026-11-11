@@ -1,0 +1,22 @@
+/* Shared, readable help at the end of each game setup. */
+.play-instructions,
+.setup .setupPanel .play-instructions {
+  margin: 24px 0 0;
+  color: inherit;
+  font-size: calc(20px * var(--button-zoom, var(--control-zoom, var(--fontzoom, 1))) + var(--setup-extra, 0px));
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.play-instructions > summary {
+  min-height: 48px;
+  padding: 10px 0;
+  cursor: pointer;
+  font-size: inherit;
+  font-weight: 700;
+}
+.play-instructions > summary:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+#synonym-demo .play-instructions p,
+.play-instructions p { font-size: inherit; line-height: inherit; }

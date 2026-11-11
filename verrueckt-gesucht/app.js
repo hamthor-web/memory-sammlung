@@ -132,7 +132,6 @@ function launchGame(){
  }finally{btn.disabled=false;}
 }
 $('start').onclick=launchGame;$('again').onclick=launchGame;$('choose').onclick=()=>show('setup');$('settingsButton').onclick=()=>show('setup');$('playBack').onclick=()=>show('setup');$('home').onclick=e=>{e.preventDefault();show('setup');};$('next').onclick=()=>{if(number===10){finish();}else{nextRound();window.scrollTo({top:0,behavior:'instant'});}};
-$('downloadMatrix').onclick=()=>{const blob=new Blob([JSON.stringify({project:'Verrückt gesucht!',cardCount:120,questionCount:matrix.length,questions:matrix},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Verrueckt_gesucht_Fragenmatrix.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);};
 
 function fitBoard(){
  const board=$('board');if($('play').hidden||typeof board.getBoundingClientRect!=='function')return;
