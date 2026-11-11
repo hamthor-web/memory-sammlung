@@ -36,3 +36,9 @@ Heike hat die Übernahme in die Android-App und die Veröffentlichung auf GitHub
 Die neue, eindeutig bezeichnete Android-Fassung erhält Version 0.2.2 / versionCode 4. package.json, Lockdatei und Android-Konfiguration werden gemeinsam aktualisiert. Die Paketkennungen und das bestehende Speichermodell bleiben erhalten. Der GitHub-Workflow baut APK und AAB, führt Android-Lint sowie den vollständigen Inhaltsabgleich aus und stellt die Pakete im Build-Artefakt bereit. Die installierte native App übernimmt Webänderungen erst mit Installation eines neuen Android-Pakets.
 
 Masterstatus: Spielanleitungen im Web veröffentlicht; Android-Aktualisierung auf 0.2.2 beauftragt und versioniert. Build-Ergebnis wird nach Abschluss ergänzt. Keine Play-Store-Veröffentlichung beauftragt. Die Updatefähigkeit einer vorhandenen Testinstallation hängt weiterhin von derselben Signierung ab; Geräte- und Zoomabnahme bleiben offen.
+
+### Ergebnis Android 0.2.2
+
+Commit 24e11e621dbfebbf9acc2db618aad0011cd9cdb7 auf main ist bestätigt. GitHub-Actions-Lauf 43086005739 hat assembleDebug, lintDebug und bundleRelease erfolgreich abgeschlossen. Der nachfolgende Paketvergleich aller Produktionsdateien in APK und AAB sowie die Kontrolle von Paketkennung, App-Name und Android-Version sind erfolgreich. Das Artefakt „memoriesammlung-android-test“ enthält app-debug.apk, app-release.aab und den Lintbericht. Abruf: https://github.com/hamthor-web/memory-sammlung/actions/runs/43086005739 (Aufbewahrung 14 Tage).
+
+Masterstatus ergänzt: Android 0.2.2 / Versionscode 4 erfolgreich gebaut, geprüft und als GitHub-Artefakt bereitgestellt. Die Anleitungen sind vollständig in beiden Android-Paketen enthalten. Echte Geräte-/Zoomabnahme und Updateinstallation mit der bisherigen Signierung bleiben offen. Keine Veröffentlichung in Google Play und keine öffentliche Release-Freigabe erfolgt.
