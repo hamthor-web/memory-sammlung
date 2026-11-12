@@ -350,3 +350,54 @@ body[data-screen="gallery"] #gallery>.gallery-header{align-self:stretch}
  #start.artButton{min-height:68px;font-size:21px}
  #treeContinue.artButton{min-height:66px;font-size:21px}
 }
+
+
+/* 12.11.2026: Fortschrittsbilder in Hoch- und Querformat vollständig erreichbar.
+   Die Bühne selbst scrollt; Weiter-/Galerie-Schaltflächen bleiben außerhalb. */
+#treeDialog[open],#galleryDialog[open]{
+  display:flex;
+  flex-direction:column;
+  height:calc(100dvh - 8px);
+  max-height:calc(100dvh - 8px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+#treeLarge,#galleryPicture{
+  flex:1 0 auto;
+  min-height:min(160px,38dvh);
+  min-width:0;
+  max-height:calc(100dvh - 175px);
+  overflow:auto;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-x pan-y;
+  scrollbar-width:thin;
+}
+#treeLarge{display:block;align-items:initial;justify-content:initial}
+#treeLarge .reward-picture{
+  display:block;
+  width:min(100cqw,max(260px,calc(100cqh * var(--reward-ratio,.962))));
+  margin:auto;
+}
+#galleryPicture{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:max-content;
+  align-content:safe center;
+}
+#galleryPicture>.reward-picture{
+  grid-area:1/1;
+  align-self:start;
+  justify-self:center;
+  width:min(100cqw,max(260px,calc(100cqh * var(--reward-ratio,.962))));
+  max-height:none;
+  margin-block:auto;
+}
+#treeDialog h2,#treeContinue,#galleryDialog h2,#galleryStep,
+#galleryDialog .gallery-controls,#galleryClose,#galleryVersionsBack{
+  flex-shrink:0;
+}
+@media (orientation:landscape) and (max-height:600px){
+  #treeDialog,#galleryDialog{padding:6px}
+  #treeLarge,#galleryPicture{min-height:135px;max-height:calc(100dvh - 150px)}
+}
