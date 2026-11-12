@@ -19,13 +19,14 @@
  const video=overlay.querySelector('#introVideo');
  const skip=overlay.querySelector('#introSkip');
  let target='',busy=false,holdTimer=0,watchdog=0;
+ function warm(link){if(busy)return;const src=clips[link.getAttribute('href')];if(video.getAttribute('src')!==src){video.preload='auto';video.src=src;video.load();}}
  function clean(){
   clearTimeout(holdTimer);clearTimeout(watchdog);
-  video.onended=null;video.onerror=null;video.onstalled=null;
+  video.onended=null;video.onerror=null;video.onstalled=null;video.onplaying=null;
  }
  function go(){
   if(!busy)return;
-  clean();busy=false;overlay.hidden=true;video.pause();location.assign(target);
+  clean();busy=false;overlay.hidden=true;video.pause();video.style.visibility='';location.assign(target);
  }
  function finish(){
   if(!busy)return;
@@ -44,7 +45,7 @@
   busy=true;target=link.href;
   overlay.hidden=false;
   video.muted=true;video.playsInline=true;video.autoplay=false;
-  video.src=clips[link.getAttribute('href')];
+  warm(link);video.style.visibility='hidden';video.controls=false;video.setAttribute('webkit-playsinline','');video.onplaying=()=>{if(busy)video.style.visibility='visible';};
   video.onended=finish;
   video.onerror=go; // Falls das Videopaket noch nicht hochgeladen ist
   video.onstalled=()=>{if(video.readyState===0)go();};
@@ -58,12 +59,15 @@
  // Back-Forward-Cache. Der alte Videolayer darf nicht wieder erscheinen.
  function resetOnReturn(){
   clean();busy=false;target='';
-  video.pause();video.removeAttribute('src');overlay.hidden=true;
+  video.pause();video.removeAttribute('src');video.style.visibility='';overlay.hidden=true;
  }
  addEventListener('pagehide',resetOnReturn);
  addEventListener('pageshow',event=>{if(event.persisted)resetOnReturn();});
- links.forEach(a=>a.addEventListener('click',event=>{
+ links.forEach(a=>{
+  for(const type of ['pointerenter','pointerdown','focus'])a.addEventListener(type,()=>warm(a),{passive:true});
+  a.addEventListener('click',event=>{
   if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
   event.preventDefault();play(a);
- }));
+  });
+ });
 })();
