@@ -22,3 +22,7 @@
  background:#fffdf0;color:#173c2a;border-radius:16px;cursor:pointer;
 }
 #introSkip:focus-visible{outline:4px solid #c78713;outline-offset:4px}
+
+/* Android-WebView: Wiedergabe läuft automatisch, kein natives Startsymbol. */
+#introVideo::-webkit-media-controls,
+#introVideo::-webkit-media-controls-start-playback-button{display:none!important}
