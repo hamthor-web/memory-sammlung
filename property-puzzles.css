@@ -35,3 +35,18 @@
 #puzzlePreview{width:min(100%,360px)}#puzzlePreview button{width:100%;margin-top:10px}
 .puzzle-choice .puzzle-table .puzzle-picture{height:auto}.puzzle-table .puzzle-new{animation:none}
 #puzzleReward figure{max-width:880px;flex-basis:560px}#finish{overflow:visible}
+
+
+/* Fortschrittspuzzle: bei Querformat und Bildzoom die gesamte Tafel erreichen. */
+.puzzle-board-viewport{
+  max-height:min(70dvh,680px);
+  overflow:auto;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-x pan-y;
+  scrollbar-width:thin;
+}
+@media (orientation:landscape) and (max-height:600px){
+  .puzzle-board-viewport{max-height:65dvh;min-height:150px}
+  .puzzle-dialog{max-height:calc(100dvh - 12px);overflow-y:auto}
+}
