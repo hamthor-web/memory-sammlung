@@ -1,3 +1,5 @@
+> **12.11.2026 – neuer Quellstand 0.2.4 / Versionscode 6:** Die Video-Wiedergabe wurde verbessert. Dieser GitHub-Quellstand ist noch keine geprüfte neue Installationsdatei. Die nachfolgende Anleitung für die zuletzt bereitgestellte, dauerhaft signierte 0.2.3-Test-APK bleibt gültig, bis eine 0.2.4-APK mit demselben Testschlüssel vorliegt. Keine APK mit anderem Debugschlüssel als direktes Update anbieten.
+
 # Lesen mit Memories – Test-APK mit festem Schlüssel
 
 Aktuelle Datei: **Lesen_mit_Memories_0.2.3_Test.apk**. Sie enthält den geprüften Stand 0.2.3 / Versionscode 5, wurde danach mit dem dauerhaft gesicherten Testschlüssel signiert und ist nicht identisch mit der automatisch signierten CI-APK.
