@@ -1,4 +1,10 @@
 let treeRun=null;
+const wordJubelPreload=document.createElement('video');
+wordJubelPreload.id='wordJubelVideo';wordJubelPreload.muted=true;wordJubelPreload.playsInline=true;
+wordJubelPreload.preload='auto';wordJubelPreload.controls=false;wordJubelPreload.setAttribute('webkit-playsinline','');
+wordJubelPreload.setAttribute('aria-label','Das Würstchen jongliert eine Karte mit Obstbirne und Glühbirne');
+wordJubelPreload.style.cssText='display:block;width:min(100%,420px);max-height:60dvh;object-fit:contain;margin:0 auto;visibility:hidden';
+wordJubelPreload.src='../assets/animations/Wuerstchen_Jubel_Birne_Gluehbirne.mp4';wordJubelPreload.load();
 let desiredCount = 6;
 CollectionSession.requireProfile();
 let handoffPending=false;
@@ -348,27 +354,26 @@ function showJubelBeforeFinish() {
   const panel=document.getElementById('panel');
   panel.innerHTML=`
     <h2>Geschafft!</h2>
-    <video id="wordJubelVideo" playsinline muted preload="auto"
-      aria-label="Das Würstchen jongliert eine Karte mit Obstbirne und Glühbirne"
-      style="display:block;width:min(100%,420px);max-height:60dvh;object-fit:contain;margin:0 auto"
-      src="../assets/animations/Wuerstchen_Jubel_Birne_Gluehbirne.mp4"></video>
+    <div id="wordJubelMount"></div>
     <div class="finish-actions"><button type="button" id="skipWordJubel">Weiter</button></div>`;
   if(!window.CollectionNavigation?.isPausedOverlay('modal'))document.getElementById('modal').classList.add('show');
   panel.focus();
-  const video=panel.querySelector('#wordJubelVideo');
+  const video=wordJubelPreload;panel.querySelector('#wordJubelMount').append(video);
+  video.pause();video.style.visibility='hidden';if(video.readyState>0)try{video.currentTime=0;}catch(_){}
   let finished=false;
   let failsafe=0;
   function finish() {
     if(finished)return;
     finished=true;
     clearTimeout(failsafe);
-    video.pause();
+    video.pause();video.onplaying=null;video.style.visibility='hidden';
     if(playerMode===1&&window.WordTrees)WordTrees.finish(treeRun,showFinish);else showFinish();
   }
   panel.querySelector('#skipWordJubel').onclick=finish;
   video.addEventListener('ended',finish,{once:true});
   video.addEventListener('error',finish,{once:true});
-  failsafe=setTimeout(finish,9000);
+  video.onplaying=()=>{if(finished)return;video.style.visibility='visible';clearTimeout(failsafe);const d=video.duration;failsafe=setTimeout(finish,Number.isFinite(d)&&d>0?d*1000+5000:20000);};
+  failsafe=setTimeout(finish,20000);
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     finish();
     return;
