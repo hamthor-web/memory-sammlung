@@ -12,7 +12,7 @@ Die Änderungen der Video-Wiedergabe vom 12.11.2026 sind in allen vier Spielen i
 - **APK SHA-256:** `73aa354b5503ca7dd86242da75720acfff1cc95fed0f9410385cabf1f30f2127`.
 - **Testzertifikat SHA-256:** `0204dd28e5ef684e161b9c745897c670d7f81b3f9cbeaeb9631b4b46cf57c708`.
 - Der Testschlüssel wurde ausschließlich aus einer privaten Sicherung verwendet und **nicht** ins Repository übertragen.
-- Die APK wurde aus der vorhandenen Test-APK 0.2.3 abgeleitet. Die sechs geänderten Web-Skript-/Stildateien wurden bytegenau auf den aktuellen GitHub-Stand gebracht, Offline-Hashes aktualisiert und die Android-Version erhöht. Die restlichen 970 APK-Einträge blieben unverändert; keine native Codeänderung.
+- Die APK wurde aus der vorhandenen Test-APK 0.2.3 abgeleitet. Die sechs geänderten Web-Skript-/Stildateien wurden bytegenau auf den aktuellen GitHub-Stand gebracht, Offline-Hashes aktualisiert und die Android-Version erhöht. Die übrigen 962 von insgesamt 970 APK-Einträgen blieben unverändert; keine native Codeänderung.
 - Kryptografische APK-v2-Signatur und signierter Inhaltsdigest, Zertifikatsgleichheit der 0.2.3-/0.2.4-Pakete, ZIP-Integrität, JavaScript-Syntax und Dateipayload geprüft.
 - **Offen:** Installation und reale Wiedergabe auf Android-Smartphone; kein erneuter Gradle-Build und keine Prüfung mit dem Android-SDK-Tool `apksigner`. Kein Google-Play-Release und kein automatisches GitHub-Binary-Artefakt.
 
