@@ -42,7 +42,7 @@
  }
  function play(link){
   if(busy)return;
-  busy=true;target=link.href;
+  warm(link);busy=true;target=link.href;
   overlay.hidden=false;
   video.muted=true;video.playsInline=true;video.autoplay=false;
   warm(link);video.style.visibility='hidden';video.controls=false;video.setAttribute('webkit-playsinline','');video.onplaying=()=>{if(busy)video.style.visibility='visible';};
