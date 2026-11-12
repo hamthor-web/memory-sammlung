@@ -23,7 +23,21 @@ function setMode(isTwo){
  $('duoNames').hidden=!duo;
  reset();
 }
-let field=[],found=new Set(),used=new Set(),history=new Set(),question=null,stage='study',level=1,totalQuestions=8,wrongId=null,correctId=null,epoch=0,lastAnimation=-1,rewardTimer=null,successTimer=null,installPrompt=null;
+let field=[],found=new Set(),used=new Set(),history=new Set(),question=null,stage='study',level=1,totalQuestions=8,wrongId=null,correctId=null,epoch=0,lastAnimation=-1,rewardTimer=null,successTimer=null,installPrompt=null,queuedReward=null;
+function queueReward(){
+ if(queuedReward)return queuedReward;
+ const final=found.size===field.length,choices=animations.map((_,i)=>i).filter(i=>i!==lastAnimation);
+ const index=choices[Math.floor(Math.random()*choices.length)];
+ const file=final?'Fuehlmemory_Wuerstchen_Jubelanimation.mp4':animations[index];
+ queuedReward={file,index,final};
+ if(file.endsWith('.mp4')){
+  const video=$('rewardVideo'),src='assets/animations/'+file;
+  video.preload='auto';video.muted=true;video.playsInline=true;video.controls=false;
+  video.setAttribute('webkit-playsinline','');
+  if(video.getAttribute('src')!==src){video.src=src;video.load();}
+ }
+ return queuedReward;
+}
 function syncBigSettings(){
  for(const [control,group] of [['level','levelButtons'],['count','countButtons']]){
   const select=$(control);
@@ -53,7 +67,7 @@ function reset(){
  $('duoFinish').hidden=true;
  if($('cardPreview').open)$('cardPreview').close();
  if($('successReading').open)$('successReading').close();
- epoch++;clearTimeout(rewardTimer);clearTimeout(successTimer);const video=$('rewardVideo');video.pause();video.onended=null;video.onerror=null;video.removeAttribute('src');video.load();const image=$('rewardImage');image.onload=null;image.onerror=null;image.removeAttribute('src');image.hidden=true;$('reward').hidden=true;$('finish').hidden=true;$('start').hidden=false;$('game').hidden=true;
+ epoch++;queuedReward=null;clearTimeout(rewardTimer);clearTimeout(successTimer);const video=$('rewardVideo');video.pause();video.onended=null;video.onerror=null;video.onplaying=null;video.style.visibility='';video.removeAttribute('src');video.load();const image=$('rewardImage');image.onload=null;image.onerror=null;image.removeAttribute('src');image.hidden=true;$('reward').hidden=true;$('finish').hidden=true;$('start').hidden=false;$('game').hidden=true;
  level=+$('level').value;const eligible=pool.filter(c=>E.questions([c],level,pool).length);let wanted=+$('count').value;
  for(const option of $('count').options)option.disabled=+option.value>eligible.length;
  if(wanted>eligible.length){wanted=eligible.length>=12?12:6;$('count').value=String(wanted);}
@@ -126,11 +140,11 @@ function answer(c){
  if(stage==='wrong'){if(c.id!==wrongId)return;wrongId=null;if(duo){switchTurn();stage='handoff';render();openHandoff();}else{stage='answer';$('message').textContent='Versuche eine andere Bildkarte.';render();}return;}if(stage!=='answer'||found.has(c.id))return;
  if(!E.matches(c,question)){wrongId=c.id;stage='wrong';$('message').textContent='Das passt noch nicht. Tippe dieselbe Karte an, um sie wieder zu verdecken.';render();return;}
  found.add(c.id);if(duo)points[turn]++;correctId=c.id;stage='success';$('message').textContent='Lies den Text. Tippe dann auf Weiter.';render();
- openSuccessReading(c);
+ queueReward();openSuccessReading(c);
 }
 function playReward(token){
- stage='reward';question=null;render();const finalJubel=found.size===field.length;const choices=animations.map((_,i)=>i).filter(i=>i!==lastAnimation),index=choices[Math.floor(Math.random()*choices.length)];if(!finalJubel)lastAnimation=index;const animationFile=finalJubel?'Fuehlmemory_Wuerstchen_Jubelanimation.mp4':animations[index];const video=$('rewardVideo'),image=$('rewardImage'),isImage=animationFile.endsWith('.webp');$('reward').hidden=false;$('playVideo').hidden=true;$('videoStatus').hidden=true;video.hidden=isImage;image.hidden=!isImage;let complete=false;
- function done(){if(complete||token!==epoch)return;complete=true;correctId=null;clearTimeout(rewardTimer);video.pause();video.onended=null;video.onerror=null;image.onload=null;image.onerror=null;image.removeAttribute('src');image.hidden=true;$('reward').hidden=true;if(found.size===field.length){
+ stage='reward';question=null;render();const {file:animationFile,index,final:finalJubel}=queueReward();if(!finalJubel)lastAnimation=index;const video=$('rewardVideo'),image=$('rewardImage'),isImage=animationFile.endsWith('.webp');$('reward').hidden=false;$('playVideo').hidden=true;$('videoStatus').hidden=true;video.hidden=isImage;image.hidden=!isImage;let complete=false;
+ function done(){if(complete||token!==epoch)return;complete=true;queuedReward=null;correctId=null;clearTimeout(rewardTimer);video.pause();video.onended=null;video.onerror=null;video.onplaying=null;video.style.visibility='';image.onload=null;image.onerror=null;image.removeAttribute('src');image.hidden=true;$('reward').hidden=true;if(found.size===field.length){
  stage='finish';$('game').hidden=true;$('finish').hidden=false;$('message').textContent='';
  if(duo){
   $('duoFinish').hidden=false;
@@ -140,10 +154,12 @@ function playReward(token){
 }else{
  stage='choose';$('message').textContent=duo?'Richtig! '+names[turn]+' darf noch einmal.':'Wähle deine nächste Fragekarte.';
 }render();if(stage==='finish')(duo?$('again'):$('puzzleMenu')).focus();}
- if(isImage){image.onload=()=>{if(token===epoch)rewardTimer=setTimeout(done,3000);};image.onerror=()=>{if(token!==epoch)return;$('videoStatus').textContent='Die Animation konnte nicht geladen werden.';$('videoStatus').hidden=false;rewardTimer=setTimeout(done,1200);};image.src='assets/animations/'+animations[index]+'?round='+token+'-'+found.size;return;}
- video.src='assets/animations/'+animationFile;video.currentTime=0;
+ if(isImage){image.onload=()=>{if(token===epoch)rewardTimer=setTimeout(done,3000);};image.onerror=()=>{if(token!==epoch)return;$('videoStatus').textContent='Die Animation konnte nicht geladen werden.';$('videoStatus').hidden=false;rewardTimer=setTimeout(done,1200);};image.src='assets/animations/'+animationFile;return;}
+ video.style.visibility='hidden';video.controls=false;if(video.readyState>0&&video.currentTime>0)try{video.currentTime=0;}catch(_){}
  video.onended=done;video.onerror=()=>{if(token!==epoch)return;$('videoStatus').textContent='Die Animation konnte nicht geladen werden.';$('videoStatus').hidden=false;rewardTimer=setTimeout(done,1200);};
- function play(){video.play().then(()=>{if(token!==epoch)return;$('playVideo').hidden=true;rewardTimer=setTimeout(done,6500);}).catch(()=>{if(token!==epoch)return;$('playVideo').hidden=false;$('playVideo').onclick=play;});}play();
+ video.onplaying=()=>{if(complete||token!==epoch)return;video.style.visibility='visible';clearTimeout(rewardTimer);const duration=video.duration;rewardTimer=setTimeout(done,Number.isFinite(duration)&&duration>0?duration*1000+5000:20000);};
+ function play(){const attempt=video.play();if(attempt&&typeof attempt.catch==='function')attempt.catch(()=>{if(complete||token!==epoch)return;$('playVideo').hidden=false;$('playVideo').onclick=play;});}
+ rewardTimer=setTimeout(done,20000);play();
 }
 $('startGame').onclick=()=>{
  if(!$('game').hidden)return;
