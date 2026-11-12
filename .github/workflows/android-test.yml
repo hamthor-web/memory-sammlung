@@ -50,6 +50,8 @@ jobs:
           else
             echo '::warning::No stable test key: building for validation only; no installable APK will be published.'
           fi
+      - name: Check all animation videos and preload safeguards
+        run: node scripts/verify-video-playback.cjs
       - name: Copy local production assets
         run: npm run android:sync
       - name: Build and lint test version
