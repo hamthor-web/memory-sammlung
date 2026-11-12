@@ -366,12 +366,12 @@ function showJubelBeforeFinish() {
     if(finished)return;
     finished=true;
     clearTimeout(failsafe);
-    video.pause();video.onplaying=null;video.style.visibility='hidden';
+    video.pause();video.onplaying=null;video.onended=null;video.onerror=null;video.style.visibility='hidden';
     if(playerMode===1&&window.WordTrees)WordTrees.finish(treeRun,showFinish);else showFinish();
   }
   panel.querySelector('#skipWordJubel').onclick=finish;
-  video.addEventListener('ended',finish,{once:true});
-  video.addEventListener('error',finish,{once:true});
+  video.onended=finish;
+  video.onerror=finish;
   video.onplaying=()=>{if(finished)return;video.style.visibility='visible';clearTimeout(failsafe);const d=video.duration;failsafe=setTimeout(finish,Number.isFinite(d)&&d>0?d*1000+5000:20000);};
   failsafe=setTimeout(finish,20000);
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
