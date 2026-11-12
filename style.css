@@ -334,3 +334,7 @@ body.start-layout #game[hidden]{display:none!important}
  overflow-wrap:anywhere;
  hyphens:auto;
 }
+
+/* Papierkorb-Animationen verwenden eine eigene Spielfläche statt nativer Videosteuerung. */
+#rewardVideo::-webkit-media-controls,
+#rewardVideo::-webkit-media-controls-start-playback-button{display:none!important}
